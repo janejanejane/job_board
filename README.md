@@ -1,3 +1,3 @@
-# Ruby on Rails Tutorial: Job Board application
+# Ruby on Rails: Job Board application
 
 This is a job board application for IGDA.
