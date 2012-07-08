@@ -1,8 +1,12 @@
 JobBoard::Application.routes.draw do
-  get "static_pages/home"
+  get "jobs/new"
 
-  get "static_pages/help"
-
+  root to: 'static_pages#home'
+  
+  match '/signup', to: 'jobs#new'
+  
+  match '/help', to: 'static_pages#help'
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
