@@ -11,10 +11,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120709132905) do
+ActiveRecord::Schema.define(:version => 20120722033210) do
 
   create_table "jobs", :force => true do |t|
-    t.string   "job_title"
+    t.string   "jobtitle"
     t.string   "category"
     t.string   "location"
     t.text     "description"
@@ -23,14 +23,14 @@ ActiveRecord::Schema.define(:version => 20120709132905) do
     t.string   "company_website"
     t.string   "confirmation_email"
     t.decimal  "salary",             :precision => 10, :scale => 2
-    t.string   "job_type"
+    t.string   "jobtype"
     t.datetime "created_at",                                        :null => false
     t.datetime "updated_at",                                        :null => false
   end
 
   add_index "jobs", ["category"], :name => "index_jobs_on_category"
-  add_index "jobs", ["job_title"], :name => "index_jobs_on_job_title"
-  add_index "jobs", ["job_type"], :name => "index_jobs_on_job_type"
+  add_index "jobs", ["jobtitle"], :name => "index_jobs_on_jobtitle"
+  add_index "jobs", ["jobtype"], :name => "index_jobs_on_jobtype"
   add_index "jobs", ["location"], :name => "index_jobs_on_location"
   add_index "jobs", ["salary"], :name => "index_jobs_on_salary"
 

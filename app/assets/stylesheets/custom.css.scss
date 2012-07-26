@@ -4,6 +4,12 @@
 
 $grayMediumLight: #eaeaea;
 
+@mixin box_sizing {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 /* universal */
 
 html {
@@ -11,7 +17,12 @@ html {
 }
 
 body {
+  background-color: $grayLighter;
   padding-top: 60px;
+  /*font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+  font-family: Tahoma, Verdana, Segoe, sans-serif;*/
+  font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+  /*font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;*/
 }
 
 section {
@@ -20,6 +31,16 @@ section {
 
 textarea {
   resize: vertical;
+  background-color: $grayLighter;
+}
+
+input {
+  background-color: $grayLighter;
+}
+
+form {
+  padding: 20px;
+  background-color: $white;
 }
 
 .center {
@@ -59,6 +80,13 @@ p {
 
 /* header */
 
+.navbar {
+  .navbar-inner {
+    background-color: $red;
+    background-image: none;
+  }
+}
+
 #logo {
   float: left;
   margin-right: 10px;
@@ -73,6 +101,15 @@ p {
     color: white;
     text-decoration: none;
   }
+}
+
+/* body */
+
+.row-fluid {  
+  background-color: $white;
+  border: 1px solid $grayLight;
+  padding: 20px;
+  @include box_sizing;
 }
 
 /* footer */
@@ -99,4 +136,74 @@ footer {
       margin-left: 10px;
     }
   }
+}
+
+/* miscellaneous */
+
+.debug_dump {
+  clear: both;
+  float: left;
+  width: 100%;
+  margin-top: 45px;
+  @include box_sizing;
+}
+
+/* sidebar */
+
+aside {
+  section {
+    padding: 10px 0;
+    border-top: 1px solid $grayLighter;
+    &:first-child {
+      border: 0;
+      padding-top: 0;
+    }
+    span {
+      display: block;
+      margin-bottom: 3px;
+      line-height: 1;
+    }
+    h1 {
+      font-size: 3em;
+      text-align: left;
+      letter-spacing: -1px;
+      margin-bottom: 3px;
+    }
+    h2 {
+      text-align: left;
+      color: $gray;
+    }
+    h3 {
+      font-size: 1em;
+      margin-bottom: 5px;
+    }
+    div {
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+  }
+}
+
+/* forms */
+
+input, textarea, select, .uneditable-input {
+  border: 1px solid #bbb;
+  width: 100%;
+  padding: 10px;
+  height: auto;
+  margin-bottom: 15px;
+  @include box_sizing;
+}
+
+#error_explanation {
+  color: #f00;
+  ul {
+    list-style: none;
+    margin: 0 0 18px 0;
+  }
+}
+
+.field_with_errors {
+  @extend .control-group;
+  @extend .error;
 }

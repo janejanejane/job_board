@@ -1,3 +1,46 @@
-<% provide(:title, 'Sign up') %>
-<h1>Sign up</h1>
-<p>Find me in app/views/jobs/new.html.erb</p>
+<% provide(:title, 'Add job') %>
+<h1>Add job</h1>
+
+<div class="row">
+	<div class="span6 offset3">
+		<%= form_for(@job) do |f| %>
+			<%= render 'shared/error_messages'%>
+		
+			<%= f.label :jobtitle, "Job Title" %>
+			<%= f.text_field :jobtitle %>
+			
+	        <%= f.label :category %>
+	        <label class="radio"><%= f.radio_button :category, "Design", checked: true %>Design</label><br />
+	        <% ["Programming", "Business/Exec", "Miscellaneous", "Copywriter", "iPhone Developer", "Customer Service/Support"]. each do |choice| %>
+	        	<label class="radio"><%= f.radio_button :category, choice %><%= choice %></label><br />
+	        <% end %>
+	        
+	        <%= f.label :location %>
+	        <%= f.text_field :location %>
+	        
+	        <%= f.label :description %>
+	        <%= f.text_area :description %>
+	        
+	        <%= f.label :apply_details %>
+	        <%= f.text_area :apply_details %>
+	        
+	        <%= f.label :company_name %>
+	        <%= f.text_field :company_name %>
+	        
+	        <%= f.label :company_website %>
+	        <%= f.text_field :company_website %>
+	        
+	        <%= f.label :confirmation_email %>
+	        <%= f.text_field :confirmation_email %>
+	        
+	        <%= f.label :salary %>
+	        <%= f.text_field :salary %>
+	        
+	        <%= f.label :jobtype, "Job Type" %>
+	        <label class="radio"><%= f.radio_button :jobtype, "Full-time", checked: true %>Full-time</label><br />
+	        <label class="radio"><%= f.radio_button :jobtype, "Part-time" %>Part-time</label><br />
+	        
+	        <%=f.submit "Add job", class: "btn btn-large btn-primary" %>
+	    <% end %>
+	</div>
+</div>

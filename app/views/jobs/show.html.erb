@@ -1,0 +1,20 @@
+<% provide(:title, @job.jobtitle) %>
+<div class="row-fluid">
+	<aside class="span8">
+		<section>
+			<h1><%= @job.jobtitle %></h1>
+			<h2><%= @job.company_name %></h2>
+			<h3><%= php_salary(@job.salary) %></h3>
+			<h3><%= @job.jobtype %></h3>
+			<div><%= @job.description %></div>
+			<div><%= @job.apply_details %></div>	
+		</section>
+	</aside>
+	<aside class="span4">
+		<section>
+			Tweet this job
+			<br />
+			Tell a friend	
+		</section>
+	</aside>
+</div>

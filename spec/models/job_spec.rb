@@ -3,7 +3,7 @@
 # Table name: jobs
 #
 #  id                 :integer         not null, primary key
-#  job_title          :string(255)
+#  jobtitle           :string(255)
 #  category           :string(255)
 #  location           :string(255)
 #  description        :text
@@ -12,7 +12,7 @@
 #  company_website    :string(255)
 #  confirmation_email :string(255)
 #  salary             :decimal(10, 2)
-#  job_type           :string(255)
+#  jobtype            :string(255)
 #  created_at         :datetime        not null
 #  updated_at         :datetime        not null
 #
@@ -21,7 +21,7 @@ require 'spec_helper'
 
 describe Job do
   
-  before { @job = Job.new(job_title: "Ruby/Rails Developer",
+  before { @job = Job.new(jobtitle: "Ruby/Rails Developer",
                           category: "Programming",
                           location: "Makati",
                           description: "Large and profitable internet company launching brand new service built in Ruby/Rails. We care about creating great software and are willing to pay for talent. ",
@@ -29,12 +29,12 @@ describe Job do
                           company_name: "JCSA",
                           company_website: "jeanambait.com",
                           confirmation_email: "jeanclaudetteambait@gmail.com",
-                          salary: "25,000",
-                          job_type: "Full-time")}
+                          salary: "25000".to_f,
+                          jobtype: "Full-time")}
                           
   subject { @job }
   
-  it { should respond_to(:job_title) }
+  it { should respond_to(:jobtitle) }
   it { should respond_to(:category) }
   it { should respond_to(:location) }
   it { should respond_to(:description) }
@@ -43,12 +43,12 @@ describe Job do
   it { should respond_to(:company_website) }
   it { should respond_to(:confirmation_email) }
   it { should respond_to(:salary) }
-  it { should respond_to(:job_type) }
+  it { should respond_to(:jobtype) }
   
   it { should be_valid }
   
   describe "when job title is not present" do
-    before { @job.job_title = " " }
+    before { @job.jobtitle = " " }
     it { should_not be_valid }
   end
   
@@ -83,7 +83,7 @@ describe Job do
   end
   
   describe "when job title is too long" do
-    before { @job.job_title = "a" * 51 }
+    before { @job.jobtitle = "a" * 51 }
     it { should_not be_valid }
   end
   

@@ -3,7 +3,7 @@
 # Table name: jobs
 #
 #  id                 :integer         not null, primary key
-#  job_title          :string(255)
+#  jobtitle           :string(255)
 #  category           :string(255)
 #  location           :string(255)
 #  description        :text
@@ -12,7 +12,7 @@
 #  company_website    :string(255)
 #  confirmation_email :string(255)
 #  salary             :decimal(10, 2)
-#  job_type           :string(255)
+#  jobtype            :string(255)
 #  created_at         :datetime        not null
 #  updated_at         :datetime        not null
 #
@@ -22,9 +22,9 @@ require 'uri'
 class Job < ActiveRecord::Base
   attr_accessible :apply_details, :category, :company_name, 
                   :company_website, :confirmation_email, :description, 
-                  :job_title, :job_type, :location, :salary
+                  :jobtitle, :jobtype, :location, :salary
                   
-  validates :job_title, presence: :true, length: { maximum: 50 }
+  validates :jobtitle, presence: :true, length: { maximum: 30 }
   validates :category, presence: :true
   validates :location, presence: :true, length: { maximum: 100 }
   validates :description, presence: :true
@@ -35,4 +35,5 @@ class Job < ActiveRecord::Base
   #validates :company_website, presence: :true, format: { with: URI::regexp(%w(http https)) }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :confirmation_email, presence: :true, format: { with: VALID_EMAIL_REGEX }
+  validates :jobtype, presence: true
 end

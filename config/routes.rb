@@ -1,9 +1,11 @@
 JobBoard::Application.routes.draw do
-  get "jobs/new"
+  resources :jobs
+  
+  #get "jobs/new"
 
   root to: 'static_pages#home'
   
-  match '/signup', to: 'jobs#new'
+  #match '/signup', to: 'jobs#new'
   
   match '/help', to: 'static_pages#help'
   
