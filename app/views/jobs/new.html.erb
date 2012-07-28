@@ -1,46 +1,101 @@
 <% provide(:title, 'Add job') %>
 <h1>Add job</h1>
 
-<div class="row">
-	<div class="span6 offset3">
+<div class="row-fluid">
+	<div class="span8">
 		<%= form_for(@job) do |f| %>
 			<%= render 'shared/error_messages'%>
-		
-			<%= f.label :jobtitle, "Job Title" %>
-			<%= f.text_field :jobtitle %>
 			
-	        <%= f.label :category %>
-	        <label class="radio"><%= f.radio_button :category, "Design", checked: true %>Design</label><br />
-	        <% ["Programming", "Business/Exec", "Miscellaneous", "Copywriter", "iPhone Developer", "Customer Service/Support"]. each do |choice| %>
-	        	<label class="radio"><%= f.radio_button :category, choice %><%= choice %></label><br />
-	        <% end %>
-	        
-	        <%= f.label :location %>
-	        <%= f.text_field :location %>
-	        
+			<table>
+				<tbody>
+					<tr>
+						<td>
+							<%= f.label :jobtitle, "Job Title" %>
+						</td>
+						<td>
+							<%= f.text_field :jobtitle %>
+						</td>
+					</tr>
+					<tr>
+						<td>
+					        <%= f.label :category %>
+				        </td>
+						<td>
+							<label class="radio"><%= f.radio_button :category, "Design", checked: true %>Design</label><br />
+					        <% ["Programming", "Business/Exec", "Miscellaneous", "Copywriter", "iPhone Developer", "Customer Service/Support"]. each do |choice| %>
+					        	<label class="radio"><%= f.radio_button :category, choice %><%= choice %></label><br />
+					        <% end %>
+					     </td>
+					</tr>
+					<tr>
+						<td>
+					        <%= f.label :location %>
+				        </td>
+						<td>
+					        <%= f.text_field :location %>
+					    </td>
+					</tr>
+				</tbody>
+			</table>
 	        <%= f.label :description %>
 	        <%= f.text_area :description %>
 	        
 	        <%= f.label :apply_details %>
 	        <%= f.text_area :apply_details %>
 	        
-	        <%= f.label :company_name %>
-	        <%= f.text_field :company_name %>
+	        <table>
+	        	<tbody>
+	        		<tr>
+	        			<td>
+	        				<%= f.label :company_name %>
+	        			</td>
+	        			<td>
+	        				<%= f.text_field :company_name %>
+	        			</td>
+	        		</tr>
+	        		<tr>
+	        			<td>
+				        	<%= f.label :company_website %>
+	        			</td>
+	        			<td>
+				        	<%= f.text_field :company_website %>
+				        </td>
+	        			<td></td>
+	        			<td></td>
+	        		</tr>
+	        		<tr>
+	        			<td>
+					        <%= f.label :confirmation_email %>
+	        			</td>
+	        			<td>
+					        <%= f.text_field :confirmation_email %>
+					    </td>
+	        		</tr>
+	        		<tr>
+	        			<td>
+					        <%= f.label :salary %>
+	        			</td>
+	        			<td>
+					        <%= f.text_field :salary %>
+					    </td>
+	        		</tr>
+	        		<tr>
+	        			<td>
+					        <%= f.label :jobtype, "Job Type" %>
+				        </td>
+	        			<td>
+					        <label class="radio"><%= f.radio_button :jobtype, "Full-time", checked: true %>Full-time</label><br />
+					        <label class="radio"><%= f.radio_button :jobtype, "Part-time" %>Part-time</label>
+	        			</td>
+	        		</tr>
+	        	</tbody>
+	        </table>
 	        
-	        <%= f.label :company_website %>
-	        <%= f.text_field :company_website %>
-	        
-	        <%= f.label :confirmation_email %>
-	        <%= f.text_field :confirmation_email %>
-	        
-	        <%= f.label :salary %>
-	        <%= f.text_field :salary %>
-	        
-	        <%= f.label :jobtype, "Job Type" %>
-	        <label class="radio"><%= f.radio_button :jobtype, "Full-time", checked: true %>Full-time</label><br />
-	        <label class="radio"><%= f.radio_button :jobtype, "Part-time" %>Part-time</label><br />
-	        
-	        <%=f.submit "Add job", class: "btn btn-large btn-primary" %>
+	        <div class="form-actions">
+	        	<%= f.submit "Add job", class: "btn btn-large btn-primary" %>
+	        	<%= submit_tag "Cancel", class: "btn btn-large" %>
+	        </div>
 	    <% end %>
 	</div>
+	<div class="span4"></div>
 </div>

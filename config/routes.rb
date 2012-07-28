@@ -1,9 +1,14 @@
 JobBoard::Application.routes.draw do
-  resources :jobs
+  resources :jobs do
+    member do
+      get :category
+    end
+  end
   
   #get "jobs/new"
 
-  root to: 'static_pages#home'
+  #root to: 'static_pages#home'
+  root to: 'jobs#index'
   
   #match '/signup', to: 'jobs#new'
   

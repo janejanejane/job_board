@@ -3,6 +3,9 @@
 /* mixins, variables, etc. */
 
 $grayMediumLight: #eaeaea;
+$lavender: #e3e4fa;
+$yellowLigther: #FAFAD2;
+$whiteSmoke: #F5F5F5;
 
 @mixin box_sizing {
   -moz-box-sizing: border-box;
@@ -31,16 +34,10 @@ section {
 
 textarea {
   resize: vertical;
-  background-color: $grayLighter;
-}
-
-input {
-  background-color: $grayLighter;
 }
 
 form {
   padding: 20px;
-  background-color: $white;
 }
 
 .center {
@@ -64,11 +61,11 @@ h1 {
 }
 
 h2 {
-  font-size: 1.7em;
+  font-size: 2em;
   letter-spacing: -1px;
-  margin-bottom: 30px;
+  margin-top: 30px;
   text-align: center;
-  font-weight: normal;
+  font-weight: bold;
   color: $grayLight;
 }
 
@@ -77,6 +74,9 @@ p {
   line-height: 1.7em;
 }
 
+label {
+  font-weight: bold;
+}
 
 /* header */
 
@@ -117,7 +117,7 @@ p {
 footer {
   margin-top: 45px;
   padding-top: 5px;
-  border-top: 1px solid $grayMediumLight;
+  border-top: 1px solid $grayLight;
   color: $grayLight;
   a {
     color: $gray;
@@ -164,7 +164,7 @@ aside {
       line-height: 1;
     }
     h1 {
-      font-size: 3em;
+      font-size: 2.5em;
       text-align: left;
       letter-spacing: -1px;
       margin-bottom: 3px;
@@ -172,6 +172,7 @@ aside {
     h2 {
       text-align: left;
       color: $gray;
+      margin-bottom: 10px;
     }
     h3 {
       font-size: 1em;
@@ -186,6 +187,18 @@ aside {
 
 /* forms */
 
+table {
+  width: 100%;
+  td {
+    label {;
+      vertical-align: top;
+    }
+    .radio {
+      font-weight: normal;
+    }
+  }
+}
+
 input, textarea, select, .uneditable-input {
   border: 1px solid #bbb;
   width: 100%;
@@ -193,6 +206,14 @@ input, textarea, select, .uneditable-input {
   height: auto;
   margin-bottom: 15px;
   @include box_sizing;
+}
+
+textarea {
+  height: 10em;
+}
+
+.form-actions {
+  text-align: right;
 }
 
 #error_explanation {
@@ -206,4 +227,81 @@ input, textarea, select, .uneditable-input {
 .field_with_errors {
   @extend .control-group;
   @extend .error;
+}
+
+/* jobs index */
+
+.jobs {
+  list-style: none;
+  margin: 0;
+  li {
+    overflow: auto;
+    padding: 10px;
+    border-top: 1px solid $grayLighter;
+    &:last-child {
+      border-bottom: 1px solid $grayLighter;
+    }
+    &:hover {
+      background-color: $yellowLigther;
+    }
+    a {
+      display: block;
+      color: $gray;
+      &:hover{
+        text-decoration: none;
+      }
+    }
+    span {
+      display: inline;
+      color: $linkColor;
+      margin-right: 10px;
+      &.jobtitle {
+        text-decoration: underline;
+      }
+      &.date {
+        float: right;
+      }
+    }
+    .location {
+      font-weight: bold;
+    }
+  }
+}
+
+/* job show */
+
+.show-nav {
+  overflow: hidden;
+  border-top: 1px solid $grayLight;
+  padding-top: 10px;
+  .all-jobs {
+    float: left;
+  }
+
+  .category-job {
+    float: right;
+  }
+}
+.job-header {
+  border-bottom: 1px solid $grayLight;
+  padding-bottom: 10px;
+}
+
+.job-apply {
+  padding: 20px;
+  background-color: $whiteSmoke;
+  border: 1px solid $grayLight;
+  clear: both;
+  float: left;
+  width: 100%;
+  margin-top: 45px;
+  @include box_sizing;
+  h2 {
+    color: $gray;
+    text-align: left;
+    letter-spacing: -1px;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 10px;
+  }
 }
