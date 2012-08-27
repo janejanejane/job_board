@@ -2,6 +2,7 @@ JobBoard::Application.routes.draw do
   resources :jobs do
     member do
       get :category
+      get :preview
     end
   end
   

@@ -2,19 +2,21 @@
 #
 # Table name: jobs
 #
-#  id                 :integer         not null, primary key
-#  jobtitle           :string(255)
-#  category           :string(255)
-#  location           :string(255)
-#  description        :text
-#  apply_details      :text
-#  company_name       :string(255)
-#  company_website    :string(255)
-#  confirmation_email :string(255)
-#  salary             :decimal(10, 2)
-#  jobtype            :string(255)
-#  created_at         :datetime        not null
-#  updated_at         :datetime        not null
+#  id                  :integer         not null, primary key
+#  jobtitle            :string(255)
+#  category            :string(255)
+#  location            :string(255)
+#  description         :text
+#  apply_details       :text
+#  company_name        :string(255)
+#  company_website     :string(255)
+#  confirmation_email  :string(255)
+#  salary              :decimal(10, 2)
+#  jobtype             :string(255)
+#  created_at          :datetime        not null
+#  updated_at          :datetime        not null
+#  jobkey              :string(255)
+#  jobkey_confirmation :string(255)
 #
 
 require 'spec_helper'
@@ -99,7 +101,7 @@ describe Job do
   
   describe "when company website is invalid" do
     it "should be invalid" do
-      urls = %w[http://invalid##host.com http://invalid,com host#com]
+      urls = %w[http://invalid##host.com http://invalid,com host#com jean http://]
       urls.each do |invalid_url|
         @job.company_website = invalid_url
         @job.should_not be_valid

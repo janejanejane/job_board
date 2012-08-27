@@ -1,0 +1,52 @@
+<% provide(:title, @job.jobtitle) %>
+<%= @preview %>
+<%= form_for(@job) do |f| %>
+<%= f.hidden_field :jobtitle, value: @job.jobtitle %>
+<%= f.hidden_field :category, value: @job.category %>
+<%= f.hidden_field :location, value: @job.location %>
+<%= f.hidden_field :description, value: @job.description %>
+<%= f.hidden_field :apply_details, value: @job.apply_details %>
+<%= f.hidden_field :company_name, value: @job.company_name %>
+<%= f.hidden_field :company_website, value: @job.company_website %>
+<%= f.hidden_field :confirmation_email, value: @job.confirmation_email %>
+<%= f.hidden_field :salary, value: @job.salary %>
+<%= f.hidden_field :jobtype, value: @job.jobtype %>
+<%= f.hidden_field :jobkey, value: @job.jobkey %>
+<div class="show-content">
+	<div class="row-fluid">
+		<aside class="span8">
+			<section>
+				<div class="job-header">
+					<h1><%= @job.jobtitle %></h1>
+					<span>Posted <%= format_date(@job.created_at) %></span>
+					<h2><%= @job.company_name %></h2>
+					<span>Location:<%= @job.location %></span>
+					<% url_with_protocol(@job.company_website) %>
+					<%= link_to @website, @website, target: "_blank" %>
+				</div>
+				<div class="job-details">
+					<h3><%= php_salary(@job.salary) %></h3>
+					<h3><%= @job.jobtype %></h3>
+				</div>
+				<div class="job-content"><%= @job.description %></div>
+			</section>
+		</aside>
+		<aside class="span4">
+			<section>
+				Tweet this job
+				<br />
+				Tell a friend	
+			</section>
+		</aside>
+		<div class="job-apply">
+			<h2>Apply for this position</h2>
+			<%= @job.apply_details %>
+		</div>	
+	</div>
+</div>
+<div class="form-actions">
+	<%= f.submit "Save job", name: "save", class: "btn btn-large btn-primary" %>
+	<%= button_to_function "Make changes", "history.back()", class: "btn btn-large" %>
+	<!--<%= submit_tag "Make changes", name: "back", class: "btn btn-large" %> -->
+</div>
+<% end %>

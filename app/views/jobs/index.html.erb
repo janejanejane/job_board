@@ -4,20 +4,24 @@
 <div class="row-fluid">
 	<aside class="span8">
 		<section>
-			<% @jobs_by_category.each do |category, jobs| %>
-				<h2><%= category %></h2>
-				<ul class="jobs">
-					<% jobs.each do |job| %>
-					<li>
-						<%= link_to(job) do %>
-							<span class="location"><%= job.location %></span>
-							<span class="jobtitle"><%= job.jobtitle %></span>
-							at <span class="company"><%= job.company_name %></span>
-							<span class="date"><%= format_date(job.created_at) %></span>
-						<% end %> 
-					</li>
-					<% end %>
-				</ul>
+			<% if !@jobs_by_category.blank? %>
+				<% @jobs_by_category.each do |category, jobs| %>
+					<h2><%= category %></h2>
+					<ul class="jobs">
+						<% jobs.each do |job| %>
+						<li>
+							<%= link_to(job) do %>
+								<span class="location"><%= job.location %></span>
+								<span class="jobtitle"><%= job.jobtitle %></span>
+								at <span class="company"><%= job.company_name %></span>
+								<span class="date"><%= format_date(job.created_at) %></span>
+							<% end %> 
+						</li>
+						<% end %>
+					</ul>
+				<% end %>
+			<% else %>
+				<h2>No Job Posts. Add one now >></h2>
 			<% end %>
 		</section>
 	</aside>
