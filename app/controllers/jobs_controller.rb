@@ -1,10 +1,10 @@
 class JobsController < ApplicationController
-  before_filter :current_job, only: [:show, :preview, :update, :category, :confirmation]
+  before_filter :current_job, only: [:show, :preview, :category, :confirm]
   before_filter :check_for_cancel, only: [:create, :update]
 
   def show
     if @job.jobkey_confirmation.blank?
-      render 'edit'
+      render 'success' #show success page
     end
   end
   
@@ -30,13 +30,14 @@ class JobsController < ApplicationController
     if params[:preview] || !@job.save
       render 'preview'
     else
-      flash[:success] = "Job details successfully saved!"
-      redirect_to @job #ask for confirmation key first before posting job
+      if @job.save
+        flash[:success] = "Job details successfully saved!"
+
+        if JobBoardMailer.confirmation_email(@job).deliver
+          redirect_to @job #ask for confirmation key first before posting job
+        end
+      end
     end
-  end
-
-  def edit
-
   end
 
   def update
@@ -48,7 +49,8 @@ class JobsController < ApplicationController
         redirect_to @job
       else
         flash[:error] = "Job Key Error!"
-        render 'edit'
+        #render 'edit'
+        render 'confirm'
       end
     end
   end
@@ -61,13 +63,40 @@ class JobsController < ApplicationController
 
   end
 
+  def success
+
+  end
+
+  def confirm
+    if params[:code]
+      if @job.jobkey_confirmation.blank?
+        @jobkey_confirmation = params[:code].strip
+        if @jobkey_confirmation == @job.jobkey 
+          if @job.update_attribute(:jobkey_confirmation, @jobkey_confirmation)
+            flash.now[:success] = "Job post successfully confirmed!"
+            render 'show'
+          end
+        else
+          flash.now[:error] = "Job post not confirmed!"
+          render 'error'
+        end
+      else
+        flash.now[:error] = "Job post already confirmed!"
+        render 'error'
+      end
+    else
+      flash.now[:error] = "Job post code blank!"
+      render 'error'
+    end 
+  end
+
   private
     def current_job
       @job = Job.find(params[:id])
     end
 
     def check_for_cancel
-      if params[:commit] == "Cancel"
+      if params[:commit] == "Cancel" || params[:commit] == "OK"
         redirect_to jobs_path
       end
     end

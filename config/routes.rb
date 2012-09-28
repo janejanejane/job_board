@@ -3,6 +3,9 @@ JobBoard::Application.routes.draw do
     member do
       get :category
       get :preview
+      get :confirm
+      get :success
+      get :error
     end
   end
   

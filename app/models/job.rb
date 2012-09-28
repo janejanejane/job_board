@@ -19,7 +19,7 @@
 #  jobkey_confirmation :string(255)
 #
 
-require 'uri'
+#require 'uri'
 
 class Job < ActiveRecord::Base
   scope :confirmed, where("jobkey_confirmation IS NOT NULL").order("created_at DESC")

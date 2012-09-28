@@ -32,7 +32,9 @@ describe Job do
                           company_website: "jeanambait.com",
                           confirmation_email: "jeanclaudetteambait@gmail.com",
                           salary: "25000".to_f,
-                          jobtype: "Full-time")}
+                          jobtype: "Full-time",
+                          jobkey: "9afd87bd05150323027a034c8bc10fd0ed1b32f4",
+                          jobkey_confirmation: "9afd87bd05150323027a034c8bc10fd0ed1b32f4")}
                           
   subject { @job }
   
@@ -46,6 +48,8 @@ describe Job do
   it { should respond_to(:confirmation_email) }
   it { should respond_to(:salary) }
   it { should respond_to(:jobtype) }
+  it { should respond_to(:jobkey) }
+  it { should respond_to(:jobkey_confirmation) }
   
   it { should be_valid }
   
@@ -138,5 +142,10 @@ describe Job do
         @job.should be_valid
       end
     end
+  end
+
+  it "sends an email" do
+    @job.confirmation
+    ActionMailer::Base.deliveries.last.to.should == [@job.confirmation_email]
   end
 end
