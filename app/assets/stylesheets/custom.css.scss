@@ -22,10 +22,7 @@ html {
 body {
   background-color: $grayLighter;
   padding-top: 60px;
-  /*font-family: Futura, "Trebuchet MS", Arial, sans-serif;
-  font-family: Tahoma, Verdana, Segoe, sans-serif;*/
   font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
-  /*font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;*/
 }
 
 section {
@@ -84,6 +81,17 @@ label {
   .navbar-inner {
     background-color: $red;
     background-image: none;
+    form {
+      padding: 5px;
+      margin: 0;
+      div input {
+        font-size: 14px;
+        line-height: 1.4;
+      }
+    }
+  }
+  .add-on {
+    height: inherit;
   }
 }
 

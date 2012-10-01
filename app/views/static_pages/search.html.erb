@@ -1,0 +1,30 @@
+<% provide(:title, 'Jobs Search') %>
+<h1>Jobs Search</h1>
+
+
+<div class="row-fluid">
+	<aside class="span8">
+		<section>
+	  	<% if @search == 0 %>
+	    	Sorry, your search returned 0 results.
+	    <% else %>
+	    	Your search <b>'<%= @word %>'</b> returned <%= pluralize(@search, 'result') %>.
+	    	<% @results.each do |category, jobs| %>
+	    		<h2><%= category %></h2>
+				<ul class="jobs">
+					<% jobs.each do |job| %>
+					<li>
+						<%= link_to(job) do %>
+							<span class="location"><%= job.location %></span>
+							<span class="jobtitle"><%= job.jobtitle %></span>
+							at <span class="company"><%= job.company_name %></span>
+							<span class="date"><%= format_date(job.created_at) %></span>
+						<% end %> 
+					</li>
+					<% end %>
+				</ul>
+	    	<% end %>
+	    <% end %>
+		</section>
+	</aside>
+</div>

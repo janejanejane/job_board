@@ -1,6 +1,7 @@
 class JobsController < ApplicationController
   before_filter :current_job, only: [:show, :preview, :category, :confirm]
   before_filter :check_for_cancel, only: [:create, :update]
+  before_filter :search
 
   def show
     if @job.jobkey_confirmation.blank?
@@ -90,6 +91,10 @@ class JobsController < ApplicationController
     end 
   end
 
+  def search
+    
+  end
+
   private
     def current_job
       @job = Job.find(params[:id])
@@ -113,5 +118,20 @@ class JobsController < ApplicationController
 
     def create_key(length)
       SecureRandom.hex(length)
+    end
+
+    def search
+      @word = params[:search]
+      @search = 0
+      if !@word.nil?
+        if @word != "" || !@word.blank?
+          @query = "%" + @word + "%"
+          @results = Job.where(['jobtitle LIKE ? OR description LIKE ? OR
+                                category LIKE ? OR company_name LIKE ? OR
+                                location LIKE ? ', @query, @query, @query, @query, @query]).group_by { |job| job.category }
+          @search = @results.length
+        end
+        render 'static_pages/search'
+      end
     end
 end
