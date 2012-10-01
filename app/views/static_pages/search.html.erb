@@ -6,7 +6,7 @@
 	<aside class="span8">
 		<section>
 	  	<% if @search == 0 %>
-	    	Sorry, your search returned 0 results.
+	    	Sorry, your search <b>'<%= @word %>'</b> returned 0 results.
 	    <% else %>
 	    	Your search <b>'<%= @word %>'</b> returned <%= pluralize(@search, 'result') %>.
 	    	<% @results.each do |category, jobs| %>
