@@ -126,9 +126,9 @@ class JobsController < ApplicationController
       if !@word.nil?
         if @word != "" || !@word.blank?
           @query = "%" + @word + "%"
-          @results = Job.where(['jobtitle LIKE ? OR description LIKE ? OR
-                                category LIKE ? OR company_name LIKE ? OR
-                                location LIKE ? ', @query, @query, @query, @query, @query]).group_by { |job| job.category }
+          @results = Job.where(['lower(jobtitle) LIKE ? OR lower(description) LIKE ? OR
+                                lower(category) LIKE ? OR lower(company_name) LIKE ? OR
+                                lower(location) LIKE ? ', @query, @query, @query, @query, @query]).group_by { |job| job.category }
           @search = @results.length
         end
         render 'static_pages/search'
