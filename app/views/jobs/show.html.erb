@@ -3,7 +3,7 @@
 	<p class="all-jobs"><%= link_to "<< Back to all jobs", jobs_path %></p>
 	<p class="category-job">
 		<% current_category(@job) %>
-		<%= link_to "See more #{@category} jobs >>", category_job_path %>
+		<%= link_to "See more #{@category} jobs >>", category_path(@category) %>
 	</p>
 </div>
 <div class="show-content">

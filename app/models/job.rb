@@ -22,7 +22,9 @@
 #require 'uri'
 
 class Job < ActiveRecord::Base
+  scope :confirmed_this_month, where("jobkey_confirmation IS NOT NULL AND EXTRACT(MONTH from created_at) = EXTRACT(MONTH from now())").limit(5).order("created_at DESC")
   scope :confirmed, where("jobkey_confirmation IS NOT NULL").order("created_at DESC")
+  scope :less_this_month, where("EXTRACT(MONTH from created_at) <= EXTRACT(MONTH from now())-1")
 
   attr_accessible :apply_details, :category, :company_name, 
                   :company_website, :confirmation_email, :description, 

@@ -10,9 +10,13 @@ class JobsController < ApplicationController
   end
   
   def index
-    #@jobs_by_category = Job.find(:all).group_by { |job| job.category }
-    #@jobs_by_category = Job.find(:all, order: "created_at DESC").group_by { |job| job.category }
-    @jobs_by_category = Job.confirmed(:all).group_by { |job| job.category }
+    @jobs_by_category = Job.confirmed_this_month(:all).group_by { |job| job.category }
+    
+    if @jobs_by_category == nil
+      @jobs_by_category = Job.confirmed(:all).group_by { |job| job.category }
+    end
+    
+    @jobs_count_less_this_month = Job.less_this_month(:all).count
   end
 
   def new
@@ -97,7 +101,10 @@ class JobsController < ApplicationController
 
   private
     def current_job
-      @job = Job.find(params[:id])
+      @job = Job.find_by_id(params[:id])
+      if @job == nil
+        render 'static_pages/not_found'
+      end
     end
 
     def check_for_cancel

@@ -1,23 +1,27 @@
 JobBoard::Application.routes.draw do
   resources :jobs do
     member do
-      get :category
       get :preview
       get :confirm
       get :success
       get :error
     end
   end
+
+  resources :category, except: [:index, :create, :new, :edit, :update, :destroy] 
   
   #get "jobs/new"
 
   #root to: 'static_pages#home'
   root to: 'jobs#index'
   
+  match 'jobs/*page', to: 'jobs#index'
+
+  match 'category/*page', to: 'jobs#index'
   #match '/signup', to: 'jobs#new'
   
-  match '/help', to: 'static_pages#help'
-  
+  #match '/help', to: 'static_pages#help'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

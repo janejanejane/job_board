@@ -1,0 +1,27 @@
+<% provide(:title, 'Category')%>
+<h1><%= @category %> jobs</h1>
+
+<div class="row-fluid">
+	<aside class="span8">
+		<section>
+			<% @jobs.each do |job| %>
+				<ul class="jobs">
+					<li>
+						<%= link_to(job) do %>
+							<span class="location"><%= job.location %></span>
+							<span class="jobtitle"><%= job.jobtitle %></span>
+							at <span class="company"><%= job.company_name %></span>
+							<span class="date"><%= format_date(job.created_at) %></span>
+						<% end %> 
+					</li>
+				</ul>
+			<% end %>
+		</section>
+	</aside>
+	<aside class="span4">
+		<%= link_to "Add job now!", new_job_path, class: "btn btn-large btn-primary" %>
+	</aside>
+</div>
+<div class="show-nav">
+	<p class="all-jobs"><%= link_to "<< Back to all jobs", jobs_path %></p>
+</div>

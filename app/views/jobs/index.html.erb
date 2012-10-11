@@ -10,14 +10,20 @@
 					<ul class="jobs">
 						<% jobs.each do |job| %>
 						<li>
-							<%= link_to(job) do %>
-								<span class="location"><%= job.location %></span>
-								<span class="jobtitle"><%= job.jobtitle %></span>
-								at <span class="company"><%= job.company_name %></span>
-								<span class="date"><%= format_date(job.created_at) %></span>
-							<% end %> 
+							<% if job.created_at.month == Date.today.month %>
+								<%= link_to(job) do %>
+									<span class="location"><%= job.location %></span>
+									<span class="jobtitle"><%= job.jobtitle %></span>
+									at <span class="company"><%= job.company_name %></span>
+									<span class="date"><%= format_date(job.created_at) %></span>
+								<% end %>
+							<% end %>
 						</li>
 						<% end %>
+						<br/>
+						<% if @jobs_count_less_this_month > 0 %>
+							<%= link_to "View all #{@jobs_count_less_this_month} #{category} jobs >>", category_path(category) %>
+						<% end %> 
 					</ul>
 				<% end %>
 			<% else %>
