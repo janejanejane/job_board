@@ -1,0 +1,20 @@
+<div class="share-tools">
+	<ul>
+		<li>
+			<%= mail_to "", "Tell a friend", subject: "#{@job.company_name} is hiring a #{@job.jobtitle}", 
+			body: "Hey! I would like to share this job post at #{job_url(@job)}", id: "mail" %>
+		</li>
+		<li>
+			<%= link_to "Tweet this job", "http://twitter.com/home?status=#{@job.company_name} is hiring a #{@job.jobtitle} at #{job_url(@job)}", target: "_blank", id: "twitter" %>
+		</li>
+		<li>
+			<%= link_to "Share this job", fb_share("425284464187683", "IGDA Job Board Dev", 
+				"Job Post", "There is a new job post at IGDA."), 
+				target: "_blank", id: "facebook" %>
+		</li>
+		<li>
+			<%= link_to "+1 this job", gplus_share,
+  				target: "_blank", id: "gplus" %>
+		</li>
+	</ul>
+</div>

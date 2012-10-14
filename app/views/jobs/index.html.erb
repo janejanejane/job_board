@@ -2,7 +2,7 @@
 <h1>All Jobs</h1>
 
 <div class="row-fluid">
-	<aside class="span8">
+	<aside class="span9">
 		<section>
 			<% if !@jobs_by_category.blank? %>
 				<% @jobs_by_category.each do |category, jobs| %>
@@ -31,7 +31,7 @@
 			<% end %>
 		</section>
 	</aside>
-	<aside class="span4">
+	<aside class="span3">
 		<%= link_to "Add job now!", new_job_path, class: "btn btn-large btn-primary" %>
 	</aside>
 </div>

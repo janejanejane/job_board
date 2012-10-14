@@ -9,7 +9,7 @@
 <div class="show-content">
 	<%= render 'shared/error_messages'%>
 	<div class="row-fluid">
-		<aside class="span8">
+		<aside class="span9">
 			<section>
 				<div class="job-header">
 					<h1><%= @job.jobtitle %></h1>
@@ -26,11 +26,9 @@
 				<div class="job-content"><%= @job.description %></div>
 			</section>
 		</aside>
-		<aside class="span4">
+		<aside class="span3">
 			<section>
-				Tweet this job
-				<br />
-				Tell a friend	
+				<%=  render 'shared/social_links' %>
 			</section>
 		</aside>
 		<div class="job-apply">

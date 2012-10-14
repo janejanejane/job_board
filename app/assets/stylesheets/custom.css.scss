@@ -313,3 +313,31 @@ textarea {
     margin-bottom: 10px;
   }
 }
+
+/* sharing tools */
+
+.share-tools ul {
+  margin: 0;
+  padding: 0;
+  li {
+    list-style-type: none;
+    a {
+      display: block;
+      padding: 15px 0 15px 60px;
+      color: $grayLight;
+      font-weight: bold;
+      &#mail {
+      background: url('mail_icon.png') 15px 10px no-repeat;
+      }
+      &#twitter {
+        background: url('twitter_icon.png') 15px 10px no-repeat;
+      }
+      &#facebook {
+        background: url('facebook_icon.png') 15px 10px no-repeat;
+      }
+      &#gplus {
+        background: url('gplus_icon.png') 15px 10px no-repeat;
+      }
+    }
+  }
+}

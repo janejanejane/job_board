@@ -118,8 +118,11 @@ class JobsController < ApplicationController
     end
 
     def clean_salary_format(salary)
-      if salary =~ /^[-+]?[0-9]*\.?[0-9]+$/
+      if salary =~ /^[-+],?[0-9]*\.?[0-9]+$/
         salary.split(".")[0]
+        if salary.include?(",")
+          salary.tr(",", "")
+        end
       end
     end
 
