@@ -5,11 +5,11 @@
 			body: "Hey! I would like to share this job post at #{job_url(@job)}", id: "mail" %>
 		</li>
 		<li>
-			<%= link_to "Tweet this job", "http://twitter.com/home?status=#{@job.company_name} is hiring a #{@job.jobtitle} at #{job_url(@job)}", target: "_blank", id: "twitter" %>
+			<%= link_to "Tweet this job", tweet(@job.company_name, @job.jobtitle, job_url(@job)), target: "_blank", id: "twitter" %>
 		</li>
 		<li>
-			<%= link_to "Share this job", fb_share("425284464187683", "IGDA Job Board Dev", 
-				"Job Post", "There is a new job post at IGDA."), 
+			<%= link_to "Share this job", fb_share("425284464187683", @job.jobtitle, 
+				@job.company_name, @job.description), 
 				target: "_blank", id: "facebook" %>
 		</li>
 		<li>

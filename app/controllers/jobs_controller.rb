@@ -1,15 +1,17 @@
 class JobsController < ApplicationController
-  before_filter :current_job, only: [:show, :preview, :category, :confirm]
-  before_filter :check_for_cancel, only: [:create, :update]
+  before_filter :current_job, only: [:show, :category, :confirm]
+  before_filter :check_for_cancel, only: [:new, :create, :update]
   before_filter :search
 
   def show
+    logger.debug 'SHOWING SHOW'
     if @job.jobkey_confirmation.blank?
       render 'success' #show success page
     end
   end
   
   def index
+     logger.debug 'SOMETHING SOMETHING IS HERE'
     @jobs_by_category = Job.confirmed_this_month(:all).group_by { |job| job.category }
     
     if @jobs_by_category == nil
@@ -20,22 +22,32 @@ class JobsController < ApplicationController
   end
 
   def new
+    logger.debug 'NEW IS HERE'
     if params[:job]
-      @job = params[:job]
+      params[:job][:jobkey] = create_key(20)
+      params[:job][:company_website] = check_url_structure(params[:job][:company_website])
+      params[:job][:salary] = clean_salary_format(params[:job][:salary])
+      @job = Job.new(params[:job])
+      if !@job.valid?
+        @save_errors = @job.errors
+      else
+        create
+      end
     else
       @job = Job.new
     end
   end
   
   def create
-    params[:job][:company_website] = check_url_structure(params[:job][:company_website])
-    params[:job][:salary] = clean_salary_format(params[:job][:salary])
-    params[:job][:jobkey] = create_key(20)
+    logger.debug 'CREATE IS HERE'
     @job = Job.new(params[:job])
-    if params[:preview] || !@job.save
-      render 'preview'
+    
+    if params[:preview]
+      session[:job] = @job
+      redirect_to preview_new_job_path(@job)
     else
-      if @job.save
+      if params[:save] && @job.save
+        logger.debug 'SAVED!'
         flash[:success] = "Job details successfully saved!"
 
         if JobBoardMailer.confirmation_email(@job).deliver
@@ -65,11 +77,12 @@ class JobsController < ApplicationController
   end
 
   def preview
-
+    logger.debug 'PREVIEW IS HERE'
+    @job = session[:job]
   end
 
   def success
-
+    logger.debug 'SUCCESS IS HERE'
   end
 
   def confirm
@@ -119,11 +132,13 @@ class JobsController < ApplicationController
 
     def clean_salary_format(salary)
       if salary =~ /^[-+],?[0-9]*\.?[0-9]+$/
-        salary.split(".")[0]
-        if salary.include?(",")
-          salary.tr(",", "")
-        end
+        salary.split('.')[0]
       end
+
+      if salary.include?(',')
+        salary.gsub!(',', '') if salary.is_a?(String)
+      end
+      salary.to_i
     end
 
     def create_key(length)

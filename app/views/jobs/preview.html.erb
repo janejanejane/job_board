@@ -16,6 +16,15 @@
 	<div class="row-fluid">
 		<aside class="span9">
 			<section>
+				<% if @save_errors %>
+					<div class="save-errors">
+						<ul>
+							<% @save_errors.each do |err| %>
+								<li><%= err %></li>
+							<% end %>
+						</ul>
+					</div>
+				<% end %>
 				<div class="job-header">
 					<h1><%= @job.jobtitle %></h1>
 					<span>Posted <%= format_date(@job.created_at) %></span>

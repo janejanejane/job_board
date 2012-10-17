@@ -12,10 +12,14 @@ module JobsHelper
   def current_category(job)
   	@category = job.category
   end
+  
+  def tweet(company, jobtitle, jobpost)
+    @tweet = "http://twitter.com/home?status=#{company} is hiring a #{jobtitle} at #{jobpost}"
+  end
 
   def fb_share(app_id, name, caption, description)
     @name = url_encode(name)
-    @caption = url_encode(caption)
+    @caption = url_encode("at " + caption)
     @description = url_encode(description)
     @host = "http://" + request.host_with_port
     @img = @host + image_path('igdamanila.png')

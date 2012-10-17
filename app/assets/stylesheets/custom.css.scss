@@ -196,10 +196,14 @@ aside {
 /* forms */
 
 table {
+  margin-top: 20px;
+  border-spacing: 10px;
   width: 100%;
   td {
+    padding-bottom: 10px;
     label {;
       vertical-align: top;
+      padding-right: 20px;
     }
     .radio {
       font-weight: normal;
@@ -207,17 +211,21 @@ table {
   }
 }
 
-input, textarea, select, .uneditable-input {
+input, textarea {
   border: 1px solid #bbb;
   width: 100%;
-  padding: 10px;
   height: auto;
-  margin-bottom: 15px;
   @include box_sizing;
+  margin-bottom: 0;
 }
 
 textarea {
   height: 10em;
+}
+
+span {
+  color: $grayLight;
+  padding-left: 10px;
 }
 
 .form-actions {

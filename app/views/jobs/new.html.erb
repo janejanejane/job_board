@@ -3,7 +3,8 @@
 
 <div class="row-fluid">
 	<div class="span9">
-		<%= form_for(@job) do |f| %>
+		<!--%= form_for(@job, method: 'get', url: {action: 'preview'}) do |f| % -->
+		<%= form_for(@job, method: 'get', url: {action: 'new'}) do |f| %>
 			<%= render 'shared/error_messages'%>
 			
 			<table>
@@ -14,6 +15,7 @@
 						</td>
 						<td>
 							<%= f.text_field :jobtitle %>
+					    	<span class="desc">"Rails Programmer" or "Flash Game Developer"</span>
 						</td>
 					</tr>
 					<tr>
@@ -21,9 +23,9 @@
 					        <%= f.label :category %>
 				        </td>
 						<td>
-							<label class="radio"><%= f.radio_button :category, "Design", checked: true %>Design</label><br />
+							<label class="radio"><%= f.radio_button :category, "Design", checked: true %>Design</label>
 					        <% ["Programming", "Business/Exec", "Miscellaneous", "Copywriter", "iPhone Developer", "Customer Service/Support"]. each do |choice| %>
-					        	<label class="radio"><%= f.radio_button :category, choice %><%= choice %></label><br />
+					        	<label class="radio"><%= f.radio_button :category, choice %><%= choice %></label>
 					        <% end %>
 					     </td>
 					</tr>
@@ -33,6 +35,7 @@
 				        </td>
 						<td>
 					        <%= f.text_field :location %>
+					    	<span class="desc">"Manila", "Pasig", "QC" or "Anywhere"</span>
 					    </td>
 					</tr>
 				</tbody>
@@ -41,8 +44,9 @@
 	        <%= f.text_area :description %>
 	        
 	        <%= f.label :apply_details %>
+	        <span class="desc">How do people apply for this job? Example: Send a resume to jane@company.com</span>
 	        <%= f.text_area :apply_details %>
-	        
+
 	        <table>
 	        	<tbody>
 	        		<tr>
@@ -51,6 +55,7 @@
 	        			</td>
 	        			<td>
 	        				<%= f.text_field :company_name %>
+	        				<span class="desc">Enter your company or organization’s name.</span>
 	        			</td>
 	        		</tr>
 	        		<tr>
@@ -59,6 +64,7 @@
 	        			</td>
 	        			<td>
 				        	<%= f.text_field :company_website %>
+				        	<span class="desc">Example: http://www.google.com</span>
 				        </td>
 	        			<td></td>
 	        			<td></td>
@@ -69,6 +75,7 @@
 	        			</td>
 	        			<td>
 					        <%= f.text_field :confirmation_email %>
+					        <span class="desc">This is where we’ll send your receipt and confirmation email.</span>
 					    </td>
 	        		</tr>
 	        		<tr>
@@ -84,7 +91,7 @@
 					        <%= f.label :jobtype, "Job Type" %>
 				        </td>
 	        			<td>
-					        <label class="radio"><%= f.radio_button :jobtype, "Full-time", checked: true %>Full-time</label><br />
+					        <label class="radio"><%= f.radio_button :jobtype, "Full-time", checked: true %>Full-time</label>
 					        <label class="radio"><%= f.radio_button :jobtype, "Part-time" %>Part-time</label>
 	        			</td>
 	        		</tr>

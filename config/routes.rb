@@ -1,7 +1,7 @@
 JobBoard::Application.routes.draw do
   resources :jobs do
+    get :preview, on: :new
     member do
-      get :preview
       get :confirm
       get :success
       get :error
@@ -15,9 +15,11 @@ JobBoard::Application.routes.draw do
   #root to: 'static_pages#home'
   root to: 'jobs#index'
   
-  match 'jobs/*page', to: 'jobs#index'
+  #match 'jobs/*page', to: 'jobs#index'
 
   match 'category/*page', to: 'jobs#index'
+
+
   #match '/signup', to: 'jobs#new'
   
   #match '/help', to: 'static_pages#help'
