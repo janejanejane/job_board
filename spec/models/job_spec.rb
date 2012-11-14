@@ -17,6 +17,7 @@
 #  updated_at          :datetime        not null
 #  jobkey              :string(255)
 #  jobkey_confirmation :string(255)
+#  isdeleted           :integer
 #
 
 require 'spec_helper'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120809032848) do
+ActiveRecord::Schema.define(:version => 20121114064842) do
 
   create_table "jobs", :force => true do |t|
     t.string   "jobtitle"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(:version => 20120809032848) do
     t.datetime "updated_at",                                         :null => false
     t.string   "jobkey"
     t.string   "jobkey_confirmation"
+    t.integer  "isdeleted"
   end
 
   add_index "jobs", ["category"], :name => "index_jobs_on_category"

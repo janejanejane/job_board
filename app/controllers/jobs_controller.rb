@@ -1,4 +1,5 @@
 class JobsController < ApplicationController
+  #private methods are loaded
   before_filter :current_job, only: [:show, :category, :confirm]
   before_filter :check_for_cancel, only: [:new, :create, :update]
   before_filter :search
@@ -11,14 +12,8 @@ class JobsController < ApplicationController
   end
   
   def index
-     logger.debug 'SOMETHING SOMETHING IS HERE'
-    @jobs_by_category = Job.confirmed_this_month(:all).group_by { |job| job.category }
-    
-    if @jobs_by_category == nil
-      @jobs_by_category = Job.confirmed(:all).group_by { |job| job.category }
-    end
-    
-    @jobs_count_less_this_month = Job.less_this_month(:all).count
+    logger.debug 'INDEX IS HERE'
+    @jobs_by_category = Job.confirmed.group_by { |job| job.category }    
   end
 
   def new
@@ -151,9 +146,9 @@ class JobsController < ApplicationController
       if !@word.nil?
         if @word != "" || !@word.blank?
           @query = "%" + @word + "%"
-          @results = Job.where(['lower(jobtitle) LIKE ? OR lower(description) LIKE ? OR
+          @results = Job.where(['(lower(jobtitle) LIKE ? OR lower(description) LIKE ? OR
                                 lower(category) LIKE ? OR lower(company_name) LIKE ? OR
-                                lower(location) LIKE ? ', @query, @query, @query, @query, @query]).group_by { |job| job.category }
+                                lower(location) LIKE ?) AND  isdeleted = 0', @query, @query, @query, @query, @query]).group_by { |job| job.category }
           @search = @results.length
         end
         render 'static_pages/search'

@@ -8,21 +8,27 @@
 				<% @jobs_by_category.each do |category, jobs| %>
 					<h2><%= category %></h2>
 					<ul class="jobs">
+						<% counter = 0 %>
 						<% jobs.each do |job| %>
-						<li>
-							<% if job.created_at.month == Date.today.month %>
+							<% if counter < 5 %>
+							<li>
 								<%= link_to(job) do %>
 									<span class="location"><%= job.location %></span>
 									<span class="jobtitle"><%= job.jobtitle %></span>
 									at <span class="company"><%= job.company_name %></span>
 									<span class="date"><%= format_date(job.created_at) %></span>
 								<% end %>
+							</li>
+							<% counter += 1 %>
 							<% end %>
-						</li>
 						<% end %>
 						<br/>
-						<% if @jobs_count_less_this_month > 0 %>
-							<%= link_to "View all #{@jobs_count_less_this_month} #{category} jobs >>", category_path(category) %>
+						<% if @jobs_by_category.include?(category) %>
+							<% quantity = @jobs_by_category.select{ |cat| cat==category } %>
+							<% cnt_category = quantity[category].length %>
+							<% if cnt_category > 5 %>
+							<%= link_to "View all #{cnt_category} #{category} jobs >>", category_path(category) %>
+							<% end %>
 						<% end %> 
 					</ul>
 				<% end %>

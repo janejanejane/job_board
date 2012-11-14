@@ -10,4 +10,11 @@ class JobBoardMailer < ActionMailer::Base
 		@confirmation_key = jobpost.jobkey
 		mail to: jobpost.confirmation_email, subject: 'Confirmation'
 	end
+
+	def reminder_email(jobpost)
+		@jobpost = jobpost
+		#@host = job_url(@jobpost)
+		@jobpost = jobpost.jobtitle
+		mail to: jobpost.confirmation_email, subject: 'Reminder'
+	end
 end

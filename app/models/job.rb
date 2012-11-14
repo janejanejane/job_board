@@ -17,14 +17,20 @@
 #  updated_at          :datetime        not null
 #  jobkey              :string(255)
 #  jobkey_confirmation :string(255)
+#  isdeleted           :integer
 #
 
 #require 'uri'
 
 class Job < ActiveRecord::Base
-  scope :confirmed_this_month, where("jobkey_confirmation IS NOT NULL AND EXTRACT(MONTH from created_at) = EXTRACT(MONTH from now())").limit(5).order("created_at DESC")
-  scope :confirmed, where("jobkey_confirmation IS NOT NULL").order("created_at DESC")
-  scope :less_this_month, where("EXTRACT(MONTH from created_at) <= EXTRACT(MONTH from now())-1")
+  def self.confirmed
+    where("jobkey_confirmation IS NOT NULL AND  isdeleted = 0").order("created_at DESC")
+  end
+
+  def self.expiring
+    where("jobkey_confirmation IS NOT NULL AND
+      created_at < CURRENT_DATE - INTERVAL '1 month' AND  isdeleted = 0").order("created_at DESC")
+  end
 
   attr_accessible :apply_details, :category, :company_name, 
                   :company_website, :confirmation_email, :description, 
@@ -46,4 +52,11 @@ class Job < ActiveRecord::Base
   validates :salary, numericality: {greater_than: 0}
   validates :jobtype, presence: true
   validates :jobkey, presence: true
+
+  before_create :set_isdeleted
+
+  private
+    def set_isdeleted
+      self.isdeleted = 0
+    end
 end
