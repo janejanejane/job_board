@@ -19,6 +19,7 @@ JobBoard::Application.routes.draw do
 
   match 'category/*page', to: 'jobs#index'
 
+  match '/about', to: 'static_pages#about'
 
   #match '/signup', to: 'jobs#new'
   

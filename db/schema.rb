@@ -11,11 +11,10 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121114064842) do
+ActiveRecord::Schema.define(:version => 20121126142639) do
 
   create_table "jobs", :force => true do |t|
     t.string   "jobtitle"
-    t.string   "category"
     t.string   "location"
     t.text     "description"
     t.text     "apply_details"
@@ -29,9 +28,9 @@ ActiveRecord::Schema.define(:version => 20121114064842) do
     t.string   "jobkey"
     t.string   "jobkey_confirmation"
     t.integer  "isdeleted"
+    t.integer  "category"
   end
 
-  add_index "jobs", ["category"], :name => "index_jobs_on_category"
   add_index "jobs", ["jobkey"], :name => "index_jobs_on_jobkey"
   add_index "jobs", ["jobtitle"], :name => "index_jobs_on_jobtitle"
   add_index "jobs", ["jobtype"], :name => "index_jobs_on_jobtype"

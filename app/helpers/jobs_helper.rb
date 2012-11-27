@@ -10,7 +10,7 @@ module JobsHelper
   end
 
   def current_category(job)
-  	@category = job.category
+  	@cat_id = job.category
   end
   
   def tweet(company, jobtitle, jobpost)

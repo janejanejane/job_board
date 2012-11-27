@@ -23,9 +23,12 @@
 					        <%= f.label :category %>
 				        </td>
 						<td>
-							<label class="radio"><%= f.radio_button :category, "Design", checked: true %>Design</label>
-					        <% ["Programming", "Business/Exec", "Miscellaneous", "Copywriter", "iPhone Developer", "Customer Service/Support"]. each do |choice| %>
-					        	<label class="radio"><%= f.radio_button :category, choice %><%= choice %></label>
+					        <% CATEGORY.each_with_index do |choice, index| %>
+					        	<% if index == 0 %>
+					        		<label class="radio"><%= f.radio_button :category, index, checked: true %><%= choice %></label>
+					        	<% else %>
+					        		<label class="radio"><%= f.radio_button :category, index %><%= choice %></label>
+					        	<% end %>
 					        <% end %>
 					     </td>
 					</tr>
@@ -75,7 +78,7 @@
 	        			</td>
 	        			<td>
 					        <%= f.text_field :confirmation_email %>
-					        <span class="desc">This is where we’ll send your receipt and confirmation email.</span>
+					        <span class="desc">This is where we’ll send your confirmation email.</span>
 					    </td>
 	        		</tr>
 	        		<tr>
@@ -105,5 +108,7 @@
 	        </div>
 	    <% end %>
 	</div>
-	<div class="span3"></div>
+	<div class="span3">
+		<%=  render 'shared/side_add' %>
+	</div>
 </div>

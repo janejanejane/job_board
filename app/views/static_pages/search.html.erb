@@ -7,8 +7,8 @@
 	    	Sorry, your search <b>'<%= @word %>'</b> returned 0 results.
 	    <% else %>
 	    	Your search <b>'<%= @word %>'</b> returned <%= pluralize(@search, 'result') %>.
-	    	<% @results.each do |category, jobs| %>
-	    		<h2><%= category %></h2>
+	    	<% @grouped_results.each do |cat_id, jobs| %>
+	    		<h2><%= CATEGORY[cat_id] %></h2>
 				<ul class="jobs">
 					<% jobs.each do |job| %>
 					<li>

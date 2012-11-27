@@ -5,8 +5,8 @@
 	<aside class="span9">
 		<section>
 			<% if !@jobs_by_category.blank? %>
-				<% @jobs_by_category.each do |category, jobs| %>
-					<h2><%= category %></h2>
+				<% @jobs_by_category.each do |cat_id, jobs| %>
+					<h2><%= CATEGORY[cat_id] %></h2>
 					<ul class="jobs">
 						<% counter = 0 %>
 						<% jobs.each do |job| %>
@@ -23,11 +23,12 @@
 							<% end %>
 						<% end %>
 						<br/>
-						<% if @jobs_by_category.include?(category) %>
-							<% quantity = @jobs_by_category.select{ |cat| cat==category } %>
-							<% cnt_category = quantity[category].length %>
+						<% if @jobs_by_category.include?(cat_id) %>
+							<% quantity = @jobs_by_category.select{ |cat| cat==cat_id } %>
+							<% cnt_category = quantity[cat_id].length %>
 							<% if cnt_category > 5 %>
-							<%= link_to "View all #{cnt_category} #{category} jobs >>", category_path(category) %>
+							<%= link_to "View all #{cnt_category} #{CATEGORY[cat_id]} jobs >>", 
+							category_path(CATEGORY[cat_id]) %>
 							<% end %>
 						<% end %> 
 					</ul>
@@ -39,5 +40,6 @@
 	</aside>
 	<aside class="span3">
 		<%= link_to "Add job now!", new_job_path, class: "btn btn-large btn-primary" %>
+		<%=  render 'shared/side_index' %>
 	</aside>
 </div>

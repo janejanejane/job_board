@@ -68,7 +68,8 @@ class JobsController < ApplicationController
   end
 
   def category
-    @category = Job.confirmed.find_all_by_category(@job.category)
+    @cat_id = Job.confirmed.find_all_by_category(@job.category)
+    @category = CATEGORY[@cat_id]
   end
 
   def preview
@@ -147,8 +148,9 @@ class JobsController < ApplicationController
         if @word != "" || !@word.blank?
           @query = "%" + @word + "%"
           @results = Job.where(['(lower(jobtitle) LIKE ? OR lower(description) LIKE ? OR
-                                lower(category) LIKE ? OR lower(company_name) LIKE ? OR
-                                lower(location) LIKE ?) AND  isdeleted = 0', @query, @query, @query, @query, @query]).group_by { |job| job.category }
+                                lower(company_name) LIKE ? OR lower(location) LIKE ?) AND  
+                                isdeleted = 0', @query, @query, @query, @query])
+          @grouped_results = @results.group_by { |job| job.category }
           @search = @results.length
         end
         render 'static_pages/search'
