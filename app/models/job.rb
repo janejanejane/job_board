@@ -2,9 +2,8 @@
 #
 # Table name: jobs
 #
-#  id                  :integer         not null, primary key
+#  id                  :integer          not null, primary key
 #  jobtitle            :string(255)
-#  category            :string(255)
 #  location            :string(255)
 #  description         :text
 #  apply_details       :text
@@ -13,11 +12,12 @@
 #  confirmation_email  :string(255)
 #  salary              :decimal(10, 2)
 #  jobtype             :string(255)
-#  created_at          :datetime        not null
-#  updated_at          :datetime        not null
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
 #  jobkey              :string(255)
 #  jobkey_confirmation :string(255)
 #  isdeleted           :integer
+#  category            :integer
 #
 
 #require 'uri'

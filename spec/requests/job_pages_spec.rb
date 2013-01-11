@@ -9,25 +9,6 @@ describe "JobPages" do
   #  it { should have_selector('h1', text: 'Sign up') }
   #  it { should have_selector('title', text: full_title('Sign up'))}
   #end
-  
-  describe "visit a job page" do
-    let(:job) { FactoryGirl.create(:job) }
-    before { visit job_path(job) }
-
-    it { should have_selector('p.all-jobs', text: "<< Back to all jobs")}
-    it { should have_selector('p.category-job', text: "See more #{job.category} jobs >>")}
-    
-    it { should have_selector('h1', text: job.jobtitle) }
-    it { should have_selector('title', text: job.jobtitle) }
-    it { should have_selector('h2', text: job.company_name) }
-    it { should have_selector('span', text: "Posted " + format_date(job.created_at)) }
-    it { should have_selector('span', text: "Location:" + job.location) }
-    it { should have_selector('a', text: job.company_website) }
-    it { should have_selector('h3', text: php_salary(job.salary.to_s)) }
-    it { should have_selector('h3', text: job.jobtype) }
-    it { should have_selector('div', text:job.description) }
-    it { should have_selector('div', text: job.apply_details) }
-  end
 
   describe "visit job index" do
     before do
@@ -37,7 +18,7 @@ describe "JobPages" do
                           description: "Large and profitable internet company launching brand new service built in Ruby/Rails. We care about creating great software and are willing to pay for talent. ",
                           apply_details: "Send resume to jeanclaudetteambait@gmail.com",
                           company_name: "JCSA",
-                          company_website: "jeanambait.com",
+                          company_website: "http://www.jeanambait.com",
                           confirmation_email: "jeanclaudetteambait@gmail.com",
                           salary: "25000".to_f,
                           jobtype: "Full-time")
@@ -48,7 +29,7 @@ describe "JobPages" do
                           description: "Company launching brand new service built in .NET.",
                           apply_details: "Send resume to jeanambait@gmail.com",
                           company_name: "Jean Company",
-                          company_website: "rails.com",
+                          company_website: "http://www.rails.com",
                           confirmation_email: "jeanambait@gmail.com",
                           salary: "25000".to_f,
                           jobtype: "Full-time")
@@ -58,7 +39,7 @@ describe "JobPages" do
                           description: "Company developing a web platform that offers an unprecedented real-world business education.",
                           apply_details: "Send resume to jeanambait@gmail.com",
                           company_name: "Jean Company",
-                          company_website: "rails.com",
+                          company_website: "http://www.rails.com",
                           confirmation_email: "jeanambait@gmail.com",
                           salary: "30000".to_f,
                           jobtype: "Full-time")
@@ -71,37 +52,62 @@ describe "JobPages" do
     it { should have_link('Add job now!')}
 
     describe "job list" do
-      let(:grouped_jobs) { Job.find(:all).group_by { |job| job.category } }
+      let(:grouped_jobs) { Job.confirmed.group_by { |job| job.category } }
 
       it "should have category" do
-        grouped_jobs.each do |category, jobs|
-          should have_selector('h2', text: category)
+        grouped_jobs.each do |cat_id, jobs|
+          should have_selector('h2', text: CATEGORY[cat_id])
           
-          #describe "should list each job" do
-            #jobs.each do |job|
-              #it { should have_selector('span', text: job.location) }
-              #it { should have_selector('span', text: job.jobtitle) }
-              #it { should have_selector('span', text: job.company_name) }
-              #it { should have_selector('span', text: format_date(job.created_at)) }
-            #end
-          #end
+          describe "should list each job" do
+            jobs.each do |job|
+              it { should have_selector('span.location', text: job.location) }
+              it { should have_selector('span.jobtitle', text: job.jobtitle) }
+              it { should have_selector('span.company', text: job.company_name) }
+              it { should have_selector('span.date', text: format_date(job.created_at)) }
+            end
+          end
         end
       end
     end
+  end
+
+  describe "visit a job page" do
+    let(:job) { FactoryGirl.create(:job) }
+    before { visit job_path(job) }
+
+    #it { should have_selector('p.all-jobs', text: "<< Back to all jobs")}
+    describe "should have a link to index page" do
+      it { should have_selector('a', title: "<< Back to all jobs", href: jobs_path) }
+    end
+
+    describe "should have a link for all items in category" do
+      it { should have_selector('a', title: "See more #{CATEGORY[job.category]} jobs >>", href: category_path(job.id)) }
+    end
+    
+    it { should have_selector('title', content: job.jobtitle) }
+    it { should have_selector('h1', content: job.jobtitle) }
+    it { should have_selector('span', content: "Posted " + format_date(job.created_at)) }
+    it { should have_selector('h2', content: job.company_name) }
+    it { should have_selector('span', text: "Location:" + job.location) }
+    it { should have_selector('a', title: job.company_website) }
+    it { should have_selector('h3', text: php_salary(job.salary.to_s)) }
+    it { should have_selector('h3', text: job.jobtype) }
+    it { should have_selector('div.job-content', text:job.description) }
+    it { should have_selector('div#apply-details', text: job.apply_details) }
   end
   
   describe "add job page" do
     before { visit new_job_path }
     
-    let(:submit) { "Add job" }
+    let(:preview) { "Preview" }
     
     describe "with invalid information" do
       it "should not create a job post" do
-        expect { click_button submit }.not_to change(Job, :count)
+        expect { click_button preview }.not_to change(Job, :count)
       end
 
       describe "after submission" do
-        before { click_button submit }
+        before { click_button preview }
 
         it { should have_content('error') }
       end
@@ -124,11 +130,11 @@ describe "JobPages" do
       end
       
       it "should create a job post" do
-        expect { click_button submit }.to change(Job, :count).by(1)
+        expect { click_button preview }.to change(Job, :count).by(1)
       end
 
       describe "after saving the job" do
-        before { click_button submit }
+        before { click_button preview }
 
         it { should have_selector('div.alert.alert-success')}
       end
