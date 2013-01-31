@@ -76,6 +76,10 @@ a {
   }
 }
 
+.alert-danger, .alert-error, .alert-danger .alert-heading, .alert-error .alert-heading, .alert-success, .alert-success .alert-heading  {
+  @include box_sizing;
+}
+
 /* typography */
 
 h1, h2, h3, h4, h5, h6 {
@@ -215,7 +219,7 @@ aside {
     span {
       display: block;
       margin-bottom: 3px;
-      line-height: 1;
+      // line-height: 1;
     }
     h1 {
       font-size: 2.5em;
@@ -253,6 +257,11 @@ table {
     }
     .radio {
       font-weight: normal;
+    }
+    .checkbox {
+      padding-top: 0px;
+      padding-left: 0px;
+      margin-bottom: 0px;
     }
   }
 }
@@ -340,11 +349,11 @@ span {
   .all-jobs {
     float: left;
   }
-
   .category-job {
     float: right;
   }
 }
+
 .job-header {
   border-bottom: 1px solid $grayLight;
   padding-bottom: 10px;

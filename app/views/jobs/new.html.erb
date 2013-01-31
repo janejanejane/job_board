@@ -56,7 +56,7 @@
 	        			<td>
 	        				<%= f.label :company_name %>
 	        			</td>
-	        			<td>
+	        			<td colspan="4">
 	        				<%= f.text_field :company_name %>
 	        				<span class="desc">Enter your company or organization’s name.</span>
 	        			</td>
@@ -65,7 +65,7 @@
 	        			<td>
 				        	<%= f.label :company_website %>
 	        			</td>
-	        			<td>
+	        			<td colspan="4">
 				        	<%= f.text_field :company_website %>
 				        	<span class="desc">Example: http://www.google.com</span>
 				        </td>
@@ -76,7 +76,7 @@
 	        			<td>
 					        <%= f.label :confirmation_email %>
 	        			</td>
-	        			<td>
+	        			<td colspan="4">
 					        <%= f.text_field :confirmation_email %>
 					        <span class="desc">This is where we’ll send your confirmation email.</span>
 					    </td>
@@ -87,7 +87,14 @@
 	        			</td>
 	        			<td>
 					        <%= f.text_field :salary %>
-					    </td>
+					    	</td>
+					    	<td>&emsp;</td>
+	        			<td>
+					        <%= f.check_box :minimum %>
+					    	</td>
+	        			<td>
+					        <%= f.label :minimum, class: "checkbox" %>
+	        			</td>
 	        		</tr>
 	        		<tr>
 	        			<td>

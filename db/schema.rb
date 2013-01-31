@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121126142639) do
+ActiveRecord::Schema.define(:version => 20130131070852) do
 
   create_table "jobs", :force => true do |t|
     t.string   "jobtitle"
@@ -23,12 +23,13 @@ ActiveRecord::Schema.define(:version => 20121126142639) do
     t.string   "confirmation_email"
     t.decimal  "salary",              :precision => 10, :scale => 2
     t.string   "jobtype"
-    t.datetime "created_at",                                         :null => false
-    t.datetime "updated_at",                                         :null => false
+    t.datetime "created_at",                                                            :null => false
+    t.datetime "updated_at",                                                            :null => false
     t.string   "jobkey"
     t.string   "jobkey_confirmation"
     t.integer  "isdeleted"
     t.integer  "category"
+    t.boolean  "minimum",                                            :default => false
   end
 
   add_index "jobs", ["jobkey"], :name => "index_jobs_on_jobkey"

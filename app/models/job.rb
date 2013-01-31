@@ -34,7 +34,7 @@ class Job < ActiveRecord::Base
 
   attr_accessible :apply_details, :category, :company_name, 
                   :company_website, :confirmation_email, :description, 
-                  :jobtitle, :jobtype, :location, :salary, 
+                  :jobtitle, :jobtype, :location, :salary, :minimum,
                   :jobkey, :jobkey_confirmation
                   
   validates :jobtitle, presence: :true, length: { maximum: 30 }

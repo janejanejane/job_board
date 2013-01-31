@@ -10,6 +10,7 @@
 <%= f.hidden_field :company_website, value: @job.company_website %>
 <%= f.hidden_field :confirmation_email, value: @job.confirmation_email %>
 <%= f.hidden_field :salary, value: @job.salary %>
+<%= f.hidden_field :minimum, value: @job.minimum %>
 <%= f.hidden_field :jobtype, value: @job.jobtype %>
 <%= f.hidden_field :jobkey, value: @job.jobkey %>
 <div class="show-content">
@@ -27,14 +28,19 @@
 				<% end %>
 				<div class="job-header">
 					<h1><%= @job.jobtitle %></h1>
-					<span>Posted <%= format_date(@job.created_at) %></span>
+					<span>Posted <%= format_date(Time.now) %></span>
 					<h2><%= @job.company_name %></h2>
 					<span>Location:<%= @job.location %></span>
 					<% url_with_protocol(@job.company_website) %>
 					<%= link_to @website, @website, target: "_blank" %>
 				</div>
 				<div class="job-details">
-					<h3><%= php_salary(@job.salary) %></h3>
+					<h3>
+						<%= php_salary(@job.salary) %>
+						<% if @job.minimum == true %>
+							(minimum)
+						<% end %>
+					</h3>
 					<h3><%= @job.jobtype %></h3>
 				</div>
 				<div class="job-content"><%= @job.description %></div>
@@ -42,7 +48,22 @@
 		</aside>
 		<aside class="span3">
 			<section>
-				Tools to share will appear here.
+				<div class="share-tools">
+					<ul>
+						<li>
+							<%= link_to "Tell a friend", "#", id: "mail" %>
+						</li>
+						<li>
+							<%= link_to "Tweet this job", "#", id: "twitter" %>
+						</li>
+						<li>
+							<%= link_to "Share this job", "#", id: "facebook" %>
+						</li>
+						<li>
+							<%= link_to "+1 this job", "#", id: "gplus" %>
+						</li>
+					</ul>
+				</div>
 			</section>
 		</aside>
 		<div class="job-apply">

@@ -20,7 +20,12 @@
 					<%= link_to @website, @website, target: "_blank" %>
 				</div>
 				<div class="job-details">
-					<h3><%= php_salary(@job.salary) %></h3>
+					<h3>
+						<%= php_salary(@job.salary) %>
+						<% if @job.minimum == true %>
+							(minimum)
+						<% end %>
+					</h3>					
 					<h3><%= @job.jobtype %></h3>
 				</div>
 				<div class="job-content"><%= @job.description %></div>

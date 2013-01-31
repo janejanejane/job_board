@@ -27,14 +27,14 @@
 							<% quantity = @jobs_by_category.select{ |cat| cat==cat_id } %>
 							<% cnt_category = quantity[cat_id].length %>
 							<% if cnt_category > 5 %>
-							<%= link_to "View all #{cnt_category} #{CATEGORY[cat_id]} jobs >>", 
+							<%= link_to "View all #{cnt_category} #{CATEGORY[cat_id]} jobs &rsaquo;&rsaquo;".html_safe, 
 							category_path(CATEGORY[cat_id]) %>
 							<% end %>
 						<% end %> 
 					</ul>
 				<% end %>
 			<% else %>
-				<h2>No Job Posts. Add one now >></h2>
+				<h2>No Job Posts. Add one now &rsaquo;&rsaquo;</h2>
 			<% end %>
 		</section>
 	</aside>
