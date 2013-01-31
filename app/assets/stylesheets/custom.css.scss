@@ -2,15 +2,21 @@
 
 /* mixins, variables, etc. */
 
+$redLighter: #D23137;
+$redDarker: #6C0000;
 $grayMediumLight: #eaeaea;
 $lavender: #e3e4fa;
 $yellowLigther: #FAFAD2;
 $whiteSmoke: #F5F5F5;
+$snow: #FFFAFA;
 
 @mixin box_sizing {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
 }
 
 /* universal */
@@ -20,9 +26,8 @@ html {
 }
 
 body {
-  background-color: $grayLighter;
-  padding-top: 60px;
-  font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+  font-family: 'Carme', sans-serif;
+  background-color: white;
 }
 
 section {
@@ -41,6 +46,33 @@ form {
   text-align: center;
   h1 {
     margin-bottom: 10px;
+  }
+}
+
+a {
+  color: $redDarker;
+  &:hover {
+    color: $redLighter;
+  }
+}
+
+.btn, .btn-primary, .btn-primary.btn-large {
+  @include box_sizing;
+  background-color: $redLighter;
+  background-image: none;
+  border: none;
+  color: white;
+  &:hover {
+    background-color: $redDarker;
+  }
+}
+
+.btn-large {
+  background-color: lighten($redLighter, 10%);
+  text-shadow: none;
+  &:hover {
+    background-color: $redLighter;
+    color: white;
   }
 }
 
@@ -66,6 +98,10 @@ h2 {
   color: $grayLight;
 }
 
+h6 {
+  text-transform: none;
+}
+
 p {
   font-size: 1.1em;
   line-height: 1.7em;
@@ -73,16 +109,21 @@ p {
 
 label {
   font-weight: bold;
+  font-family: 'Carme', sans-serif;
 }
 
 /* header */
 
 .navbar {
   .navbar-inner {
-    background-color: $red;
+    background: none;
+    background-color: none;
     background-image: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
     form {
-      padding: 5px;
+      padding: 15px;
       margin: 0;
       div input {
         font-size: 14px;
@@ -92,30 +133,35 @@ label {
   }
   .add-on {
     height: inherit;
+    background-color: $whiteSmoke;
   }
 }
 
 #logo {
+  // background: url('igda-header-logo.jpg') 145px 40px no-repeat;
   float: left;
   margin-right: 10px;
   font-size: 1.7em;
-  color: white;
-  text-transform: uppercase;
+  color: black;
   letter-spacing: -1px;
   padding-top: 9px;
   font-weight: bold;
   line-height: 1;
   &:hover {
-    color: white;
+    color: $redLighter;
     text-decoration: none;
+  }
+  img {
+    height: 40px;
+    width: 145px;
   }
 }
 
 /* body */
 
 .row-fluid {  
-  background-color: $white;
-  border: 1px solid $grayLight;
+  background-color: $snow;
+  // border: 1px solid $grayLight;
   padding: 20px;
   @include box_sizing;
 }
@@ -225,7 +271,7 @@ textarea {
 
 span {
   color: $grayLight;
-  padding-left: 10px;
+  //padding-left: 10px;
 }
 
 .form-actions {
@@ -269,8 +315,9 @@ span {
     }
     span {
       display: inline;
-      color: $linkColor;
+      color: $redDarker;
       margin-right: 10px;
+      padding-left: 10px;
       &.jobtitle {
         text-decoration: underline;
       }
@@ -288,7 +335,7 @@ span {
 
 .show-nav {
   overflow: hidden;
-  border-top: 1px solid $grayLight;
+  // border-top: 1px solid $grayLight;
   padding-top: 10px;
   .all-jobs {
     float: left;
