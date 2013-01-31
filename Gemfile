@@ -13,7 +13,11 @@ group :development, :test do
   gem 'guard-rspec', '0.5.5'
 end
 
-gem 'annotate', group: :development
+group :development do
+  gem 'annotate' 
+  gem "better_errors"
+  gem "binding_of_caller"
+end
 
 # Gems used only for assets and not required
 # in production environments by default.
