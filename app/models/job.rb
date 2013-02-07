@@ -18,6 +18,7 @@
 #  jobkey_confirmation :string(255)
 #  isdeleted           :integer
 #  category            :integer
+#  minimum             :boolean          default(FALSE)
 #
 
 #require 'uri'
@@ -30,6 +31,12 @@ class Job < ActiveRecord::Base
   def self.expiring
     where("jobkey_confirmation IS NOT NULL AND
       created_at < CURRENT_DATE - INTERVAL '1 month' AND  isdeleted = 0").order("created_at DESC")
+  end
+
+  def self.search(word)
+    query = "%" + word + "%"
+    where(['(lower(jobtitle) LIKE ? OR lower(description) LIKE ? OR lower(company_name) LIKE ? 
+      OR lower(location) LIKE ?) AND isdeleted = 0', query, query, query, query])
   end
 
   attr_accessible :apply_details, :category, :company_name, 
@@ -45,7 +52,7 @@ class Job < ActiveRecord::Base
   #VALID_URL_REGEX = /\A[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.?[a-z0-9]{2,5}\Z/ix
   #VALID_URL_REGEX = /\A(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?/ix
   VALID_URL_REGEX = /\A(https?|ftp|file):\/\/[-A-Za-z0-9+&@#\/%?=~_|!:,.;]*[-A-Za-z0-9+&@#\/%=~_|]/ix
-  validates :company_website, presence: :true, format: { with: VALID_URL_REGEX }
+  #validates :company_website, presence: :true, format: { with: VALID_URL_REGEX }
   #validates :company_website, presence: :true, format: { with: URI::regexp(%w(http https)) }
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :confirmation_email, presence: :true, format: { with: VALID_EMAIL_REGEX }

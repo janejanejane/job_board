@@ -1,0 +1,39 @@
+<% provide(:title, 'All Users') %>
+<h1>All Users</h1>
+
+<% content_for :tab_header do %>
+  <li><%= link_to "Jobs", jobs_path %></li>
+  <li class="active"><%= link_to "Users", users_path %></li>
+<% end %>
+
+<div class="row-fluid">
+	<aside>
+		<section>
+			<% if !@users_by_job_pref.blank? %>
+				<% @users_by_job_pref.keys.each do |job_pref| %>
+						<h2><%= job_pref %></h2>
+						<ul class="users">
+						<% record = @users_by_job_pref[job_pref] 
+							record.each do |user| %>
+							<li class="user-preview">
+								<%= link_to(user) do %>
+									<div class="pull-left">
+										<span><img src="<%= "#{user.image}" %>"></span>
+										<span><%= user.first_name + " " + user.last_name %></span>
+										<span><em><%= user.personal_statement %></em></span>
+									</div>
+									<div class="pull-right">
+										<span>Current Work</span>
+										<span><%= AVAILABILITY[user.availability] %></span>										
+									</div>
+								<% end %>
+							</li>
+						<% end %>
+						</ul>
+				<%	end %>
+			<% else %>
+			No users registered
+			<% end %>
+		</section>
+	</aside>
+</div>

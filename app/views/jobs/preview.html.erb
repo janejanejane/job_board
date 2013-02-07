@@ -1,4 +1,10 @@
 <% provide(:title, @job.jobtitle) %>
+
+<% content_for :tab_header do %>
+  <li><%= link_to "Jobs", jobs_path %></li>
+  <li><%= link_to "Users", users_path %></li>
+<% end %>
+
 <%= @preview %>
 <%= form_for(@job) do |f| %>
 <%= f.hidden_field :jobtitle, value: @job.jobtitle %>
@@ -32,7 +38,9 @@
 					<h2><%= @job.company_name %></h2>
 					<span>Location:<%= @job.location %></span>
 					<% url_with_protocol(@job.company_website) %>
-					<%= link_to @website, @website, target: "_blank" %>
+					<% if @website != "http://"%>
+						<%= link_to @website, @website, target: "_blank" %>
+					<% end %>
 				</div>
 				<div class="job-details">
 					<h3>

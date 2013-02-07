@@ -20,7 +20,7 @@ class JobsController < ApplicationController
     logger.debug 'NEW IS HERE'
     if params[:job]
       params[:job][:jobkey] = create_key(20)
-      params[:job][:company_website] = check_url_structure(params[:job][:company_website])
+      # params[:job][:company_website] = check_url_structure(params[:job][:company_website])
       params[:job][:salary] = clean_salary_format(params[:job][:salary])
       @job = Job.new(params[:job])
       if !@job.valid?
@@ -142,16 +142,25 @@ class JobsController < ApplicationController
     end
 
     def search
-      @word = params[:search]
-      @search = 0
+      @word = word = params[:search]
+      @job_search = @user_search = 0
       if !@word.nil?
         if @word != "" || !@word.blank?
-          @query = "%" + @word + "%"
-          @results = Job.where(['(lower(jobtitle) LIKE ? OR lower(description) LIKE ? OR
-                                lower(company_name) LIKE ? OR lower(location) LIKE ?) AND  
-                                isdeleted = 0', @query, @query, @query, @query])
-          @grouped_results = @results.group_by { |job| job.category }
-          @search = @results.length
+          @job_results = Job.search(@word)
+          @grouped_job_results = @job_results.group_by { |job| job.category }
+          @job_search = @job_results.length
+
+          @grouped_user_results = Hash.new
+          CATEGORY.each_with_index do |choice, index|
+            if((choice.downcase).include?(@word))
+              word = index.to_s
+            end
+            @user_results = User.search(word)
+            if(!@user_results.blank?)
+              @grouped_user_results = @user_results
+            end
+          end
+          @user_search = @user_results.length
         end
         render 'static_pages/search'
       end

@@ -1,31 +1,76 @@
 <% provide(:title, 'Jobs Search') %>
 <h1>Jobs Search</h1>
+
+<% content_for :tab_header do %>
+  <li><%= link_to "Jobs", jobs_path %></li>
+  <li><%= link_to "Users", users_path %></li>
+<% end %>
+
 <div class="row-fluid">
-	<aside class="span9">
+	<aside>
 		<section>
-	  	<% if @search == 0 %>
-	    	Sorry, your search <b>'<%= @word %>'</b> returned 0 results.
-	    <% else %>
-	    	Your search <b>'<%= @word %>'</b> returned <%= pluralize(@search, 'result') %>.
-	    	<% @grouped_results.each do |cat_id, jobs| %>
-	    		<h2><%= CATEGORY[cat_id] %></h2>
-				<ul class="jobs">
-					<% jobs.each do |job| %>
-					<li>
-						<%= link_to(job) do %>
-							<span class="location"><%= job.location %></span>
-							<span class="jobtitle"><%= job.jobtitle %></span>
-							at <span class="company"><%= job.company_name %></span>
-							<span class="date"><%= format_date(job.created_at) %></span>
-						<% end %> 
-					</li>
-					<% end %>
-				</ul>
-	    	<% end %>
-	    <% end %>
+			<div>
+		    <h2>JOBS</h2>
+		  	<% if @job_search == 0 %>
+		    	Sorry, your search <b>'<%= @word %>'</b> for jobs returned 0 results.
+		    <% else %>
+		    	<div>
+			    	<% @grouped_job_results.each do |cat_id, jobs| %>
+			    		<h4><%= CATEGORY[cat_id] %></h4>
+							<ul class="jobs">
+								<% jobs.each do |job| %>
+								<li>
+									<%= link_to(job) do %>
+										<span class="location"><%= job.location %></span>
+										<span class="jobtitle"><%= job.jobtitle %></span>
+										at <span class="company"><%= job.company_name %></span>
+										<span class="date"><%= format_date(job.created_at) %></span>
+									<% end %> 
+								</li>
+								<% end %>
+							</ul>
+			    	<% end %>
+			    <% end %>
+		    	</div>	
+
+		    <h2>USERS</h2>
+		  	<% if @user_search == 0 %>
+		    	Sorry, your search <b>'<%= @word %>'</b> for users returned 0 results.
+		    <% else %>
+		    	<div>
+			    	<% @grouped_user_results.each do |user| %>
+						<ul class="users">
+							<li>
+								<%= link_to(user) do %>
+									<span><img src="<%= "#{user.image}" %>"></span>
+									<span><%= user.first_name + " " + user.last_name %></span>
+									<span>Current Work</span>
+									<span>Availability</span>
+									<span>
+										<%  job_pref = Array.new()
+												CATEGORY.each_with_index do |choice, index| 
+												if(!user.job_preference.empty?)
+													preference = user.job_preference.split(',')
+													if(preference.index{|d| d == index.to_s}) # checks if index is not nil
+														if((choice.downcase).include?(@word))
+															choice = "<b>" + choice + "</b>"
+														end
+														job_pref.push(choice)
+									    		end
+								    		end %>
+							      <% end %>
+							      <%= job_pref.join(',').html_safe %>
+		    					</span>
+								<% end %>
+							</li>
+						</ul>
+			    	<% end %>
+			    <% end %>
+		    	</div>
+			<div class="show-nav">
+				<p class="all-jobs"><%= link_to "&lsaquo;&lsaquo;".html_safe + " Back to all jobs", jobs_path %></p>
+			</div>
+			</div>
 		</section>
 	</aside>
-</div>
-<div class="show-nav">
-	<p class="all-jobs"><%= link_to "&lsaquo;&lsaquo;".html_safe + " Back to all jobs", jobs_path %></p>
 </div>

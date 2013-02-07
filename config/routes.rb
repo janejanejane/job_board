@@ -9,20 +9,22 @@ JobBoard::Application.routes.draw do
   end
 
   resources :category, except: [:index, :create, :new, :edit, :update, :destroy] 
-  
+  resources :users, only: [:index, :show, :edit, :update] do
+    resources :games, except: [:new]
+  end
+
   #get "jobs/new"
 
   #root to: 'static_pages#home'
   root to: 'jobs#index'
   
   #match 'jobs/*page', to: 'jobs#index'
-
   match 'category/*page', to: 'jobs#index'
-
   match '/about', to: 'static_pages#about'
-
+  match 'auth/:provider/callback', to: 'sessions#create'
+  match 'auth/failure', to: redirect('/')
+  match 'signout', to: 'sessions#destroy', as: 'signout'
   #match '/signup', to: 'jobs#new'
-  
   #match '/help', to: 'static_pages#help'
 
   # The priority is based upon order of creation:

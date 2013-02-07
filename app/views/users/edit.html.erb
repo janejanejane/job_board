@@ -1,0 +1,108 @@
+<% provide(:title, 'Edit profile') %>
+<h1>Edit profile</h1>
+
+<% content_for :tab_header do %>
+  <li><%= link_to "Jobs", jobs_path %></li>
+  <li><%= link_to "Users", users_path %></li>
+<% end %>
+
+<div class="row-fluid">
+	<aside class="span9">
+		<section>
+			<%= form_for(@user) do |f| %>
+				<%= render 'shared/error_messages', object: f.object%>
+				<table>
+					<tbody>
+						<tr>
+							<td>
+								<label>Photo</label>
+							</td>
+							<td>
+								<img src="<%= "#{@user.image}" %>" >
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<%= f.label :nickname %>
+							</td>
+							<td>
+								<%= f.text_field :nickname %>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<%= f.label :first_name %>
+							</td>
+							<td>
+								<%= f.text_field :first_name %>
+							</td>
+						</tr>
+						<tr>
+							<td>
+				        <%= f.label :last_name %>
+			        </td>
+							<td>
+								<%= f.text_field :last_name %>
+						  </td>
+						</tr>
+						<tr>
+							<td>
+				        <%= f.label :personal_statement %>
+			        </td>
+							<td>
+					      <%= f.text_area :personal_statement %>
+					    </td>
+						</tr>
+						<tr>
+							<td>
+				        <%= f.label :location %>
+			        </td>
+							<td>
+					      <%= f.text_field :location %>
+					    </td>
+						</tr>
+						<tr>
+							<td>
+				        <%= f.label :job_preference %>
+			        </td>
+							<td>
+				        <% CATEGORY.each_with_index do |choice, index| 
+				        	option = false
+									if(!@job_preference.empty?)
+										if(@job_preference.index{|d| d == index.to_s}) # checks if index is not nil
+							    		option = true
+						    		end
+					    		end %>
+									<label class="checkbox">
+				        	<%= f.check_box :job_preference, { :multiple => true, :checked => option, :class => 'checkbox' }, index, nil%><%= choice %>
+				        	</label>
+				        <% end %>
+					    </td>
+						</tr>
+						<tr>
+							<td>
+				        <%= f.label :availability %>
+			        </td>
+							<td>
+				        <% AVAILABILITY.each_with_index do |choice, index| %>
+				        	<% if index == 0 %>
+				        		<label class="radio"><%= f.radio_button :availability, index, checked: true %><%= choice %></label>
+				        	<% else %>
+				        		<label class="radio"><%= f.radio_button :availability, index %><%= choice %></label>
+				        	<% end %>
+				        <% end %>
+					    </td>
+						</tr>
+					</tbody>
+				</table>
+		    <div class="form-actions">
+		    	<%= f.submit "Update Profile", class: "btn btn-large btn-primary" %>
+		    	<%= submit_tag "Cancel", class: "btn btn-large" %>
+		    </div>
+		    <% end %>
+	   </section>
+	</aside>	
+	<aside class="span3">
+		<%= link_to "Games", user_games_path(@user), class: "btn btn-large btn-primary" %>
+	</aside>
+</div>

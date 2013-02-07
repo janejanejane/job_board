@@ -2,6 +2,7 @@
 
 /* mixins, variables, etc. */
 
+$firebrick: #800517;
 $redLighter: #D23137;
 $redDarker: #6C0000;
 $grayMediumLight: #eaeaea;
@@ -76,7 +77,7 @@ a {
   }
 }
 
-.alert-danger, .alert-error, .alert-danger .alert-heading, .alert-error .alert-heading, .alert-success, .alert-success .alert-heading  {
+.alert, .alert-heading, .alert-danger, .alert-error, .alert-danger .alert-heading, .alert-error .alert-heading, .alert-success, .alert-success .alert-heading  {
   @include box_sizing;
 }
 
@@ -131,7 +132,7 @@ label {
       margin: 0;
       div input {
         font-size: 14px;
-        line-height: 1.4;
+        line-height: 1.3;
       }
     }
   }
@@ -161,6 +162,28 @@ label {
   }
 }
 
+.sub-navbar {
+  .container {
+    border-bottom: 1px solid lighten($grayLight, 35%);
+    .nav {
+      li {
+        a {
+          color: white;
+          background-color: lighten($firebrick, 10%);
+          border-right: 1px solid $grayLight;
+          &:hover {
+            background-color: darken($firebrick, 10%);
+          }
+        }
+      }
+      .active {
+        a {
+          background-color: $firebrick;
+        }
+      }
+    }
+  }
+}
 /* body */
 
 .row-fluid {  
@@ -236,6 +259,9 @@ aside {
       font-size: 1em;
       margin-bottom: 5px;
     }
+    h4 {
+      padding-top: 10px;
+    }
     div {
       margin-top: 10px;
       margin-bottom: 20px;
@@ -260,7 +286,7 @@ table {
     }
     .checkbox {
       padding-top: 0px;
-      padding-left: 0px;
+      padding-left: 20px;
       margin-bottom: 0px;
     }
   }
@@ -302,9 +328,20 @@ span {
 
 /* jobs index */
 
-.jobs {
+.jobs, .users, .games {
   list-style: none;
   margin: 0;
+  .game-link {
+    display: inline;
+  }
+  .user-link {
+    display: inline;
+    float: right;
+  }
+  .user-preview div {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
   li {
     overflow: auto;
     padding: 10px;
@@ -327,6 +364,10 @@ span {
       color: $redDarker;
       margin-right: 10px;
       padding-left: 10px;
+      img {
+        height: 16px;
+        width: 16px;
+      }
       &.jobtitle {
         text-decoration: underline;
       }

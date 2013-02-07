@@ -1,0 +1,87 @@
+<% provide(:title, 'User profile') %>
+<h1>User profile</h1>
+
+<% content_for :tab_header do %>
+  <li><%= link_to "Jobs", jobs_path %></li>
+  <li><%= link_to "Users", users_path %></li>
+<% end %>
+
+<div class="row-fluid">
+	<aside class="span9">
+		<section>
+			<%= render 'shared/error_messages', object: @user %>
+			<table>
+				<tbody>
+					<tr>
+						<td>
+							<label>Photo</label>
+						</td>
+						<td>
+							<img src="<%= "#{@user.image}" %>" >
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label>Nickname</label>
+						</td>
+						<td>
+							<%= @user.nickname %>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label>First Name</label>
+						</td>
+						<td>
+							<%= @user.first_name %>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label>Last Name</label>
+						</td>
+						<td>
+							<%= @user.last_name %>
+					  </td>
+					</tr>
+					<tr>
+						<td>
+							<label>Personal Statement</label>
+						</td>
+						<td>
+				      <%= @user.personal_statement %>
+				    </td>
+					</tr>
+					<tr>
+						<td>
+							<label>Location</label>
+						</td>
+						<td>
+				      <%= @user.location %>
+				    </td>
+					</tr>
+					<tr>
+						<td>
+							<label>Job Preference</label>
+						</td>
+						<td>
+							<%  job_pref = Array.new()
+									CATEGORY.each_with_index do |choice, index| 
+									if(!@user.job_preference.empty?)
+										preference = @user.job_preference.split(',')
+										if(preference.index{|d| d == index.to_s}) # checks if index is not nil
+											job_pref.push(choice)
+						    		end
+					    		end %>
+				      <% end %>
+				      <%= job_pref.join(',') %>
+				    </td>
+					</tr>
+				</tbody>
+			</table>
+	  </section>
+	</aside>	
+	<aside class="span3">
+		<%= link_to "Games", user_games_path(@user), class: "btn btn-large btn-primary" %>
+	</aside>
+</div>

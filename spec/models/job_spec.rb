@@ -18,6 +18,7 @@
 #  jobkey_confirmation :string(255)
 #  isdeleted           :integer
 #  category            :integer
+#  minimum             :boolean          default(FALSE)
 #
 
 require 'spec_helper'

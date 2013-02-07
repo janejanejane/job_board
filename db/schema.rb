@@ -11,7 +11,33 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130131070852) do
+ActiveRecord::Schema.define(:version => 20130205094556) do
+
+  create_table "authorizations", :force => true do |t|
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "username"
+    t.integer  "user_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "authorizations", ["provider"], :name => "index_authorizations_on_provider"
+
+  create_table "games", :force => true do |t|
+    t.string   "name"
+    t.string   "link"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "games_users", :id => false, :force => true do |t|
+    t.integer "game_id"
+    t.integer "user_id"
+  end
+
+  add_index "games_users", ["game_id", "user_id"], :name => "index_games_users_on_game_id_and_user_id", :unique => true
+  add_index "games_users", ["user_id", "game_id"], :name => "index_games_users_on_user_id_and_game_id", :unique => true
 
   create_table "jobs", :force => true do |t|
     t.string   "jobtitle"
@@ -37,5 +63,25 @@ ActiveRecord::Schema.define(:version => 20130131070852) do
   add_index "jobs", ["jobtype"], :name => "index_jobs_on_jobtype"
   add_index "jobs", ["location"], :name => "index_jobs_on_location"
   add_index "jobs", ["salary"], :name => "index_jobs_on_salary"
+
+  create_table "users", :force => true do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "nickname"
+    t.string   "personal_statement", :limit => 140
+    t.string   "image"
+    t.string   "location"
+    t.string   "job_preference"
+    t.integer  "availability"
+    t.boolean  "new_user",                          :default => true
+    t.datetime "created_at",                                          :null => false
+    t.datetime "updated_at",                                          :null => false
+  end
+
+  add_index "users", ["first_name"], :name => "index_users_on_first_name"
+  add_index "users", ["job_preference"], :name => "index_users_on_job_preference"
+  add_index "users", ["last_name"], :name => "index_users_on_last_name"
+  add_index "users", ["location"], :name => "index_users_on_location"
+  add_index "users", ["nickname"], :name => "index_users_on_nickname"
 
 end

@@ -14,6 +14,9 @@
 /log/*.log
 /tmp
 
+# Ignore app keys
+/config/app_keys.rb
+
 # Ignore other unneeded files.
 doc/
 *.swp

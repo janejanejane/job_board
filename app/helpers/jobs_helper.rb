@@ -30,7 +30,7 @@ module JobsHelper
     @fbshare.concat("name=#{@name}&")
     @fbshare.concat("caption=#{@caption}&")
     @fbshare.concat("description=#{@description}&")
-    @fbshare.concat("redirect_uri=https://stormy-mountain-2486.herokuapp.com")
+    @fbshare.concat("redirect_uri=https://igda-job-board.herokuapp.com")
   end
 
   def gplus_share

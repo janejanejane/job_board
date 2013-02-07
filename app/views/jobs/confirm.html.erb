@@ -1,10 +1,15 @@
 <% provide(:title, 'Confirm job') %>
 <h1>Confirm job</h1>
 
+<% content_for :tab_header do %>
+  <li><%= link_to "Jobs", jobs_path %></li>
+  <li><%= link_to "Users", users_path %></li>
+<% end %>
+
 <div class="row-fluid">
 	<div class="span9">
 		<%= form_for(@job) do |f| %>
-			<%= render 'shared/error_messages'%>
+			<%= render 'shared/error_messages', object: f.object %>
 			
 			<table>
 				<tbody>

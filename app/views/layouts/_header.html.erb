@@ -10,7 +10,26 @@
 			            <i class="icon-search"></i>
 			        </button>
 			    </div>
+
+				<div id="user-nav">
+					<% if current_user %>
+						Hello <b><%= current_user.nickname %></b>!
+						<%= link_to "Edit Profile", edit_user_path(current_user) %>						
+						<%= link_to "Sign out", signout_path %>
+					<% else %>
+						<%= link_to image_tag("twitter-login.png"), "/auth/twitter" %>
+						<%= link_to image_tag("facebook-login.png"), "/auth/facebook", class: "facebook-login" %>
+					<% end %>
+				</div>
 			</form>​
+		</div>
+	</div>
+
+  <div class="sub-navbar">
+    <div class="container">
+			<ul class="nav">
+		  	<%= content_for :tab_header %>   
+			</ul>
 		</div>
 	</div>
 </header>

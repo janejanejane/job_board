@@ -8,7 +8,8 @@
 			<%= link_to "Tweet this job", tweet(@job.company_name, @job.jobtitle, job_url(@job)), target: "_blank", id: "twitter" %>
 		</li>
 		<li>
-			<%= link_to "Share this job", fb_share("425284464187683", @job.jobtitle, 
+			<%# link_to "Share this job", fb_share('425284464187683', @job.jobtitle,  %>
+			<%= link_to "Share this job", fb_share("#{ENV['FACEBOOK_KEY']}", @job.jobtitle,
 				@job.company_name, @job.description), 
 				target: "_blank", id: "facebook" %>
 		</li>
