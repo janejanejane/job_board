@@ -31,6 +31,11 @@ body {
   background-color: white;
 }
 
+// hr {
+//   border-top: 1px solid  black;
+//   border-bottom: none;
+// }
+
 section {
   overflow: auto;
 }
@@ -331,12 +336,14 @@ span {
 .jobs, .users, .games {
   list-style: none;
   margin: 0;
-  .game-link {
+  .colab {
+    width: 50%;
+  }
+  .game-link, .user-link, .edit-link {
     display: inline;
   }
-  .user-link {
-    display: inline;
-    float: right;
+  .edit-link {
+    color: darken(red, 20%);
   }
   .user-preview div {
     margin-top: 0;

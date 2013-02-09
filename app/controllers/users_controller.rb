@@ -1,7 +1,9 @@
 class UsersController < ApplicationController
   # rescue_from ActiveRecord::Errors, :with => :has_same_name
 
-  before_filter :check_for_cancel, only: [:edit, :update]
+  # before_filter :check_for_cancel, only: [:edit, :update]
+  before_filter :catch_cancel, update: [:create, :update, :destroy]
+  after_filter :set_referrer, only: [:index, :show]
   before_filter :format_job_pref, only: [:create, :update]
   before_filter :search
 
@@ -15,6 +17,8 @@ class UsersController < ApplicationController
       end
     end
 
+    @users_no_job_pref = User.no_job_pref
+    
     respond_to do |format|
       format.html
       format.json { render json: @users_by_job_pref }
@@ -23,6 +27,9 @@ class UsersController < ApplicationController
 
   def show
   	@user = User.find(params[:id])
+    @games = @user.games
+    @all_games = Game.all(order: "id ASC")
+    @user_extra = @user.extra
   end
 
 	def edit
@@ -40,14 +47,23 @@ class UsersController < ApplicationController
 		@user = User.find(params[:id])
 		if @user.update_attributes(params[:user])
 			flash[:success] = "Profile update successful!"
-			redirect_to root_path
+			redirect_to edit_user_path(@user)
 		else
-			render 'edit'
+      render 'edit'
 		end
 	end
 
 	private
 
+    def set_referrer
+      session[:referrer] = url_for(params)
+      # session[:referrer] = request.referer
+    end
+
+    def catch_cancel
+      redirect_to session[:referrer] if params[:commit] == "Cancel"
+    end
+    
     def has_same_name 
       flash[:error] = "User has been registered."
       redirect_to :root

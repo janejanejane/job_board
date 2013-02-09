@@ -46,16 +46,24 @@ class User < ActiveRecord::Base
 		where("job_preference LIKE ?", "%"+job_pref+"%")
 	end
 
+	def self.no_job_pref
+		where("job_preference IS NULL")
+	end
+
 	def self.search(word)
     query = "%" + word + "%"
     where(['(lower(first_name) LIKE ? OR lower(last_name) LIKE ? OR lower(nickname) LIKE ? 
       OR lower(location) LIKE ? OR lower(job_preference) LIKE ?)', query, query, query, query, query])
 	end
 
-	attr_accessible :first_name, :last_name, :nickname, :personal_statement, :image, :location, :job_preference, :availability, :new_user
+	attr_accessible :first_name, :last_name, :nickname, :personal_statement, 
+									:image, :location, :job_preference, :availability, :new_user#, :extra_attributes
 
 	has_many :authorizations
+  has_one :extra, dependent: :destroy
 	has_and_belongs_to_many :games
+
+	# accepts_nested_attributes_for :extra
 	
   # validates :first_name, uniqueness: { case_sensitive: false }
   # validates :last_name, uniqueness: { case_sensitive: false }

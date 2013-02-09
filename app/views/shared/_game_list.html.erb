@@ -1,0 +1,42 @@
+<% if object.name != nil && object.link != nil # excludes '/user/:id/games' created from @user.games.build(params[:game]) %>
+	<% if object.id != nil # excludes invalid game data %>
+		<ul class="games">
+			<li>
+				<span><%= image_tag object.image.url(:medium) %></span>
+				<span><b><%= object.name %></b></span>
+				<span><%= link_to object.link, object.link, class: "game-link" %></span>
+				<% if current_user && (current_user.id == params[:user_id].to_i || current_user.id == params[:id].to_i) %>
+					<span>
+						<b><%= link_to "Edit", edit_user_game_path(@user, object), class: "edit-link" %></b> |
+						<b><%= link_to "Delete", user_game_path(@user, object), confirm: 'Are you sure?', method: :delete, class: "edit-link" %></b>
+					</span>
+				<% end %>
+				<div class="pull-right colab">
+					<% users_with_id = Hash.new 
+						@all_games.each do |game_record| 
+							game_record.users.each do |user_record| 
+								if game_record.id == object.id && 
+									(user_record.id != params[:user_id].to_i && user_record.id != params[:id].to_i) #if user logged-in: :user_id
+										users_with_id[user_record.id] = user_record.first_name		
+								end
+							end 
+						end 
+
+					arr_length = users_with_id.length
+					if arr_length > 0 
+					%>
+					with
+					<% end %>
+					<%# users_with_id.each_with_index do |(key, value), index| 
+						user_name = (arr_length == 1 || arr_length-1 == index) ? value : ("," + value) %>
+						<!-- <span><em><%# link_to user_name, "/users/#{key}/games", class: "user-link" %></em></span> -->
+					<%# end
+					end %>
+					<span><em>
+		      <%= raw users_with_id.collect { |id, name| link_to name, "/users/#{id}/games", class: "user-link" }.join(",") %>
+		    	</span></em>
+				</div>
+			</li>
+		</ul>
+<% end 
+end %>

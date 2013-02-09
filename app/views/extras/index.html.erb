@@ -1,0 +1,107 @@
+<% provide(:title, 'User Extra Profile') %>
+<div class="row-fluid">
+
+<% if current_user && (current_user.id == params[:user_id].to_i) %>
+
+<% full_name = @user.first_name.to_s + " " + @user.last_name.to_s %>
+<h1><%= pluralize(full_name + "'s", "extra info") %></h1>
+
+<% content_for :tab_header do %>
+  <li><%= link_to "Jobs", jobs_path %></li>
+  <li><%= link_to "Users", users_path %></li>
+<% end %>
+
+<div>
+	<%= form_for([@user, @extra]) do |f| %>
+		<%# f.fields_for :extra do |ff| %>
+
+		<%= render 'shared/error_messages', object: @extra %>
+		<table>
+			<tbody>
+				<tr>
+					<td>
+						<%= f.label :special_title %>
+					</td>
+					<td>
+						<%= f.text_field :special_title %>
+			    	<span class="desc">"What you want to call yourself, e.g. Code Ninja"</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+		        <%= f.label :experience %>
+	        </td> 
+					<td>
+			      <%= f.select :experience, (1980..Time.now.year).to_a.reverse, default: Time.now.year %>
+			    	<span class="desc">"Year started"</span>
+			    </td>
+				</tr>
+				<tr>
+					<td>
+						<%= f.label :behance %>
+					</td>
+					<td>
+						<%= f.text_field :behance %>
+			    	<span class="desc">"Link to Behance"</span>
+					</td>
+				</tr><tr>
+					<td>
+						<%= f.label :deviantart %>
+					</td>
+					<td>
+						<%= f.text_field :deviantart %>
+			    	<span class="desc">"Link to Deviantart"</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+		        <%= f.label :kongregate %>
+	        </td>
+					<td>
+			      <%= f.text_field :kongregate %>
+			    	<span class="desc">"Link to Kongregate"</span>
+			    </td>
+				</tr>
+				<tr>
+					<td>
+						<%= f.label :gamasutra %>
+					</td>
+					<td>
+						<%= f.text_field :gamasutra %>
+			    	<span class="desc">"Link to Gamasutra"</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+		        <%= f.label :newgrounds %>
+	        </td>
+					<td>
+			      <%= f.text_field :newgrounds %>
+			    	<span class="desc">"Link to Newgrounds"</span>
+			    </td>
+				</tr>
+				<tr>
+					<td>
+						<%= f.label :gamejolt %>
+					</td>
+					<td>
+						<%= f.text_field :gamejolt %>
+			    	<span class="desc">"Link to Gamejolt"</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+        
+    <div class="form-actions">
+    	<%= f.submit "Update info", class: "btn btn-large btn-primary" %>
+    	<%= submit_tag "Cancel", class: "btn btn-large" %>
+    </div>
+
+  	<%# end %>
+  <% end %>
+</div>
+<% else %>
+	<script type="text/javascript">
+    window.location.href="/users/<%= @user.id %>"
+  </script>
+<% end %>

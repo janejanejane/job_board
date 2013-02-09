@@ -9,43 +9,19 @@
 
 <div class="row-fluid">
 	<% if @user_games.length > 1 
-			@user_games.each do |game| 
-			if game.name != nil && game.link != nil # excludes '/user/:id/games' created from @user.games.build(params[:game]) %>
-				<ul class="games">
-					<li>
-						<span><b><%= game.name %></b></span>
-						<span><%= link_to game.link, game.link, class: "game-link" %></span>
-						<div class="pull-right">
-							<% users_with_id = Hash.new 
-								@all_games.each do |game_record| 
-								game_record.users.each do |user_record| 
-									if game_record.id == game.id && user_record.id != params[:user_id].to_i 
-										users_with_id[user_record.id] = user_record.first_name		
-									end
-								end 
-							end 
-
-							arr_length = users_with_id.length
-							if arr_length > 0 %>
-							with
-							<% users_with_id.each_with_index do |(key, value), index| 
-								user_name = (arr_length == 1 || arr_length-1 == index) ? value : ("," + value) %>
-								<span><em><%= link_to user_name, "/users/#{key}/games", class: "user-link" %></em></span>
-							<% end
-							end %>
-						</div>
-					</li>
-				</ul>
+			@user_games.each do |game| %>
+			 	<%= render 'shared/game_list', object: game %>
 			<% end 
-			 end 
 		else %>
 		<h2>No games added.</h2>
 	<% end %>
 </div>
 
 <% if current_user && (current_user.id == params[:user_id].to_i) %>
+<hr>
 <div>
-	<%= form_for([@user, @game]) do |f| %>
+	<h2>Add a game</h2>
+	<%= form_for([@user, @game], :html => { :multipart => true }) do |f| %>
 		<%= render 'shared/error_messages', object: @game %>
 		<table>
 			<tbody>
@@ -65,6 +41,14 @@
 			      <%= f.text_field :link %>
 			    	<span class="desc">"Link to the game"</span>
 			    </td>
+				</tr>
+				<tr>
+					<td>
+						<label>Image upload</label>
+					</td>
+					<td>
+						<%= f.file_field :image %>
+					</td>
 				</tr>
 			</tbody>
 		</table>

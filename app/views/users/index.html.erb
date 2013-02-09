@@ -19,12 +19,35 @@
 								<%= link_to(user) do %>
 									<div class="pull-left">
 										<span><img src="<%= "#{user.image}" %>"></span>
-										<span><%= user.first_name + " " + user.last_name %></span>
+										<span><%= user.first_name + " " + user.last_name.to_s %></span>
 										<span><em><%= user.personal_statement %></em></span>
 									</div>
 									<div class="pull-right">
 										<span>Current Work</span>
-										<span><%= AVAILABILITY[user.availability] %></span>										
+										<% availability = (user.availability.nil?) ? 0 : user.availability %>
+										<span><%= AVAILABILITY[availability] %></span>										
+									</div>
+								<% end %>
+							</li>
+						<% end %>
+						</ul>
+				<%	end %>
+
+				<% if !@users_no_job_pref.blank? %>
+						<h2>No Job Preference</h2>
+						<ul class="users">
+						<% @users_no_job_pref.each do |user| %>
+							<li class="user-preview">
+								<%= link_to(user) do %>
+									<div class="pull-left">
+										<span><img src="<%= "#{user.image}" %>"></span>
+										<span><%= user.first_name + " " + user.last_name.to_s %></span>
+										<span><em><%= user.personal_statement %></em></span>
+									</div>
+									<div class="pull-right">
+										<span>Current Work</span>
+										<% availability = (user.availability.nil?) ? 0 : user.availability %>
+										<span><%= AVAILABILITY[availability] %></span>											
 									</div>
 								<% end %>
 							</li>

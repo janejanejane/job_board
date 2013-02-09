@@ -1,14 +1,16 @@
 class GamesController < ApplicationController
 
-	before_filter :correct_user, only: [:index, :create]
-  before_filter :check_for_cancel, only: [:new, :create, :update]
+	before_filter :correct_user, only: [:index, :edit, :update, :create, :destroy]
+  # before_filter :check_for_cancel, only: [:new, :create, :update]
+ 	before_filter :catch_cancel, update: [:create, :edit, :update, :destroy]
+  after_filter :set_referrer, only: [:index, :edit, :show]
 
 	def index
 		logger.debug "inside INDEX"
 
 		@user_games = @user.games
 		@game = @user.games.build(params[:game])
-		@all_games = Game.all
+		@all_games = Game.all(order: "id ASC")
 	end
 
 	def create
@@ -21,16 +23,24 @@ class GamesController < ApplicationController
 			@game = @user.games.create(params[:game]) # insert new entry in games table
 			@games = @user.games
 
-			if @game.save # for newly created games
-				flash[:success] = "New game entry added!"
-				redirect_to user_games_path
+			if @game.valid?
+				if @game.save # for newly created games
+					flash[:success] = "New game entry added!"
+					redirect_to user_games_path
+				else
+				@user_games = @user.games
+				@all_games = Game.all
+				render 'index'
+				end
 			else
 				@user_games = @user.games
 				@all_games = Game.all
 				render 'index'
 			end
 		else
-			if @user.games.exists?(params[:game]) # check if user has this game entry
+			game_info = params[:game]
+			game_info.delete(:image)
+			if @user.games.exists?(game_info)  # check if user has this game entry
 				flash[:error] = "Game entry is in the list."
 				redirect_to user_games_path
 			else
@@ -45,27 +55,68 @@ class GamesController < ApplicationController
 	def edit
 		logger.debug "inside EDIT"
 		@game = Game.find(params[:id])
+		@all_games = Game.all(order: "id ASC")
 	end
 
 	def update
 		logger.debug "inside UPDATE"
-		@game = Game.find(params[:id])
 
-		if @game.update_attributes(params[:game])
-			redirect_to @game
+		params[:game][:link] = check_url_structure(params[:game][:link])
+		@game = Game.find(params[:id])
+		# get name, link combination first to check it does not exists; avoids duplicate name
+		@recorded_game = Game.registered(params[:game][:name].strip, params[:game][:link].strip) 
+
+		if !params[:game][:image].nil? || @recorded_game.blank?
+			@recorded_game = Game.registered_with_image(params[:game][:name].strip, params[:game][:link].strip, params[:game][:image].original_filename)
+		end
+
+		if @recorded_game.blank?
+			if @game.update_attributes(params[:game])
+				flash[:success] = "Game entry updated!"
+				redirect_to user_games_path
+			else
+				render 'edit'
+			end
 		else
-			render 'edit'
+			game_info = params[:game]
+			game_info.delete(:image)
+
+			if @user.games.exists?(game_info) # check if user has this game entry
+				flash[:error] = "Game entry is in the list."
+				redirect_to user_games_path
+			else
+				@games = @user.games << @recorded_game # create the association
+
+				flash[:success] = "Game entry has been added before by a different user."
+				redirect_to user_games_path
+			end
 		end
 	end
 
 	def destroy
 		logger.debug "inside DESTROY"
-		Game.find(params[:id]).destroy
-		flash[:success] = "Game entry destroyed!"
-		redirect_to games_path
+		this_game = Game.find(params[:id])
+		@user.games.delete(this_game) # remove the associations
+		if @user.id == current_user.id
+			flash[:success] = "Game entry removed!"
+			redirect_to user_games_path
+		else
+			flash[:success] = "User removed!"
+			params[:user_id] = current_user.id
+			redirect_to edit_user_game_path(current_user.id)
+		end
 	end
 
 	private 
+
+    def set_referrer
+      # session[:referrer] = url_for(params)
+      session[:referrer] = request.referer
+    end
+
+    def catch_cancel
+      redirect_to session[:referrer] if params[:commit] == "Cancel"
+    end
 
 		def correct_user
 			@user = User.find(params[:user_id])
@@ -73,7 +124,7 @@ class GamesController < ApplicationController
 
     def check_for_cancel
       if params[:commit] == "Cancel" || params[:commit] == "OK"
-        redirect_to jobs_path
+        redirect_to user_games_path
       end
     end
 

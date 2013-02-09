@@ -7,8 +7,8 @@
 <% end %>
 
 <div class="row-fluid">
-	<%= form_for(@game) do |f| %>
-		<%= render 'shared/error_messages', object: f.object%>
+	<%= form_for([@user, @game], :html => { :multipart => true }) do |f| %>
+		<%= render 'shared/error_messages', object: @game %>
 		<table>
 			<tbody>
 					<tr>
@@ -28,11 +28,56 @@
 				    	<span class="desc">"Link to the game"</span>
 				    </td>
 					</tr>
+					<tr>
+						<td>
+							<label>Image upload</label>
+						</td>
+						<td>
+							<%= f.file_field :image %>
+						</td>
+					</tr>
+					<% if !@game.image.blank? %>
+					<tr>
+						<td>
+							<label>Uploaded image</label>
+						</td>
+						<td>
+							<%= image_tag @game.image.url(:thumb) %>
+						</td>
+					</tr>
+					<% end %>
 			</tbody>
 		</table>
     <div class="form-actions">
     	<%= f.submit "Update game", class: "btn btn-large btn-primary" %>
     	<%= submit_tag "Cancel", class: "btn btn-large" %>
     </div>
-    <% end %>
+  <% end %>
+
+	<% if current_user.id == @game.game_owner.to_i %>
+		<% if !@game.nil?
+				users_with_id = Hash.new 
+					@all_games.each do |game_record| 
+						game_record.users.each do |user_record| 
+							if game_record.id == @game.id && user_record.id != params[:user_id].to_i 
+								users_with_id[user_record.id] = user_record.first_name		
+							end
+						end 
+					end 
+
+				arr_length = users_with_id.length
+				if arr_length > 0 
+				%>
+				<legend>Members</legend>
+				<% end %>
+	      	<% users_with_id.each do |id, name| %>
+						<div>
+	      			<b>
+	      				<%= name %> |
+	      				<%= link_to "Delete", user_game_path(id, @game.id), confirm: 'Are you sure?', method: :delete, class: "edit-link" %>
+	      			</b>
+			  		</div>
+	      	<% end %>
+		<% end 
+		 end %>
 </div>

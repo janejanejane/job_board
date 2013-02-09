@@ -7,81 +7,159 @@
 <% end %>
 
 <div class="row-fluid">
-	<aside class="span9">
-		<section>
-			<%= render 'shared/error_messages', object: @user %>
-			<table>
-				<tbody>
-					<tr>
-						<td>
-							<label>Photo</label>
-						</td>
-						<td>
-							<img src="<%= "#{@user.image}" %>" >
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label>Nickname</label>
-						</td>
-						<td>
-							<%= @user.nickname %>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label>First Name</label>
-						</td>
-						<td>
-							<%= @user.first_name %>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label>Last Name</label>
-						</td>
-						<td>
-							<%= @user.last_name %>
-					  </td>
-					</tr>
-					<tr>
-						<td>
-							<label>Personal Statement</label>
-						</td>
-						<td>
-				      <%= @user.personal_statement %>
-				    </td>
-					</tr>
-					<tr>
-						<td>
-							<label>Location</label>
-						</td>
-						<td>
-				      <%= @user.location %>
-				    </td>
-					</tr>
-					<tr>
-						<td>
-							<label>Job Preference</label>
-						</td>
-						<td>
-							<%  job_pref = Array.new()
-									CATEGORY.each_with_index do |choice, index| 
-									if(!@user.job_preference.empty?)
-										preference = @user.job_preference.split(',')
-										if(preference.index{|d| d == index.to_s}) # checks if index is not nil
-											job_pref.push(choice)
-						    		end
-					    		end %>
-				      <% end %>
-				      <%= job_pref.join(',') %>
-				    </td>
-					</tr>
-				</tbody>
-			</table>
-	  </section>
-	</aside>	
-	<aside class="span3">
-		<%= link_to "Games", user_games_path(@user), class: "btn btn-large btn-primary" %>
-	</aside>
+	<%= render 'shared/error_messages', object: @user %>
+	<table>
+		<tbody>
+			<tr>
+				<td>
+					<label>Photo</label>
+				</td>
+				<td>
+					<img src="<%= "#{@user.image}" %>" >
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label>Nickname</label>
+				</td>
+				<td>
+					<%= @user.nickname %>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label>First Name</label>
+				</td>
+				<td>
+					<%= @user.first_name %>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label>Last Name</label>
+				</td>
+				<td>
+					<%= @user.last_name %>
+			  </td>
+			</tr>
+			<tr>
+				<td>
+					<label>Personal Statement</label>
+				</td>
+				<td>
+		      <%= @user.personal_statement %>
+		    </td>
+			</tr>
+			<tr>
+				<td>
+					<label>Location</label>
+				</td>
+				<td>
+		      <%= @user.location %>
+		    </td>
+			</tr>
+			<% if !@user.job_preference.nil? %>
+			<tr>
+				<td>
+					<label>Job Preference</label>
+				</td>
+				<td>
+					<%  job_pref = Array.new()
+							CATEGORY.each_with_index do |choice, index| 
+							if(!@user.job_preference.empty?)
+								preference = @user.job_preference.split(',')
+								if(preference.index{|d| d == index.to_s}) # checks if index is not nil
+									job_pref.push(choice)
+				    		end
+			    		end %>
+		      <% end %>
+		      <%= job_pref.join(',') %>
+		    </td>
+			</tr>
+			<% end %>
+	<% if !@user_extra.blank? %>
+			<tr>
+				<td colspan="2">
+					<legend>Additional Information</legend>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label>Special Title</label>
+				</td>
+				<td>
+					<%= @user_extra.special_title %>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label>Experience</label>
+				</td>
+				<td>
+		      <%= pluralize((Time.now.year - @user_extra.experience), "year") %>
+		    </td>
+			</tr>
+			<tr>
+				<td>
+					<label>Behance</label>
+				</td>
+				<td>
+					<%= @user_extra.behance %>
+				</td>
+			</tr><tr>
+				<td>
+					<label>Deviantart</label>
+				</td>
+				<td>
+					<%= @user_extra.deviantart %>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label>Kongregate</label>
+				</td>
+				<td>
+		      <%= @user_extra.kongregate %>
+		    </td>
+			</tr>
+			<tr>
+				<td>
+					<label>Gamasutra</label>
+				</td>
+				<td>
+					<%= @user_extra.gamasutra %>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label>Newgrounds</label>
+				</td>
+				<td>
+		      <%= @user_extra.newgrounds %>
+		    </td>
+			</tr>
+			<tr>
+				<td>
+					<label>Gamejolt</label>
+				</td>
+				<td>
+					<%= @user_extra.gamejolt %>
+				</td>
+			</tr>
+	<% end %>
+		</tbody>
+	</table>
+	<legend>Games</legend>
+		<% counter = 0 
+			if !@games.nil?
+				@games.each do |game| 
+					if counter < 3 %>
+				 		<%= render 'shared/game_list', object: game %>
+					<% counter = counter+1
+				 	end 
+				end
+				if @games.length > 3 %>
+				<span class="pull-right"><%= link_to "More games...", user_games_path(@user), class: "btn btn-primary" %></span>
+		<% 	end %>
+		<% end %>
 </div>

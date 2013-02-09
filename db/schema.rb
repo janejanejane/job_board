@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130205094556) do
+ActiveRecord::Schema.define(:version => 20130209023058) do
 
   create_table "authorizations", :force => true do |t|
     t.string   "provider"
@@ -24,12 +24,35 @@ ActiveRecord::Schema.define(:version => 20130205094556) do
 
   add_index "authorizations", ["provider"], :name => "index_authorizations_on_provider"
 
+  create_table "extras", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "special_title"
+    t.integer  "experience"
+    t.string   "behance"
+    t.string   "deviantart"
+    t.string   "kongregate"
+    t.string   "gamasutra"
+    t.string   "newgrounds"
+    t.string   "gamejolt"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "extras", ["user_id"], :name => "index_extras_on_user_id"
+
   create_table "games", :force => true do |t|
     t.string   "name"
     t.string   "link"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.integer  "game_owner"
   end
+
+  add_index "games", ["game_owner"], :name => "index_games_on_game_owner"
 
   create_table "games_users", :id => false, :force => true do |t|
     t.integer "game_id"
