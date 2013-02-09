@@ -17,6 +17,9 @@
 # Ignore app keys
 /config/app_keys.rb
 
+# Ignore images
+/public/system/games
+
 # Ignore other unneeded files.
 doc/
 *.swp

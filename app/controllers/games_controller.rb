@@ -17,6 +17,7 @@ class GamesController < ApplicationController
 		logger.debug "inside CREATE"
 
 		params[:game][:link] = check_url_structure(params[:game][:link])
+		params[:game][:game_owner] = @user.id
 		@recorded_game = Game.registered(params[:game][:name].strip, params[:game][:link].strip)
 
 		if @recorded_game.blank? # if there is no recorded entry of the game

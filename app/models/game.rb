@@ -23,7 +23,7 @@ class Game < ActiveRecord::Base
 		where("name = ? AND link = ? AND image_file_name = ?", name, link, image).first
 	end
 
-  attr_accessible :link, :name, :image
+  attr_accessible :link, :name, :image, :game_owner
 
   VALID_URL_REGEX = /\A(https?|ftp|file):\/\/[-A-Za-z0-9+&@#\/%?=~_|!:,.;]*[-A-Za-z0-9+&@#\/%=~_|]/ix
   validates :link, presence: :true, format: { with: VALID_URL_REGEX }
