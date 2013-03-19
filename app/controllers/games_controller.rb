@@ -2,8 +2,8 @@ class GamesController < ApplicationController
 
 	before_filter :correct_user, only: [:index, :edit, :update, :create, :destroy]
   # before_filter :check_for_cancel, only: [:new, :create, :update]
- 	before_filter :catch_cancel, update: [:create, :edit, :update, :destroy]
-  after_filter :set_referrer, only: [:index, :edit, :show]
+ 	before_filter :catch_cancel, update: [:create, :update, :destroy]
+  after_filter :set_referrer, only: [:index, :show]
 
 	def index
 		logger.debug "inside INDEX"
@@ -98,7 +98,10 @@ class GamesController < ApplicationController
 		logger.debug "inside DESTROY"
 		this_game = Game.find(params[:id])
 		@user.games.delete(this_game) # remove the associations
-		if @user.id == current_user.id
+		if @user.id == current_user.id 
+			if this_game.game_owner == @user.id # check ownership
+				this_game.destroy # remove game record
+			end
 			flash[:success] = "Game entry removed!"
 			redirect_to user_games_path
 		else
