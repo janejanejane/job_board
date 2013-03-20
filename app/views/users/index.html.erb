@@ -13,9 +13,26 @@
 				<% @users_by_job_pref.keys.each do |job_pref| %>
 						<h2><%= job_pref %></h2>
 						<ul class="users">
+
 						<% record = @users_by_job_pref[job_pref] 
 							record.each do |user| %>
+
 							<li class="user-preview">
+
+								<% jobpref = CATEGORY.index(job_pref)
+								thisuser_id = 0
+								if !current_user.nil?
+									thisuser_id = current_user.id
+								end 
+								get_vote_details(user.id, jobpref, thisuser_id) %>
+
+								<div class="votes">
+							    <% if current_user %>
+ 										<%= link_to "", vote_user_path(user.id, jobpref: jobpref), method: "post", class: "up-btn" %>
+							    <% end %>
+									<!-- <a href="#" class="up-btn"></a> -->
+									<span><%= @vote_details.count %></span>
+								</div>
 								<%= link_to(user) do %>
 									<div class="pull-left">
 										<span><img src="<%= "#{user.image}" %>"></span>

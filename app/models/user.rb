@@ -60,6 +60,7 @@ class User < ActiveRecord::Base
 									:image, :location, :job_preference, :availability, :new_user#, :extra_attributes
 
 	has_many :authorizations
+	has_many :votes
   has_one :extra, dependent: :destroy
 	has_and_belongs_to_many :games
 

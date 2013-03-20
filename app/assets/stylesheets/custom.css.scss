@@ -331,7 +331,7 @@ span {
   @extend .error;
 }
 
-/* jobs index */
+/* jobs index, user index, game index */
 
 .jobs, .users, .games {
   list-style: none;
@@ -384,6 +384,17 @@ span {
     }
     .location {
       font-weight: bold;
+    }
+    .votes {
+      float: left;
+      .up-btn {
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;      
+        border-bottom: 10px solid black;
+        cursor: pointer;
+        width: 0px;
+        margin: 0 auto;
+      }
     }
   }
 }

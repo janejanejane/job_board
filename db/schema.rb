@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130209023058) do
+ActiveRecord::Schema.define(:version => 20130319040816) do
 
   create_table "authorizations", :force => true do |t|
     t.string   "provider"
@@ -106,5 +106,16 @@ ActiveRecord::Schema.define(:version => 20130209023058) do
   add_index "users", ["last_name"], :name => "index_users_on_last_name"
   add_index "users", ["location"], :name => "index_users_on_location"
   add_index "users", ["nickname"], :name => "index_users_on_nickname"
+
+  create_table "votes", :force => true do |t|
+    t.integer  "user_voted"
+    t.integer  "job_preference"
+    t.string   "voters"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  add_index "votes", ["user_voted"], :name => "index_votes_on_user_voted"
+  add_index "votes", ["voters"], :name => "index_votes_on_voters"
 
 end

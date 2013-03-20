@@ -53,6 +53,45 @@ class UsersController < ApplicationController
 		end
 	end
 
+  def vote
+    # get/set values
+    logger.debug params
+    user_voted = params[:id].to_i
+    job_preference = params[:jobpref]
+    voters = Array.new
+
+    if current_user.id != user_voted
+      vote_record = Vote.jobpref_vote(user_voted, job_preference)
+
+      if !vote_record.blank?
+        voters = vote_record.first.voters.split(",")
+
+        if voters.include?(current_user.id.to_s)
+          redirect_to :back, flash: { error: "Unable to vote, perhaps you already did." }
+        else
+          # include voter
+          voters = voters.push(current_user.id).join(",")
+          vote_record.first.update_attribute(:voters, voters)
+          
+          redirect_to :back, flash: { success: "Vote counted." }
+        end
+      else
+        # include voter
+        voters = voters.push(current_user.id).join(",")
+
+        # cast new vote
+        vote = Vote.new(user_voted: user_voted, job_preference: job_preference, voters: voters)
+        if vote.save
+          redirect_to :back, flash: { success: "Vote counted." }
+        else
+          redirect_to :back, flash: { error: "Unable to vote, perhaps you already did." }
+        end
+      end
+    else
+      redirect_to :back, flash: { error: "You are not allowed to vote for yourself." }
+    end
+  end
+
 	private
 
     def set_referrer
