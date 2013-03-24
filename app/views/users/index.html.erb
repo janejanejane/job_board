@@ -1,5 +1,6 @@
 <% provide(:title, 'All Users') %>
 <h1>All Users</h1>
+<div class="vote-status"></div>
 
 <% content_for :tab_header do %>
   <li><%= link_to "Jobs", jobs_path %></li>
@@ -19,20 +20,29 @@
 
 							<li class="user-preview">
 
-								<% jobpref = CATEGORY.index(job_pref)
-								thisuser_id = 0
-								if !current_user.nil?
-									thisuser_id = current_user.id
-								end 
-								get_vote_details(user.id, jobpref, thisuser_id) %>
+								<%  jobpref = CATEGORY.index(job_pref)
+										thisuser_id = 0
+										if !current_user.nil?
+											thisuser_id = current_user.id
+										end 
+										get_vote_details(thisuser_id, jobpref, user.id) %>
 
 								<div class="votes">
-							    <% if current_user %>
- 										<%= link_to "", vote_user_path(user.id, jobpref: jobpref), method: "post", class: "up-btn" %>
-							    <% end %>
-									<!-- <a href="#" class="up-btn"></a> -->
-									<span><%= @vote_details.count %></span>
+							    <% 	voters = @vote_details 
+								    	if current_user 
+								    		classname = "up-btn"
+									    	if !voters.blank? 
+									    		classname = "red-btn"
+									    	end %>
+
+												<%# link_to "", vote_user_path(user.id, jobpref: jobpref), method: "post", class: "#{classname} vote-btn", id: "#{user.id}-#{CATEGORY[jobpref]}" %>
+												<a href="#" class="<%="#{classname}"%> vote-btn" 
+													data-vote='{"user_id" : "<%="#{user.id}"%>", "jobpref": "<%="#{jobpref}"%>"}'></a>
+
+							    	<% end %>
+									<span><%= voters.count %></span>
 								</div>
+								
 								<%= link_to(user) do %>
 									<div class="pull-left">
 										<span><img src="<%= "#{user.image}" %>"></span>

@@ -1,15 +1,28 @@
+# == Schema Information
+#
+# Table name: votes
+#
+#  id             :integer          not null, primary key
+#  user_id        :integer
+#  job_preference :integer
+#  user_voted     :integer
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#
+
 class Vote < ActiveRecord::Base
-	def self.check_unique_vote(user_voted, job_preference, voter_id)
-		voter_id = "%#{voter_id}%"
-		where("user_voted = ? AND job_preference = ? AND voters LIKE ?", user_voted, job_preference, voter_id)
+	def self.check_unique_vote(user_id, job_preference, user_voted)
+		where("user_id = ? AND job_preference = ? AND user_voted = ?", user_id, job_preference, user_voted)
 	end
 
-	def self.jobpref_vote(user_voted, job_preference)
-		where("user_voted = ? AND job_preference = ?", user_voted, job_preference)
+	def self.jobpref_vote(job_preference, user_voted)
+		where("job_preference = ? AND user_voted = ?", job_preference, user_voted)
 	end
 
-  attr_accessible :user_voted, :job_preference, :voters
+  attr_accessible :job_preference, :user_voted
 
+  validates :job_preference, presence: true
+  validates :user_voted, presence: true
   # validate :ensure_not_self
 
   belongs_to :user

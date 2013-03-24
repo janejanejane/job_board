@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
 	end
 
 	def self.no_job_pref
-		where("job_preference IS NULL")
+		where("job_preference IS NULL OR job_preference = ''")
 	end
 
 	def self.search(word)

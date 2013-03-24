@@ -8,6 +8,7 @@ $redDarker: #6C0000;
 $grayMediumLight: #eaeaea;
 $lavender: #e3e4fa;
 $yellowLigther: #FAFAD2;
+$orangeDark: #F87217;
 $whiteSmoke: #F5F5F5;
 $snow: #FFFAFA;
 
@@ -395,8 +396,22 @@ span {
         width: 0px;
         margin: 0 auto;
       }
+      .red-btn {              
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid $orangeDark;
+        cursor: pointer;
+        width: 0px;
+        margin: 0 auto;
+      }
     }
   }
+}
+
+.vote-status {
+  position: fixed;
+  top: 100px;
+  width: inherit;
 }
 
 /* job show */
@@ -435,6 +450,12 @@ span {
     margin-top: 0;
     margin-bottom: 10px;
   }
+}
+
+/* user show */
+
+.upvotes {
+  margin-top: 0px; 
 }
 
 /* sharing tools */

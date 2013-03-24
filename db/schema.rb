@@ -108,14 +108,14 @@ ActiveRecord::Schema.define(:version => 20130319040816) do
   add_index "users", ["nickname"], :name => "index_users_on_nickname"
 
   create_table "votes", :force => true do |t|
-    t.integer  "user_voted"
+    t.integer  "user_id"
     t.integer  "job_preference"
-    t.string   "voters"
+    t.integer  "user_voted"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
   end
 
+  add_index "votes", ["user_id"], :name => "index_votes_on_user_id"
   add_index "votes", ["user_voted"], :name => "index_votes_on_user_voted"
-  add_index "votes", ["voters"], :name => "index_votes_on_voters"
 
 end

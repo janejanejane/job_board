@@ -64,16 +64,36 @@
 					<label>Job Preference</label>
 				</td>
 				<td>
-					<%  job_pref = Array.new()
+					<%  user_upvotes = Hash.new
 							CATEGORY.each_with_index do |choice, index| 
-							if(!@user.job_preference.empty?)
-								preference = @user.job_preference.split(',')
-								if(preference.index{|d| d == index.to_s}) # checks if index is not nil
-									job_pref.push(choice)
-				    		end
-			    		end %>
-		      <% end %>
-		      <%= job_pref.join(',') %>
+								if(!@user.job_preference.empty?)
+									preference = @user.job_preference.split(',')
+									if(preference.index{|d| d == index.to_s}) # checks if index is not nil
+										vote_details = Vote.jobpref_vote(index, @user.id)
+										if !vote_details.blank?
+											names = Array.new()
+											vote_details.each do |record|
+												user_details = User.find(record.user_id)
+												names.push("<a href='/users/#{user_details.id}' class='user-link'>#{user_details.first_name}</a>")
+											end
+											user_upvotes[choice] = names.join(",")
+										else
+											user_upvotes[choice] = ""
+										end
+					    		end
+				    		end 
+			    	 	end %>
+
+			    <% if !user_upvotes.blank? %>
+			    	<table class="upvotes">
+			    		<% user_upvotes.keys.each do |jobpref| %>
+			      		<tr>
+			      			<td><%= jobpref %></td>
+			      			<td><%= user_upvotes[jobpref].html_safe %></td>
+			      		</tr>
+			      	<% end %>
+			    	</table>			    	
+			    <% end %>
 		    </td>
 			</tr>
 			<% end %>

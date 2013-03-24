@@ -61,34 +61,28 @@ class UsersController < ApplicationController
     voters = Array.new
 
     if current_user.id != user_voted
-      vote_record = Vote.jobpref_vote(user_voted, job_preference)
+      vote_record = Vote.jobpref_vote(job_preference, user_voted)
 
       if !vote_record.blank?
-        voters = vote_record.first.voters.split(",")
+        vote_record.each do |vote|
+          voters.push(vote.user_id)
+        end
 
-        if voters.include?(current_user.id.to_s)
-          redirect_to :back, flash: { error: "Unable to vote, perhaps you already did." }
+        if !voters.include?(current_user.id)
+          cast_vote(job_preference, user_voted)
         else
-          # include voter
-          voters = voters.push(current_user.id).join(",")
-          vote_record.first.update_attribute(:voters, voters)
-          
-          redirect_to :back, flash: { success: "Vote counted." }
+          Vote.where(user_id: current_user.id, job_preference: job_preference, user_voted: user_voted).delete_all
+          vote_details = Vote.jobpref_vote(job_preference, user_voted)
+          # redirect_to :back, flash: { success: "Vote subtracted." }    
+          render json: { success: "Vote subtracted.", votes: vote_details.count }, status: 200
         end
       else
-        # include voter
-        voters = voters.push(current_user.id).join(",")
-
-        # cast new vote
-        vote = Vote.new(user_voted: user_voted, job_preference: job_preference, voters: voters)
-        if vote.save
-          redirect_to :back, flash: { success: "Vote counted." }
-        else
-          redirect_to :back, flash: { error: "Unable to vote, perhaps you already did." }
-        end
+        cast_vote(job_preference, user_voted)
       end
     else
-      redirect_to :back, flash: { error: "You are not allowed to vote for yourself." }
+      vote_details = Vote.jobpref_vote(job_preference, user_voted)
+      # redirect_to :back, flash: { error: "You are not allowed to vote for yourself." }
+      render json: { errors: "You are not allowed to vote for yourself.", votes: vote_details.count }, status: 422
     end
   end
 
@@ -127,6 +121,20 @@ class UsersController < ApplicationController
       end
       
       params[:user][:job_preference] = @job_preference
+    end
+
+    def cast_vote(job_preference, user_voted)
+      # cast new vote
+      vote = current_user.votes.new(job_preference: job_preference, user_voted: user_voted)
+      if vote.save
+        vote_details = Vote.jobpref_vote(job_preference, user_voted)
+        # redirect_to :back, flash: { success: "Vote counted." }      
+        render json: { success: "Vote counted.", votes: vote_details.count }, status: 200
+      else
+        vote_details = Vote.jobpref_vote(job_preference, user_voted)
+        # redirect_to :back, flash: { error: "Unable to vote, perhaps you already did." }        
+        render json: { errors: "Unable to vote, perhaps you already did.", votes: vote_details.count }, status: 422
+      end
     end
 
     def search
