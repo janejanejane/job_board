@@ -13,6 +13,8 @@ JobBoard::Application.routes.draw do
     resources :games, except: [:new]
     resources :extras, except: [:new, :edit, :destroy]
     member { post :vote }
+    member { post :plus }
+    member { post :minus }
   end
 
   #get "jobs/new"

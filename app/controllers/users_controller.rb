@@ -4,6 +4,8 @@ class UsersController < ApplicationController
   # before_filter :check_for_cancel, only: [:edit, :update]
   before_filter :catch_cancel, update: [:create, :update, :destroy]
   after_filter :set_referrer, only: [:index, :show]
+  before_filter :find_user, only: [:show, :edit, :update, :plus, :minus]
+  before_filter :set_pref, only: [:show, :edit]
   before_filter :format_job_pref, only: [:create, :update]
   before_filter :search
 
@@ -26,7 +28,6 @@ class UsersController < ApplicationController
   end
 
   def show
-  	@user = User.find(params[:id])
     @games = @user.games
     @all_games = Game.all(order: "id ASC")
     @user_extra = @user.extra
@@ -34,8 +35,7 @@ class UsersController < ApplicationController
 
 	def edit
     logger.debug 'inside EDIT'
-		@user = User.find(params[:id])
-		@job_preference = (@user.job_preference.nil?) ? "" : @user.job_preference.split(',')
+
 		if @user.new_user?
       @user.update_attribute(:new_user, "false")
 		end
@@ -44,7 +44,7 @@ class UsersController < ApplicationController
 	def update
     logger.debug 'inside UPDATE'
 		params[:user][:new_user] = 'false'
-		@user = User.find(params[:id])
+
 		if @user.update_attributes(params[:user])
 			flash[:success] = "Profile update successful!"
 			redirect_to edit_user_path(@user)
@@ -56,7 +56,7 @@ class UsersController < ApplicationController
   def vote
     # get/set values
     logger.debug params
-    user_voted = params[:id].to_i
+    user_voted = params[:id].to_i # user id for voted user
     job_preference = params[:jobpref]
     voters = Array.new
 
@@ -86,7 +86,74 @@ class UsersController < ApplicationController
     end
   end
 
+  def plus
+    job_preference = params[:jobpref].to_i
+    recorded_points = (@user.job_pref_pnts.nil?) ? "" : @user.job_pref_pnts.split(',')
+    remaining_pnts = @user.remaining_pnts
+    points = Array.new
+
+    CATEGORY.each_with_index do |choice, index|
+      if job_preference == index
+        num = (recorded_points.empty?) ? 0 : recorded_points[index].to_i
+        if(num + 1 < remaining_pnts)
+          points.push((num + 1).to_s)
+          remaining_pnts -= 1
+        else
+          points.push("0")
+          redirect_to :back, flash: { error: "Cannot set value greater than your points: #{remaining_pnts}." } and return
+        end
+      else
+        points.push("0")
+      end
+    end
+
+    if @user.update_attributes({"job_pref_pnts" => points.join(','), "remaining_pnts" => remaining_pnts})
+      redirect_to :back and return
+    else
+      render 'edit'
+    end
+    # redirect_to :back, flash: { success: "Plus! #{points.join(',')}" }
+  end
+
+  def minus
+    job_preference = params[:jobpref].to_i
+    recorded_points = (@user.job_pref_pnts.nil?) ? "" : @user.job_pref_pnts.split(',')
+    remaining_pnts = @user.remaining_pnts
+    points = Array.new
+
+    CATEGORY.each_with_index do |choice, index|
+      if job_preference == index
+        num = (recorded_points.empty?) ? 0 : recorded_points[index].to_i
+        if(num - 1 > -1)
+          points.push((num - 1).to_s)
+          remaining_pnts += 1
+        else
+          points.push("0")
+          redirect_to :back, flash: { error: "Cannot set value lesser than 0." } and return
+        end
+      else
+        points.push("0")
+      end
+    end
+
+    if @user.update_attributes({"job_pref_pnts" => points.join(','), "remaining_pnts" => remaining_pnts})
+      redirect_to :back and return
+    else
+      render 'edit'
+    end
+    # redirect_to :back, flash: { success: "Minus! #{points.join(',')}" }
+  end
+
 	private
+
+    def find_user
+      @user = User.find(params[:id])
+    end
+
+    def set_pref
+      @job_preference = (@user.job_preference.nil?) ? "" : @user.job_preference.split(',')
+      @job_pref_pnts = (@user.job_pref_pnts.nil?) ? "" : @user.job_pref_pnts.split(',')
+    end
 
     def set_referrer
       session[:referrer] = url_for(params)

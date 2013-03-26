@@ -2,10 +2,12 @@ class ExtrasController < ApplicationController
 
  	before_filter :catch_cancel, update: [:create, :update, :destroy]
   after_filter :set_referrer, only: [:index, :show]
+  before_filter :find_user, only: [:index, :create, :update]
+  # skip_before_filter :update_remaining_pnts, only: [:create, :update] # prevent filter from running before particular actions
 
 	def index
 		logger.debug "inside INDEX"
-		@user = User.find(params[:user_id])
+		# @user = User.find(params[:user_id])
 		@user_extra = @user.extra
 		if @user_extra.blank?
     	@extra = @user.build_extra(params[:extra])
@@ -21,12 +23,17 @@ class ExtrasController < ApplicationController
 	
 	def create
 		logger.debug "inside CREATE"
-		@user = User.find(params[:user_id])
+		# @user = User.find(params[:user_id])
     @extra = @user.create_extra(params[:extra])
 
 		if @extra.valid?
 			if @extra.save # for newly created games
-				flash[:success] = "Info entry added!"
+				if update_remaining_pnts(@extra)
+					flash[:success] = "Info entry added!"
+				else
+					flash[:error] = "Info entry update not successful!"
+				end
+				
 				redirect_to user_extras_path
 			else
 				render 'index'
@@ -38,11 +45,16 @@ class ExtrasController < ApplicationController
 
 	def update
 		logger.debug "inside UPDATE"
-		@user = User.find(params[:user_id])
+		# @user = User.find(params[:user_id])
 		@extra = @user.extra
 
 		if @extra.update_attributes(params[:extra])
-			flash[:success] = "Info entry updated!"
+			if update_remaining_pnts(@extra)
+				flash[:success] = "Info entry updated!"
+			else
+				flash[:error] = "Info entry update not successful!"
+			end
+
 			redirect_to user_extras_path
 		else
 			render 'index'
@@ -50,6 +62,17 @@ class ExtrasController < ApplicationController
 	end
 
 	private 
+
+    def find_user
+      @user = User.find(params[:user_id])
+    end
+
+		def update_remaining_pnts(user_extra)
+			if user_extra.experience < Time.now.year
+				points = 10 + ((Time.now.year - user_extra.experience) * 10)
+				@user.update_attribute(:remaining_pnts, points)
+			end
+		end
 
     def set_referrer
       # session[:referrer] = url_for(params)

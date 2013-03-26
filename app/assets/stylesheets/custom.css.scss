@@ -140,11 +140,11 @@ label {
         font-size: 14px;
         line-height: 1.3;
       }
+      .add-on {
+        height: inherit;
+        background-color: $whiteSmoke;
+      }
     }
-  }
-  .add-on {
-    height: inherit;
-    background-color: $whiteSmoke;
   }
 }
 
@@ -287,6 +287,9 @@ table {
       vertical-align: top;
       padding-right: 20px;
     }
+    i {
+      cursor: pointer;
+    }
     .radio {
       font-weight: normal;
     }
@@ -410,7 +413,7 @@ span {
 
 .vote-status {
   position: fixed;
-  top: 100px;
+  top: 150px;
   width: inherit;
 }
 
@@ -456,6 +459,16 @@ span {
 
 .upvotes {
   margin-top: 0px; 
+  img {
+    height: 30px;
+  }
+}
+
+/* user edit */
+
+.info {
+  color: $red;
+  font-weight: bold;
 }
 
 /* sharing tools */

@@ -43,7 +43,7 @@ $('document').ready(function(){
 				console.log("404:" + response.errors);
 			}
 
-			$('.vote-status').html('<div class="alert alert-error">'+ response.errors +'</div>').show().fadeOut(1000);
+			$('.vote-status').html('<div class="alert alert-error">'+ response.errors +'</div>').show().fadeOut(2000);
 		});
 
 		return false;

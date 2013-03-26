@@ -66,6 +66,11 @@
 				        <%= f.label :job_preference %>
 			        </td>
 							<td>
+								<table>
+									<tr class="info">
+										<td>Remaining Points</td>
+										<td><%= @user.remaining_pnts %></td>
+									</tr>
 				        <% CATEGORY.each_with_index do |choice, index| 
 				        	option = false
 									if(!@job_preference.empty?)
@@ -73,10 +78,34 @@
 							    		option = true
 						    		end
 					    		end %>
-									<label class="checkbox">
-				        	<%= f.check_box :job_preference, { :multiple => true, :checked => option, :class => 'checkbox' }, index, nil%><%= choice %>
-				        	</label>
+					    		<tr>
+					    			<td>
+						    			<label class="checkbox">
+						        	<%= f.check_box :job_preference, { :multiple => true, :checked => option, :class => 'checkbox' }, index, nil%><%= choice %>
+						        	</label>
+					        	</td>
+					        	<td>
+					        		<span>
+					        		<% if(!@job_pref_pnts.empty?) %>
+					        			<%= @job_pref_pnts[index] %>
+					        		<% else %>
+					        			0
+					        		<% end %>
+					        		</span>
+					        	</td>
+					        	<td>
+					        		<%= link_to(plus_user_path(jobpref: index), method: "post") do %>
+					        			<i class="icon-plus"></i>
+					        		<% end %>
+					        	</td>
+					        	<td>
+					        		<%= link_to(minus_user_path(jobpref: index), method: "post") do %>
+					        			<i class="icon-minus"></i>
+					        		<% end %>
+					        	</td>
+					    		</tr>
 				        <% end %>
+				        </table>
 					    </td>
 						</tr>
 						<tr>

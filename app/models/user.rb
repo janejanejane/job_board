@@ -57,7 +57,8 @@ class User < ActiveRecord::Base
 	end
 
 	attr_accessible :first_name, :last_name, :nickname, :personal_statement, 
-									:image, :location, :job_preference, :availability, :new_user#, :extra_attributes
+									:image, :location, :job_preference, :availability, :job_pref_pnts, 
+									:remaining_pnts, :new_user#, :extra_attributes
 
 	has_many :authorizations
 	has_many :votes

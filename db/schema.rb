@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130319040816) do
+ActiveRecord::Schema.define(:version => 20130325082028) do
 
   create_table "authorizations", :force => true do |t|
     t.string   "provider"
@@ -99,9 +99,12 @@ ActiveRecord::Schema.define(:version => 20130319040816) do
     t.boolean  "new_user",                          :default => true
     t.datetime "created_at",                                          :null => false
     t.datetime "updated_at",                                          :null => false
+    t.string   "job_pref_pnts"
+    t.integer  "remaining_pnts",                    :default => 10
   end
 
   add_index "users", ["first_name"], :name => "index_users_on_first_name"
+  add_index "users", ["job_pref_pnts"], :name => "index_users_on_job_pref_pnts"
   add_index "users", ["job_preference"], :name => "index_users_on_job_preference"
   add_index "users", ["last_name"], :name => "index_users_on_last_name"
   add_index "users", ["location"], :name => "index_users_on_location"
