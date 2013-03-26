@@ -1,5 +1,6 @@
 class GamesController < ApplicationController
 
+  before_filter :signed_in_user, except: [:index]
 	before_filter :correct_user, only: [:index, :edit, :update, :create, :destroy]
   # before_filter :check_for_cancel, only: [:new, :create, :update]
  	before_filter :catch_cancel, update: [:create, :update, :destroy]
@@ -112,6 +113,13 @@ class GamesController < ApplicationController
 	end
 
 	private 
+
+		def signed_in_user
+      logger.debug "inside signed_in_user"
+      logger.debug signed_in?
+
+      redirect_to root_url, flash: { error: "Action not allowed because you are not signed in." } unless signed_in?
+    end
 
     def set_referrer
       # session[:referrer] = url_for(params)

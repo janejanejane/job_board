@@ -1,5 +1,6 @@
 <% provide(:title, 'Edit profile') %>
 <h1>Edit profile</h1>
+<div class="points-status"></div>
 
 <% content_for :tab_header do %>
   <li><%= link_to "Jobs", jobs_path %></li>
@@ -69,7 +70,7 @@
 								<table>
 									<tr class="info">
 										<td>Remaining Points</td>
-										<td><%= @user.remaining_pnts %></td>
+										<td id="remaining"><%= @user.remaining_pnts %></td>
 									</tr>
 				        <% CATEGORY.each_with_index do |choice, index| 
 				        	option = false
@@ -85,7 +86,7 @@
 						        	</label>
 					        	</td>
 					        	<td>
-					        		<span>
+					        		<span id="<%="#{current_user.id}"%>-<%="#{index}"%>">
 					        		<% if(!@job_pref_pnts.empty?) %>
 					        			<%= @job_pref_pnts[index] %>
 					        		<% else %>
@@ -94,14 +95,18 @@
 					        		</span>
 					        	</td>
 					        	<td>
-					        		<%= link_to(plus_user_path(jobpref: index), method: "post") do %>
-					        			<i class="icon-plus"></i>
-					        		<% end %>
+					        		<%# link_to(plus_user_path(jobpref: index), method: "post", class: "icon-link") do %>
+					        			<a href="#" class="icon-link" data-point='{"user_id": "<%="#{current_user.id}"%>", "jobpref": "<%="#{index}"%>"}'>
+					        				<i class="icon-plus"></i>
+					        			</a>
+					        		<%# end %>
 					        	</td>
 					        	<td>
-					        		<%= link_to(minus_user_path(jobpref: index), method: "post") do %>
-					        			<i class="icon-minus"></i>
-					        		<% end %>
+					        		<%# link_to(minus_user_path(jobpref: index), method: "post", class: "icon-link") do %>
+					        			<a href="#" class="icon-link" data-point='{"user_id": "<%="#{current_user.id}"%>", "jobpref": "<%="#{index}"%>"}'>
+					        				<i class="icon-minus"></i>
+					        			</a>
+					        		<%# end %>
 					        	</td>
 					    		</tr>
 				        <% end %>

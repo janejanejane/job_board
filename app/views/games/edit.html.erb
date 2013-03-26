@@ -54,23 +54,16 @@
     </div>
   <% end %>
 
-	<% if current_user.id == @game.game_owner.to_i %>
+	<% if current_user && current_user.id == @game.game_owner.to_i %>
 		<% if !@game.nil?
-				users_with_id = Hash.new 
-					@all_games.each do |game_record| 
-						game_record.users.each do |user_record| 
-							if game_record.id == @game.id && user_record.id != params[:user_id].to_i 
-								users_with_id[user_record.id] = user_record.first_name		
-							end
-						end 
-					end 
+				format_users_id # call games_helper method that creates @users_with_id
 
-				arr_length = users_with_id.length
+				arr_length = @users_with_id.length
 				if arr_length > 0 
 				%>
 				<legend>Members</legend>
 				<% end %>
-	      	<% users_with_id.each do |id, name| %>
+	      	<% @users_with_id.each do |id, name| %>
 						<div>
 	      			<b>
 	      				<%= name %> |

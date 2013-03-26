@@ -1,5 +1,6 @@
 class ExtrasController < ApplicationController
 
+  before_filter :signed_in_user, except: [:index, :show]
  	before_filter :catch_cancel, update: [:create, :update, :destroy]
   after_filter :set_referrer, only: [:index, :show]
   before_filter :find_user, only: [:index, :create, :update]
@@ -62,6 +63,13 @@ class ExtrasController < ApplicationController
 	end
 
 	private 
+	
+    def signed_in_user
+      logger.debug "inside signed_in_user"
+      logger.debug signed_in?
+
+      redirect_to root_url, flash: { error: "Action not allowed because you are not signed in." } unless signed_in?
+    end
 
     def find_user
       @user = User.find(params[:user_id])

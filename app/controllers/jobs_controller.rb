@@ -1,5 +1,7 @@
 class JobsController < ApplicationController
   #private methods are loaded
+
+  before_filter :signed_in_user, except: [:index, :show]
   before_filter :current_job, only: [:show, :category, :confirm]
   before_filter :check_for_cancel, only: [:new, :create, :update]
   before_filter :search
@@ -109,6 +111,14 @@ class JobsController < ApplicationController
   end
 
   private
+
+    def signed_in_user
+      logger.debug "inside signed_in_user"
+      logger.debug signed_in?
+
+      redirect_to root_url, flash: { error: "Action not allowed because you are not signed in." } unless signed_in?
+    end
+    
     def current_job
       @job = Job.find_by_id(params[:id])
       if @job == nil

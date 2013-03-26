@@ -64,31 +64,16 @@
 					<label>Job Skills</label>
 				</td>
 				<td>
-					<%  user_upvotes = Hash.new
-							CATEGORY.each_with_index do |choice, index| 
-								if(!@job_preference.empty?)
-									if(@job_preference.index{|d| d == index.to_s}) # checks if index is not nil
-										vote_details = Vote.jobpref_vote(index, @user.id)
-										if !vote_details.blank?
-											names = Array.new()
-											vote_details.each do |record|
-												user_details = User.find(record.user_id)
-												names.push("<a href='/users/#{user_details.id}' class='user-link'><img src='#{user_details.image}'></a>")
-											end
-											user_upvotes[choice] = names.join(",")
-										else
-											user_upvotes[choice] = ""
-										end
-					    		end
-				    		end 
-			    	 	end %>
-
-			    <% if !user_upvotes.blank? %>
+			    <%	format_job_pref # call users_helper method that creates @user_upvotes 
+			    		if !@user_upvotes.blank? %>
 			    	<table class="upvotes">
-			    		<% user_upvotes.keys.each do |jobpref| %>
+			    		<% @user_upvotes.keys.each do |jobpref| %>
 			      		<tr>
-			      			<td><%= jobpref %> <sup>(preferred)</sup></td>
-			      			<td><%= user_upvotes[jobpref].html_safe %></td>
+			      			<td>
+			      				<%= jobpref %> <sup>(preferred)</sup>
+			      				<%= @user_upvotes[jobpref][:points].html_safe %>
+			      			</td>
+			      			<td><%= @user_upvotes[jobpref][:voters].html_safe %></td>
 			      		</tr>
 			      	<% end %>
 			    	</table>			    	
@@ -189,7 +174,7 @@
 		<%	@games.each do |game| 
 					if counter < 3 %>
 				 		<%= render 'shared/game_list', object: game %>
-					<% counter = counter+1
+					<% counter += 1
 				 	end 
 				end
 				if @games.length > 3 %>

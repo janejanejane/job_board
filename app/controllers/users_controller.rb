@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   # rescue_from ActiveRecord::Errors, :with => :has_same_name
 
   # before_filter :check_for_cancel, only: [:edit, :update]
+  before_filter :signed_in_user, except: [:index, :show]
   before_filter :catch_cancel, update: [:create, :update, :destroy]
   after_filter :set_referrer, only: [:index, :show]
   before_filter :find_user, only: [:show, :edit, :update, :plus, :minus]
@@ -29,6 +30,7 @@ class UsersController < ApplicationController
 
   def show
     @games = @user.games
+    @recorded_points = (@user.job_pref_pnts.nil?) ? "" : @user.job_pref_pnts.split(',')
     @all_games = Game.all(order: "id ASC")
     @user_extra = @user.extra
   end
@@ -91,24 +93,32 @@ class UsersController < ApplicationController
     recorded_points = (@user.job_pref_pnts.nil?) ? "" : @user.job_pref_pnts.split(',')
     remaining_pnts = @user.remaining_pnts
     points = Array.new
+    pnt = 0
 
     CATEGORY.each_with_index do |choice, index|
       if job_preference == index
         num = (recorded_points.empty?) ? 0 : recorded_points[index].to_i
-        if(num + 1 < remaining_pnts)
-          points.push((num + 1).to_s)
+        pnt = num + 1
+        if(remaining_pnts > 0)
+          points.push((pnt).to_s)
           remaining_pnts -= 1
         else
           points.push("0")
-          redirect_to :back, flash: { error: "Cannot set value greater than your points: #{remaining_pnts}." } and return
+          # redirect_to :back, flash: { error: "Cannot set value greater than your points: #{remaining_pnts}." } and return
+          render json: { errors: "Cannot set value greater than your remaining points." }, status: 422 and return
         end
       else
-        points.push("0")
+        if recorded_points.empty?
+          points.push("0")
+        else
+          points.push(recorded_points[index])
+        end
       end
     end
 
     if @user.update_attributes({"job_pref_pnts" => points.join(','), "remaining_pnts" => remaining_pnts})
-      redirect_to :back and return
+      # redirect_to :back and return
+      render json: { success: "Point added.", points: pnt, remaining: remaining_pnts }, status: 200 and return
     else
       render 'edit'
     end
@@ -120,24 +130,32 @@ class UsersController < ApplicationController
     recorded_points = (@user.job_pref_pnts.nil?) ? "" : @user.job_pref_pnts.split(',')
     remaining_pnts = @user.remaining_pnts
     points = Array.new
+    pnt = 0
 
     CATEGORY.each_with_index do |choice, index|
       if job_preference == index
         num = (recorded_points.empty?) ? 0 : recorded_points[index].to_i
-        if(num - 1 > -1)
-          points.push((num - 1).to_s)
+        pnt = num - 1
+        if(pnt > -1)
+          points.push((pnt).to_s)
           remaining_pnts += 1
         else
           points.push("0")
-          redirect_to :back, flash: { error: "Cannot set value lesser than 0." } and return
+          # redirect_to :back, flash: { error: "Cannot set value lesser than 0." } and return
+          render json: { errors: "Cannot set value lesser than 0." }, status: 422 and return
         end
       else
-        points.push("0")
+        if recorded_points.empty?
+          points.push("0")
+        else
+          points.push(recorded_points[index])
+        end
       end
     end
 
     if @user.update_attributes({"job_pref_pnts" => points.join(','), "remaining_pnts" => remaining_pnts})
-      redirect_to :back and return
+      # redirect_to :back and return
+      render json: { success: "Point subtracted.", points: pnt, remaining: remaining_pnts }, status: 200 and return
     else
       render 'edit'
     end
@@ -145,6 +163,13 @@ class UsersController < ApplicationController
   end
 
 	private
+
+    def signed_in_user
+      logger.debug "inside signed_in_user"
+      logger.debug signed_in?
+
+      redirect_to root_url, flash: { error: "Action not allowed because you are not signed in." } unless signed_in?
+    end
 
     def find_user
       @user = User.find(params[:id])

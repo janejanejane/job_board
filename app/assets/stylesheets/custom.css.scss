@@ -411,7 +411,7 @@ span {
   }
 }
 
-.vote-status {
+.vote-status, .points-status {
   position: fixed;
   top: 150px;
   width: inherit;
@@ -469,6 +469,15 @@ span {
 .info {
   color: $red;
   font-weight: bold;
+}
+
+.icon-link {
+  &:hover {
+    background-color: $grayLight;
+  }
+  &:active {
+    background-color: $black;
+  }
 }
 
 /* sharing tools */
