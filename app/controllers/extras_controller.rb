@@ -79,6 +79,7 @@ class ExtrasController < ApplicationController
 			if user_extra.experience < Time.now.year
 				points = 10 + ((Time.now.year - user_extra.experience) * 10)
 				@user.update_attribute(:remaining_pnts, points)
+				@user.update_attribute(:job_pref_pnts, '')
 			end
 		end
 
