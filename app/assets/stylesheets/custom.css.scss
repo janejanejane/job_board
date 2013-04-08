@@ -507,3 +507,48 @@ span {
     }
   }
 }
+
+/* chart */
+
+.chart-div {
+  width: 70%;
+}
+
+.chart {
+  rect {
+    stroke: white;
+    fill: steelblue;
+    shape-rendering: crispEdges;
+  }
+  .label {
+    text-transform: none;
+    font-weight: normal;
+  }
+  text.bar {
+    fill: white;
+    font-size: 10px;
+  }
+  .art {
+    fill: #800000;
+  }
+
+  .design {
+    fill: #800080;
+  }
+
+  .programming {
+    fill: #000080;
+  }
+
+  .audio {
+    fill: #ffA500;
+  }
+
+  .management {
+    fill: #008080;
+  }
+
+  .testingandsupport {
+    fill: #808000;
+  }
+}

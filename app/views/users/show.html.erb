@@ -67,24 +67,25 @@
 			    <%	format_job_pref # call users_helper method that creates @user_upvotes 
 			    		if !@user_upvotes.blank? %>
 				    	<table class="upvotes">
-				    		<% @user_upvotes.keys.each do |jobpref|  %>
+				    		<% @user_upvotes.each_with_index do |jobpref, index|  %>
 				      		<tr>
-				      			<td>
-				      				<%= jobpref %> 
+				      			<td class="chart-div">
+				      				<%# jobpref %> 
 
-				      				<% if(!@job_preference.empty?)
+				      				<%# if(!@job_preference.empty?)
 							    				CATEGORY.each_with_index do |choice, index| 
 														if(@job_preference.index{|d| d == index.to_s}) # checks if index is not nil
 															if choice == jobpref %>
-				      				<sup>(preferred)</sup>
-				      				<% 			end
+				      				<!-- <sup>(preferred)</sup> -->
+				      				<%#			end
 				      							end
 				      						end
 				      					end	%>
 				      					
-				      				<%= @user_upvotes[jobpref][:points].html_safe %>
+				      				<div class="chart"></div>
+				      				<%# @user_upvotes[jobpref][:points].html_safe %>
 				      			</td>
-				      			<td class="pull-right"><%= @user_upvotes[jobpref][:voters].html_safe %></td>
+				      			<td class="pull-right"><%= @user_upvotes[index][:voters].html_safe %></td>
 				      		</tr>
 				      	<% end %>
 				    	</table>			    	
@@ -193,3 +194,8 @@
 		<% 	end %>
 		<% end %>
 </div>
+
+<script type="text/javascript">
+	var data = <%= @user_upvotes.to_json.html_safe %>;
+	var total = <%= @user.remaining_pnts %>;
+</script>

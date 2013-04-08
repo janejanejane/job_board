@@ -6,6 +6,7 @@ class UsersController < ApplicationController
   before_filter :catch_cancel, update: [:create, :update, :destroy]
   after_filter :set_referrer, only: [:index, :show]
   before_filter :find_user, only: [:show, :edit, :update, :plus, :minus]
+  before_filter :correct_user, only: [:edit, :update]
   before_filter :set_pref, only: [:show, :edit]
   before_filter :format_job_pref, only: [:create, :update]
   before_filter :search
@@ -169,6 +170,13 @@ class UsersController < ApplicationController
       logger.debug signed_in?
 
       redirect_to root_url, flash: { error: "Action not allowed because you are not signed in." } unless signed_in?
+    end
+
+    def correct_user
+      logger.debug "inside correct_user"
+      if @user.id != current_user.id
+        redirect_to root_url, flash: { error: "Action not allowed because you are attempting to update another user's info." }
+      end
     end
 
     def find_user
