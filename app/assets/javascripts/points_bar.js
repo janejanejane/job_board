@@ -3,12 +3,11 @@ $('document').ready(function(){
 	console.log(data);
 	console.log(total);
 
-  var svg = d3.select(".chart").append("svg")
+  var div = d3.select(".chartContainer").append("div")
     .attr("class", "chart")
+    .style("position", "relative")
     .attr("width", 500)
-    .attr("height", 140)
-  .append("g")
-    .attr("transform", "translate(150,15)");
+    .attr("height", 140);
 
 	var x = d3.scale.linear()
 	    .domain([0, d3.max(data, function(d){
@@ -20,44 +19,23 @@ $('document').ready(function(){
     .domain(data.map(function (d){ return d.name;})) // create range from array of objects
     .rangeBands([0, 120]);
 
-  svg.selectAll("rect")
+  var bar = div.selectAll(".bar-container")
     .data(data)
-  .enter().append("rect")
+  .enter().append("div")
     .attr("class", function(d){ 
       var name = d.name.replace(/\s/g, ""); // trim inner spaces
       name = name.toLowerCase(); // change to lower case
-      return name;
+      return name + " bar-container";
     })
-    .attr("y", function(d,i){
-      return y(i);
-    })
-    .attr("width", function(d,i){ 
-      return x(d.points); 
-    })
-    .attr("height", y.rangeBand());
+    .style("top", function(d,i){ return y(i) + "px"})
+    .style("position", "absolute")
+    .style("height", y.rangeBand() + "px");
 
-  svg.selectAll(".bar")
-    .data(data)
-  .enter().append("text")
-    .attr("class", "bar")
-    .attr("x", function(d,i){
-      return  x(d.points);
-    })
-    .attr("y", function(d,i) { return y(i) + y.rangeBand() / 2; })
-    .attr("dx", -3) // padding-right
-    .attr("dy", ".35em") // vertical-align: middle
-    .attr("text-anchor", "end") // text-align: right
-    .text(function(d,i){ return d.points; });
-
-  svg.selectAll(".label")
-    .data(data)
-  .enter().append("text")
+  
+  bar.append("div")
     .attr("class", "label")
-    .attr("x", -10)
-    .attr("y", function(d,i) { return y(i) + y.rangeBand() / 2; })
-    .attr("dx", -3) // padding-right
-    .attr("dy", ".35em") // vertical-align: middle
-    .attr("text-anchor", "end") // text-align: right
+    .style("width", "-10px")
+    //.style("top", function(d,i){ return y(i) + "px"})
     .text(function(d,i){ 
       var jobpref = d.name;
       if(d.preferred){
@@ -66,29 +44,17 @@ $('document').ready(function(){
 
       return jobpref; 
     });
-  // svg.selectAll("line")
-  //   .data(x.ticks(10))
-  // .enter().append("line")
-  //   .attr("x1", x)
-  //   .attr("x2", x)
-  //   .attr("y1", 0)
-  //   .attr("y2", 120)
-    // .style("stroke", "#ccc");
 
-  // svg.selectAll(".rule")
-  //   .data(x.ticks(10))
-  // .enter().append("text")
-  //   .attr("class", "rule")
-  //   .attr("x", x)
-  //   .attr("y", 0)
-  //   .attr("dy", -3)
-  //   .attr("text-anchor", "middle")
-  //   .text(String);
+  bar.append("div")
+    .attr("class", "bar-color")
+    .style("width", function(d,i){ 
+      return x(d.points) + "px"; 
+    })
+    .text(function(d,i){ return d.points; });
 
-  svg.append("line")
-    .attr("y1", 0)
-    .attr("y2", 120)
-    .style("stroke", "#000");
-
-
+  bar.append("div")
+    .attr("class", "voters")
+    .html(function(d,i){
+      return d.voters;
+    })
 });

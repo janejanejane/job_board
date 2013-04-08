@@ -510,45 +510,76 @@ span {
 
 /* chart */
 
-.chart-div {
-  width: 70%;
+.chartContainer {
+  width: 400px;
+  height: 200px;
+  .chart {
+    .bar-container {
+      width: 500px;
+      .label {
+        text-transform: none;
+        font-weight: normal;
+        color: black;
+        background: none;
+        float: left;
+        width: 150px;
+      }
+      .voters {
+        float: right;
+        width: 30%;
+        img {
+          height: 20px;
+        }
+      }
+      .bar-color {
+        color: #ccc; 
+        font-size: 10px;
+        text-align: right;
+        margin: 1px;
+        padding-right: 5px;
+        border-left: solid 2px #ccc;
+        position: relative;
+        float: left;
+      }
+    }
+
+    .art {
+      .bar-color {
+        background: #800000;
+      }
+    }
+
+    .design {
+      .bar-color {
+        background: #800080;
+      }
+    }
+
+    .programming {
+      .bar-color {
+        background: #000080;
+      }
+    }
+
+    .audio {
+      .bar-color {
+        background: #ff6600;
+      }
+    }
+
+    .management {
+      .bar-color {
+        background: #008080;
+      }
+    }
+
+    .testingandsupport {
+      .bar-color {
+        background: #808000;
+      }
+    }
+  }
 }
 
-.chart {
-  rect {
-    stroke: white;
-    fill: steelblue;
-    shape-rendering: crispEdges;
-  }
-  .label {
-    text-transform: none;
-    font-weight: normal;
-  }
-  text.bar {
-    fill: white;
-    font-size: 10px;
-  }
-  .art {
-    fill: #800000;
-  }
 
-  .design {
-    fill: #800080;
-  }
 
-  .programming {
-    fill: #000080;
-  }
-
-  .audio {
-    fill: #ffA500;
-  }
-
-  .management {
-    fill: #008080;
-  }
-
-  .testingandsupport {
-    fill: #808000;
-  }
-}

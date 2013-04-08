@@ -64,32 +64,8 @@
 					<label>Job Skills</label>
 				</td>
 				<td>
-			    <%	format_job_pref # call users_helper method that creates @user_upvotes 
-			    		if !@user_upvotes.blank? %>
-				    	<table class="upvotes">
-				    		<% @user_upvotes.each_with_index do |jobpref, index|  %>
-				      		<tr>
-				      			<td class="chart-div">
-				      				<%# jobpref %> 
-
-				      				<%# if(!@job_preference.empty?)
-							    				CATEGORY.each_with_index do |choice, index| 
-														if(@job_preference.index{|d| d == index.to_s}) # checks if index is not nil
-															if choice == jobpref %>
-				      				<!-- <sup>(preferred)</sup> -->
-				      				<%#			end
-				      							end
-				      						end
-				      					end	%>
-				      					
-				      				<div class="chart"></div>
-				      				<%# @user_upvotes[jobpref][:points].html_safe %>
-				      			</td>
-				      			<td class="pull-right"><%= @user_upvotes[index][:voters].html_safe %></td>
-				      		</tr>
-				      	<% end %>
-				    	</table>			    	
-				    <% end %>
+			    <%	format_job_pref # call users_helper method that creates @user_upvotes  %>			      					
+			    <div class="chartContainer"></div>
 		    </td>
 			</tr>
 			<%# end %>
