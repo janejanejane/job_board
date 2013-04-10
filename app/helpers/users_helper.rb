@@ -24,9 +24,9 @@ module UsersHelper
 					if(!@job_preference.empty?) # check if user has jobpref
 						if(@job_preference.index{|d| d == index.to_s}) # checks if index is not nil; returns true if value is in array
 							@user_upvotes[index][:preferred] = true
-						else
-							@user_upvotes[index][:preferred] = false
 						end
+					else
+						@user_upvotes[index][:preferred] = false
 					end
     		# end
   		# end 

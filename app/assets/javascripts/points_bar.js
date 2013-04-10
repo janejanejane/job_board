@@ -6,14 +6,17 @@ $('document').ready(function(){
   var div = d3.select(".chartContainer").append("div")
     .attr("class", "chart")
     .style("position", "relative")
-    .attr("width", 500)
+    .attr("width", 300)
     .attr("height", 140);
 
 	var x = d3.scale.linear()
 	    .domain([0, d3.max(data, function(d){
-        return Math.round(d.points/10) * 10; // round to nearest 10th
+        console.log(d);
+        var round = Math.round((d.points/10) * 10);
+        console.log("ROUND: " + round);
+        return round; // round to nearest 10th
       })])
-	    .range([0, 420]);
+	    .range([0, 300]); // values will be divided within the 300 range
 
   var y = d3.scale.ordinal()
     .domain(data.map(function (d){ return d.name;})) // create range from array of objects
@@ -48,7 +51,9 @@ $('document').ready(function(){
   bar.append("div")
     .attr("class", "bar-color")
     .style("width", function(d,i){ 
-      return x(d.points) + "px"; 
+      var width = x(d.points);
+      console.log(width);
+      return width + "px"; 
     })
     .text(function(d,i){ return d.points; });
 
