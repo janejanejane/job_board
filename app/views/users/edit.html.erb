@@ -96,14 +96,14 @@
 					        	</td>
 					        	<td>
 					        		<%# link_to(plus_user_path(jobpref: index), method: "post", class: "icon-link") do %>
-					        			<a href="#" class="icon-link" data-point='{"user_id": "<%="#{current_user.id}"%>", "jobpref": "<%="#{index}"%>"}'>
+					        			<a href="#" class="vote-link" data-point='{"user_id": "<%="#{current_user.id}"%>", "jobpref": "<%="#{index}"%>"}'>
 					        				<i class="icon-plus"></i>
 					        			</a>
 					        		<%# end %>
 					        	</td>
 					        	<td>
 					        		<%# link_to(minus_user_path(jobpref: index), method: "post", class: "icon-link") do %>
-					        			<a href="#" class="icon-link" data-point='{"user_id": "<%="#{current_user.id}"%>", "jobpref": "<%="#{index}"%>"}'>
+					        			<a href="#" class="vote-link" data-point='{"user_id": "<%="#{current_user.id}"%>", "jobpref": "<%="#{index}"%>"}'>
 					        				<i class="icon-minus"></i>
 					        			</a>
 					        		<%# end %>

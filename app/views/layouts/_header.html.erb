@@ -19,12 +19,8 @@
 
 				<div id="user-nav">
 					<% if current_user %><b><%= current_user.nickname %></b>
-						<%= link_to edit_user_path(current_user) do %>
-							<i class="icon-cog"></i>
-						<% end %>						
-						<%= link_to signout_path do %>
-							<i class="icon-off"></i>
-						<% end %>
+						<%= link_to "", edit_user_path(current_user), class: "icon-cog" %>
+						<%= link_to "", signout_path, class: "icon-off" %>
 					<% else %>
 						<%= link_to image_tag("twitter-login.png"), "/auth/twitter" %>
 						<%= link_to image_tag("facebook-login.png"), "/auth/facebook", class: "facebook-login" %>

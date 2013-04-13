@@ -160,13 +160,9 @@ label {
       color: white;
       a {
         text-decoration: none;
-        i {
-          &:before {
-            color: white;
-          }
-          // &:hover {
-          //   color: $redDarker;
-          // }
+        color: white;
+        &:hover {
+          color: $redDarker;
         }
       }
     }
@@ -233,6 +229,7 @@ label {
 .row-fluid {  
   // background-color: $snow;
   padding: 20px;
+  min-height: 225px;
   @include box_sizing;
 }
 
@@ -577,7 +574,10 @@ span {
   font-weight: bold;
 }
 
-.icon-link {
+.vote-link {
+  i{
+    text-decoration: none; 
+  }
   &:hover {
     background-color: $grayLight;
   }
