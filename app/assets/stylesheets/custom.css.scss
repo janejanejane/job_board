@@ -242,6 +242,12 @@ label {
 }
 
 /* footer */
+.footer-container {
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
 
 footer {
   margin-top: 45px;
@@ -250,10 +256,6 @@ footer {
   // color: $grayLight;
   color: white;
   background: $maroon;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  position: relative;
   .container {
     height: 200px;
     position: relative;
