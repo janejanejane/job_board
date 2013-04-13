@@ -27,3 +27,4 @@ doc/
 .project
 .DS_Store
 *.dump
+Gemfile.lock
