@@ -34,6 +34,10 @@ $blueLighter: #e3f0fc;
 
 /* universal */
 
+html, body{
+  height: 100%
+}
+
 html {
   overflow-y: scroll;
 }
@@ -229,7 +233,6 @@ label {
 .row-fluid {  
   // background-color: $snow;
   padding: 20px;
-  min-height: 225px;
   @include box_sizing;
 }
 
@@ -244,6 +247,8 @@ footer {
   background: #8a002d;
   right: 0;
   left: 0;
+  bottom: 0;
+  position: relative;
   .container {
     height: 200px;
     position: relative;
