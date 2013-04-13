@@ -3,6 +3,7 @@
 
 /* mixins, variables, etc. */
 
+$maroon: #8a002d;
 $firebrick: #800517;
 $redLighter: #D23137;
 $redDarker: #6C0000;
@@ -121,7 +122,8 @@ h1 {
 h2 {
   font-size: 2em;
   letter-spacing: -1px;
-  margin-top: 30px;
+  // margin-top: 30px;
+  margin-top: 70px;
   text-align: center;
   font-weight: bold;
   color: $grayLight;
@@ -146,7 +148,7 @@ label {
 
 .navbar {
   .navbar-inner {
-    background: #8a002d;
+    background: $maroon;
     @include box_sizing;
     form {
       padding: 15px;
@@ -212,16 +214,19 @@ label {
     .nav {
       li {
         a {
-          color: white;
-          background-color: lighten($firebrick, 10%);
-          border-right: 1px solid $grayLight;
+          line-height: 3em;
+          color: $gray;
+          // background-color: lighten($firebrick, 10%);
+          // border-right: 1px solid $grayLight;
           &:hover {
+            color: white;
             background-color: darken($firebrick, 10%);
           }
         }
       }
       .active {
         a {
+          color: white;
           background-color: $firebrick;
         }
       }
@@ -244,7 +249,7 @@ footer {
   border-top: 1px solid $grayLight;
   // color: $grayLight;
   color: white;
-  background: #8a002d;
+  background: $maroon;
   right: 0;
   left: 0;
   bottom: 0;
@@ -443,12 +448,15 @@ span {
         em {
           font-size: 0.9em;
         }
+        .level {
+          width: 10%;
+        }
       }
       .center {
         width: 40%;
         text-align: justify;
         line-height: 3em;
-        font-size: 1.2em;
+        // font-size: 1.2em;
       }
     }
     span, .vote-btn {
