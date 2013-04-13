@@ -32,4 +32,8 @@ module UsersHelper
   		# end 
  	 	end
 	end
+
+	def get_games(user_id)
+		@games = User.find(user_id).games
+	end
 end

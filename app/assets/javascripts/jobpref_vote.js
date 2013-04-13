@@ -25,12 +25,14 @@ $('document').ready(function(){
 			if ($(that).hasClass('up-btn')) {
 				console.log("RED BTN");
 				$(that).removeClass('up-btn').addClass('red-btn'); //change to upvote color
+				$(that).parent().find("span").removeClass('up-btn').addClass('red-btn');
 			} else {
 				console.log("UP BTN");
 				$(that).removeClass('red-btn').addClass('up-btn'); //change to downvote color
+				$(that).parent().find("span").removeClass('red-btn').addClass('up-btn');
 			}
 
-			$(that).parent().find("span").html(msg.votes); //change vote numbers
+			$(that).parent().find("span").html("+" + msg.votes); //change vote numbers
 
 		}).fail(function(jqXHR, textStatus){
 			var response = JSON.parse(jqXHR.responseText);

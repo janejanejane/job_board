@@ -10,21 +10,39 @@ window.fbAsyncInit = function() {
 
   // Additional initialization code such as adding Event Listeners goes here
   $(".facebook-login").click(function(){
-    FB.login(function(response) {
-      if (response.authResponse) {
-        console.log('Welcome!  Fetching your information.... ');
-        FB.api('/me', function(response) {
-          console.log('Good to see you, ' + response.name + '.');
-          // window.location = '/auth/facebook/callback';
-          // return '/auth/facebook/callback';
-        });
+    console.log("Welcome!");
+    
+    FB.getLoginStatus(function(response) {
+      if (response.status === 'connected') {
+        console.log("connected!");
+        login();
+      } else if (response.status === 'not_authorized') {
+        console.log("not authorized!");
+        login();
       } else {
-        console.log('User cancelled login or did not fully authorize.');
-        return window.location = '/signout'
+        console.log("not logged in!");
+        login();
       }
-    }); 
+    });
   });
 };
+
+function login(){
+  FB.login(function(response) {
+    console.log("Hello!");
+    if (response.authResponse) {
+      console.log('Welcome!  Fetching your information.... ');
+      FB.api('/me', function(response) {
+        console.log('Good to see you, ' + response.name + '.');
+        // window.location = '/auth/facebook/callback';
+        return window.location = '/auth/facebook/callback';
+      });
+    } else {
+      console.log('User cancelled login or did not fully authorize.');
+      return window.location = '/signout'
+    }
+  }); 
+}
 
 // Load the SDK's source Asynchronously
 // Note that the debug version is being actively developed and might 

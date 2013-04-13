@@ -1,21 +1,30 @@
 <header class="navbar navbar-static-top">
 	<div class="navbar-inner">
 		<div class="container">
-			<%= link_to image_tag("igda-header-logo.jpg"), root_path, id: "logo" %>
+			<%# link_to image_tag('igda-header-transparent.png') + " igda / MANILA", root_path, id: "logo" #%>
+			<%= link_to root_path, id: "logo" do %>
+			  <%= image_tag('igda-manila.png') %>
+			  <span id="igda">igda</span>
+			  <span id="slash"> / </span>
+			  <span id="manila">MANILA</span>
+			<% end %>
 
 			<form class="form-search navbar-search pull-right">
-			    <div class="input-append">
+			    <!-- <div class="input-append">
 			        <input type="text" class="search-query span3" placeholder="Search" id="search" name="search" />
 			        <button class="add-on">
 			            <i class="icon-search"></i>
 			        </button>
-			    </div>
+			    </div> -->
 
 				<div id="user-nav">
-					<% if current_user %>
-						Hello <b><%= current_user.nickname %></b>!
-						<%= link_to "Edit Profile", edit_user_path(current_user) %>						
-						<%= link_to "Sign out", signout_path %>
+					<% if current_user %><b><%= current_user.nickname %></b>
+						<%= link_to edit_user_path(current_user) do %>
+							<i class="icon-cog"></i>
+						<% end %>						
+						<%= link_to signout_path do %>
+							<i class="icon-off"></i>
+						<% end %>
 					<% else %>
 						<%= link_to image_tag("twitter-login.png"), "/auth/twitter" %>
 						<%= link_to image_tag("facebook-login.png"), "/auth/facebook", class: "facebook-login" %>

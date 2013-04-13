@@ -1,7 +1,7 @@
 class JobsController < ApplicationController
   #private methods are loaded
 
-  before_filter :signed_in_user, except: [:index, :show]
+  # before_filter :signed_in_user, except: [:index, :show]
   before_filter :current_job, only: [:show, :category, :confirm]
   before_filter :check_for_cancel, only: [:new, :create, :update]
   before_filter :search

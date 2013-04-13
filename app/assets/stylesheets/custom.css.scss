@@ -1,16 +1,19 @@
 @import "bootstrap";
+@import "font-awesome";
 
 /* mixins, variables, etc. */
 
 $firebrick: #800517;
 $redLighter: #D23137;
 $redDarker: #6C0000;
+$heart: #cc0033;
 $grayMediumLight: #eaeaea;
 $lavender: #e3e4fa;
-$yellowLigther: #FAFAD2;
+$yellowLighter: #FAFAD2;
 $orangeDark: #F87217;
 $whiteSmoke: #F5F5F5;
 $snow: #FFFAFA;
+$blueLighter: #e3f0fc;
 
 @mixin box_sizing {
   -moz-box-sizing: border-box;
@@ -21,6 +24,14 @@ $snow: #FFFAFA;
   border-radius: 0px;
 }
 
+@mixin carme {
+  font-family: 'Carme', sans-serif;
+}
+
+@mixin open_sans {
+  font-family: 'Open Sans', sans-serif;
+}
+
 /* universal */
 
 html {
@@ -28,7 +39,8 @@ html {
 }
 
 body {
-  font-family: 'Carme', sans-serif;
+  // font-family: 'Carme', sans-serif;
+  @include open_sans;
   background-color: white;
 }
 
@@ -96,8 +108,10 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
   font-size: 3em;
   letter-spacing: -2px;
+  margin-top: 30px;
   margin-bottom: 30px;
-  text-align: center;
+  // text-align: center;
+  text-align: left;
 }
 
 h2 {
@@ -120,19 +134,16 @@ p {
 
 label {
   font-weight: bold;
-  font-family: 'Carme', sans-serif;
+  // font-family: 'Carme', sans-serif;
+  @include open_sans;
 }
 
 /* header */
 
 .navbar {
   .navbar-inner {
-    background: none;
-    background-color: none;
-    background-image: none;
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
+    background: #8a002d;
+    @include box_sizing;
     form {
       padding: 15px;
       margin: 0;
@@ -145,32 +156,59 @@ label {
         background-color: $whiteSmoke;
       }
     }
+    #user-nav {
+      color: white;
+      a {
+        text-decoration: none;
+        i {
+          &:before {
+            color: white;
+          }
+          // &:hover {
+          //   color: $redDarker;
+          // }
+        }
+      }
+    }
   }
 }
 
 #logo {
   // background: url('igda-header-logo.jpg') 145px 40px no-repeat;
   float: left;
-  margin-right: 10px;
+  // margin-right: 10px;
   font-size: 1.7em;
-  color: black;
+  color: white;
   letter-spacing: -1px;
-  padding-top: 9px;
-  font-weight: bold;
-  line-height: 1;
+  padding-top: 10px;
+  // font-weight: bold;
+  // line-height: 1;
   &:hover {
     color: $redLighter;
     text-decoration: none;
   }
   img {
-    height: 40px;
-    width: 145px;
+    width: 33px;
+    height: 30px;
+  }
+  span {
+    color: white;
+  }
+  #igda {
+    font-size: 1.3em;
+  }
+  #slash {
+    color: red;
+  }
+  #manila {
+    font-weight: bold;
+    letter-spacing: 0.1em;
   }
 }
 
 .sub-navbar {
   .container {
-    border-bottom: 1px solid lighten($grayLight, 35%);
+    // border-bottom: 1px solid lighten($grayLight, 35%);
     .nav {
       li {
         a {
@@ -193,8 +231,7 @@ label {
 /* body */
 
 .row-fluid {  
-  background-color: $snow;
-  // border: 1px solid $grayLight;
+  // background-color: $snow;
   padding: 20px;
   @include box_sizing;
 }
@@ -205,22 +242,42 @@ footer {
   margin-top: 45px;
   padding-top: 5px;
   border-top: 1px solid $grayLight;
-  color: $grayLight;
-  a {
-    color: $gray;
-    &:hover { 
-      color: $grayDarker;
+  // color: $grayLight;
+  color: white;
+  background: #8a002d;
+  right: 0;
+  left: 0;
+  .container {
+    height: 200px;
+    position: relative;
+    a {
+      color: $gray;
+      &:hover { 
+        color: $grayDarker;
+      }
+    }  
+    small { 
+      float: left; 
     }
-  }  
-  small { 
-    float: left; 
-  }
-  ul {
-    float: right;
-    list-style: none;
-    li {
-      float: left;
-      margin-left: 10px;
+    ul {
+      // float: right;
+      list-style: none;
+      li {
+        float: left;
+        // margin-left: 10px;
+        margin-right: 10px;
+      }
+    } 
+    span {
+      bottom: 0;
+      position: absolute;
+      width: 940px;
+      text-align: center;
+      padding-bottom: 10px;
+    }
+    #about {
+      font-size: 25px;
+      padding-top: 15px;
     }
   }
 }
@@ -257,7 +314,8 @@ aside {
       margin-bottom: 3px;
     }
     h2 {
-      text-align: left;
+      // text-align: left;
+      text-align: center;
       color: $gray;
       margin-bottom: 10px;
     }
@@ -361,7 +419,8 @@ span {
       border-bottom: 1px solid $grayLighter;
     }
     &:hover {
-      background-color: $yellowLigther;
+      // background-color: $yellowLighter;
+      background-color: $blueLighter;
     }
     a {
       display: block;
@@ -369,15 +428,36 @@ span {
       &:hover{
         text-decoration: none;
       }
+      .left {
+        width: 40%;
+        div {
+          span {
+            width: 50%;
+          }
+        }
+        span {
+          float: left;
+        }
+        em {
+          font-size: 0.9em;
+        }
+      }
+      .center {
+        width: 40%;
+        text-align: justify;
+        line-height: 3em;
+        font-size: 1.2em;
+      }
     }
-    span {
+    span, .vote-btn {
       display: inline;
-      color: $redDarker;
+      // color: $redDarker;
+      color: $gray;
       margin-right: 10px;
       padding-left: 10px;
       img {
-        height: 16px;
-        width: 16px;
+        height: 48px;
+        width: 48px;
       }
       &.jobtitle {
         text-decoration: underline;
@@ -390,24 +470,50 @@ span {
       font-weight: bold;
     }
     .votes {
-      float: left;
-      .up-btn {
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;      
-        border-bottom: 10px solid black;
-        cursor: pointer;
-        width: 0px;
-        margin: 0 auto;
+      // float: left;
+      float: right;
+      width: 5%;
+      span, .vote-btn, .heart-color {
+        color: $heart; 
+        float: left;
       }
-      .red-btn {              
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-bottom: 10px solid $orangeDark;
-        cursor: pointer;
-        width: 0px;
-        margin: 0 auto;
+      .up-btn {
+        color: gray;
+        // border-left: 10px solid transparent;
+        // border-right: 10px solid transparent;      
+        // border-bottom: 10px solid black;
+        // cursor: pointer;
+        // width: 0px;
+        // margin: 0 auto;
+      }
+      .red-btn {     
+        color: $heart;         
+        // border-left: 10px solid transparent;
+        // border-right: 10px solid transparent;
+        // border-bottom: 10px solid $orangeDark;
+        // cursor: pointer;
+        // width: 0px;
+        // margin: 0 auto;
       }
     }
+  }
+}
+
+.jobs {
+  li span {
+    color: $redDarker;
+  }
+}
+
+.users {
+  .border-dash {
+    background: url('border-dash.jpg') repeat-x;
+    height: 1px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+  }
+  li {
+    border-top: none;
   }
 }
 
