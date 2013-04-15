@@ -1,0 +1,81 @@
+<% provide(:title, 'Category')%>
+<h1><%= CATEGORY[@cat_id] %></h1>
+
+<% content_for :tab_header do %>
+  <li><%= link_to "Job Posts", jobs_path %></li>
+  <li class="active"><%= link_to "Developers", users_path %></li>
+<% end %>
+
+<div class="show-nav">
+	<p class="all-users"><%= link_to "&lsaquo;&lsaquo;".html_safe + " Back to all users", users_path %></p>
+</div>
+
+<div class="row-fluid">
+	<ul class="users">
+	<% @users.each do |user| %>
+			<% 	jobpref = 0  %>
+			<div class="border-dash"></div>
+			<li class="user-preview">
+
+				<%  jobpref = @cat_id
+						thisuser_id = 0
+						if !current_user.nil?
+							thisuser_id = current_user.id
+						end 
+						get_vote_details(thisuser_id, jobpref, user.id) %>
+
+				<%= link_to(user) do %>
+					<div class="left pull-left">
+						
+						<% if user.job_pref_pnts.blank? %>
+							<span class="level">Lvl 0</span>
+						<% else %>
+							<% jobprefpnts = user.job_pref_pnts.split(",") # transfer job_pref_pnts values to array %>
+							<span class="level">Lvl <%= jobprefpnts[jobpref] %></span>
+						<% end %>
+						
+						<span><img src="<%= "#{user.image}" %>"></span>
+						
+						<div>
+							<span><b><%= user.first_name + " " + user.last_name.to_s %></b></span>
+							<span><em><%= user.personal_statement %></em></span>
+						
+						</div>
+					</div>
+					<div class="center pull-left">
+						<%	get_games(user.id) # call users_helper method that creates @games   
+  						counter = 0 
+  						game_list = Array.new
+							if !@games.blank? 
+								@games.each do |game| 
+									if counter < 3 
+								 		game_list.push(game.name)
+										counter += 1
+								 	end 
+								end %>
+								<%= game_list.join(",") %>
+						<% end %>													
+					</div>
+				<% end %>
+
+				<div class="votes">
+			    <% 	voters = @vote_details
+				    	classname = "up-btn"
+				    	if !voters.blank? 
+				    		classname = "red-btn"
+				    	end %>
+					<span class="<%="#{classname}"%>">+<%= voters.count %></span>
+
+			    <%	if current_user %>
+								<a href="#" class="icon-heart <%="#{classname}"%> vote-btn" 
+								data-vote='{"user_id" : "<%="#{user.id}"%>", "jobpref": "<%="#{jobpref}"%>"}'></a>
+					<% else %>
+						<span><i class="icon-heart <%="#{classname}"%>"></i></span>
+		    	<% end %>
+				</div>
+				
+			</li>
+	<% end %>		
+	<div class="border-dash"></div>					
+	</ul>
+</div>

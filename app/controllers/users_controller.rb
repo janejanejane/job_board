@@ -163,6 +163,16 @@ class UsersController < ApplicationController
     # redirect_to :back, flash: { success: "Minus! #{points.join(',')}" }
   end
 
+
+  def category
+    logger.debug 'inside category'
+    @cat_id = CATEGORY.index(params[:name])
+    @users = User.in_job_preference(@cat_id.to_s)
+    if @users.size == 0
+      render 'static_pages/user_error'
+    end
+  end
+
 	private
 
     def signed_in_user

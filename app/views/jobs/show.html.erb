@@ -9,7 +9,7 @@
 	<p class="all-jobs"><%= link_to "&lsaquo;&lsaquo;".html_safe + " Back to all jobs", jobs_path %></p>
 	<p class="category-job">
 		<% current_category(@job) %>
-		<%= link_to "See more #{CATEGORY[@cat_id]} jobs &rsaquo;&rsaquo;".html_safe, category_path(CATEGORY[@cat_id]) %>
+		<%= link_to "See more #{CATEGORY[@cat_id]} jobs &rsaquo;&rsaquo;".html_safe, category_jobs_path(CATEGORY[@cat_id]) %>
 	</p>
 </div>
 <div class="show-content">

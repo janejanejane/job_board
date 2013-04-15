@@ -1,6 +1,7 @@
 JobBoard::Application.routes.draw do
   resources :jobs do
     get :preview, on: :new
+    get 'category/:name', on: :collection, action: :category, as: :category
     member do
       get :confirm
       get :success
@@ -8,13 +9,16 @@ JobBoard::Application.routes.draw do
     end
   end
 
-  resources :category, except: [:index, :create, :new, :edit, :update, :destroy] 
+  # resources :category, except: [:index, :create, :new, :edit, :update, :destroy] 
   resources :users, only: [:index, :show, :edit, :update] do
+    get 'category/:name', on: :collection, action: :category, as: :category
     resources :games, except: [:new]
     resources :extras, except: [:new, :edit, :destroy]
-    member { post :vote }
-    member { post :plus }
-    member { post :minus }
+    member do
+      post :vote
+      post :plus
+      post :minus
+    end
   end
 
   #get "jobs/new"
@@ -22,7 +26,8 @@ JobBoard::Application.routes.draw do
   #root to: 'static_pages#home'
   root to: 'jobs#index'
   
-  #match 'jobs/*page', to: 'jobs#index'
+  match '/*page', to: 'jobs#index'
+  match 'jobs/*page', to: 'jobs#index'
   match 'category/*page', to: 'jobs#index'
   match '/about', to: 'static_pages#about'
   match 'auth/:provider/callback', to: 'sessions#create'

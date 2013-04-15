@@ -70,8 +70,14 @@ class JobsController < ApplicationController
   end
 
   def category
-    @cat_id = Job.confirmed.find_all_by_category(@job.category)
-    @category = CATEGORY[@cat_id]
+    logger.debug 'inside category'
+    # @cat_id = Job.confirmed.find_all_by_category(@job.category)
+    # @category = CATEGORY[@cat_id]
+    @cat_id = CATEGORY.index(params[:name])
+    @jobs = Job.confirmed.find_all_by_category(@cat_id)
+    if @jobs.size == 0
+      render 'static_pages/job_error'
+    end
   end
 
   def preview
@@ -84,6 +90,7 @@ class JobsController < ApplicationController
   end
 
   def confirm
+    logger.debug 'inside confirm'
     if params[:code]
       if @job.jobkey_confirmation.blank?
         @jobkey_confirmation = params[:code].strip
@@ -120,23 +127,29 @@ class JobsController < ApplicationController
     end
     
     def current_job
-      @job = Job.find_by_id(params[:id])
-      if @job == nil
-        render 'static_pages/not_found'
+      logger.debug 'inside current_job'
+      if params[:name] == nil # make sure that there is no :name parameter - used for category collection route
+        @job = Job.find_by_id(params[:id])
+        if @job == nil
+          redirect_to root_url, flash: { error: "Invalid URL!" }
+        end
       end
     end
 
     def check_for_cancel
+      logger.debug 'inside check_for_cancel'
       if params[:commit] == "Cancel" || params[:commit] == "OK"
         redirect_to jobs_path
       end
     end
 
     def check_url_structure(url)
+      logger.debug 'inside check_url_structure'
       /^https?/.match(url) ? url : "http://#{url}"
     end
 
     def clean_salary_format(salary)
+      logger.debug 'inside clean_salary_format'
       if salary =~ /^[-+],?[0-9]*\.?[0-9]+$/
         salary.split('.')[0]
       end
@@ -148,6 +161,7 @@ class JobsController < ApplicationController
     end
 
     def create_key(length)
+      logger.debug 'inside create_key'
       SecureRandom.hex(length)
     end
 

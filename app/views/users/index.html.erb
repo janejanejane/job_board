@@ -16,7 +16,7 @@
 						<ul class="users">
 
 					<% 	record = @users_by_job_pref[job_pref] 
-							user_counter = 0 
+							user_counter = jobpref = 0 
 							record.each do |user|
 
 								if user_counter < 2 %>
@@ -93,7 +93,9 @@
 							<div class="border-dash"></div>
 
 							<% if record.length > 2 %>
-								<span class="pull-right">and <%= record.length - 2 %> more...</span>
+								<span class="pull-right">
+									<%= link_to "and #{record.length - 2} more...", category_users_path(CATEGORY[jobpref]) %>
+								</span>
 							<% end %>
 							
 						</ul>

@@ -2,8 +2,8 @@
 <h1>Job Post not found</h1>
 
 <% content_for :tab_header do %>
-  <li><%= link_to "Jobs", jobs_path %></li>
-  <li><%= link_to "Users", users_path %></li>
+  <li><%= link_to "Job Posts", jobs_path %></li>
+  <li><%= link_to "Developers", users_path %></li>
 <% end %>
 
 <div class="row-fluid">
@@ -21,8 +21,8 @@
 	<div class="span3">
 		<h3>Browse Jobs</h3>
 		<ul>
-			<% ["Programming", "Business/Exec", "Miscellaneous", "Copywriter", "iPhone Developer", "Customer Service/Support"]. each do |choice| %>
-			<li><%= link_to "#{choice}", category_path(choice) %></li>
+			<% CATEGORY.each do |choice| %>
+			<li><%= link_to "#{choice}", category_jobs_path(choice) %></li>
 			<% end %>
 		</ul>
 	</div>

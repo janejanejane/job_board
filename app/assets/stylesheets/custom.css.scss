@@ -239,6 +239,7 @@ label {
 
 .row-fluid {  
   // background-color: $snow;
+  min-height: 600px;
   padding: 20px;
   @include box_sizing;
 }

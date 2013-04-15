@@ -1,0 +1,29 @@
+<% provide(:title, 'Error') %>
+<h1>Category not found</h1>
+
+<% content_for :tab_header do %>
+  <li><%= link_to "Job Posts", jobs_path %></li>
+  <li><%= link_to "Developers", users_path %></li>
+<% end %>
+
+<div class="row-fluid">
+	<div class="span9">	
+		<table>
+			<tbody>
+				<tr>
+					<td>
+						The category you are looking for is not found.
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="span3">
+		<h3>Browse Jobs</h3>
+		<ul>
+			<% CATEGORY.each do |choice| %>
+			<li><%= link_to "#{choice}", category_users_path(choice) %></li>
+			<% end %>
+		</ul>
+	</div>
+</div>
