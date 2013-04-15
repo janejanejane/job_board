@@ -46,6 +46,7 @@ html {
 body {
   // font-family: 'Carme', sans-serif;
   @include open_sans;
+  font-size: 13px;
   background-color: white;
 }
 
@@ -149,6 +150,7 @@ label {
 .navbar {
   .navbar-inner {
     background: $maroon;
+    border: none;
     @include box_sizing;
     form {
       padding: 15px;
@@ -243,7 +245,7 @@ label {
 
 /* footer */
 .footer-container {
-  position: absolute;
+  // position: absolute;
   right: 0;
   left: 0;
   bottom: 0;

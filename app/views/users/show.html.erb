@@ -171,6 +171,10 @@
 		<% end %>
 </div>
 
+<% content_for :javascripts do %>
+  <%= javascript_include_tag 'showbar' %>  
+<% end %>
+
 <script type="text/javascript">
 	var data = <%= @user_upvotes.to_json.html_safe %>;
 	var total = <%= @user.remaining_pnts %>;

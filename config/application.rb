@@ -59,6 +59,9 @@ module JobBoard
     # Enable the asset pipeline
     config.assets.enabled = true
 
+    # Add the fonts folder
+    config.assets.paths << Rails.root.join("app", "assets", "fonts")
+
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
   end

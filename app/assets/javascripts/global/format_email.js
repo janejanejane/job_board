@@ -1,4 +1,5 @@
 $('document').ready(function(){
+	console.log("format_email loaded");
 	var el = $('#apply-details');
 	if(el.length){
 		var str = $(el).text().split(" ");
