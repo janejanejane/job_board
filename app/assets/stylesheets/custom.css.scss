@@ -15,6 +15,7 @@ $orangeDark: #F87217;
 $whiteSmoke: #F5F5F5;
 $snow: #FFFAFA;
 $blueLighter: #e3f0fc;
+$pink: #fff5e8;
 
 @mixin box_sizing {
   -moz-box-sizing: border-box;
@@ -368,6 +369,16 @@ table {
       padding-left: 20px;
       margin-bottom: 0px;
     }
+  }
+}
+
+.form-inline {
+  background-color: $pink;
+  input[type="text"], label {
+    @include box_sizing; 
+    height: 2em;
+    width: 20%;
+    margin-right: 20px;
   }
 }
 

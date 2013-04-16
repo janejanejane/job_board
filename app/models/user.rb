@@ -50,10 +50,12 @@ class User < ActiveRecord::Base
 		where("job_preference IS NULL OR job_preference = ''")
 	end
 
-	def self.search(word)
+	def self.search(word, availability, location)
     query = "%" + word + "%"
+    query_a = availability
+    query_l = "%" + location + "%"
     where(['(lower(first_name) LIKE ? OR lower(last_name) LIKE ? OR lower(nickname) LIKE ? 
-      OR lower(location) LIKE ? OR lower(job_preference) LIKE ?)', query, query, query, query, query])
+      OR lower(job_preference) LIKE ? AND availability = ? AND lower(location) LIKE ?)', query, query, query, query, query_a, query_l])
 	end
 
 	attr_accessible :first_name, :last_name, :nickname, :personal_statement, 

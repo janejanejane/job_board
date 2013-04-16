@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   # rescue_from ActiveRecord::Errors, :with => :has_same_name
 
   # before_filter :check_for_cancel, only: [:edit, :update]
-  before_filter :signed_in_user, except: [:index, :show]
+  before_filter :signed_in_user, except: [:index, :show, :category]
   before_filter :catch_cancel, update: [:create, :update, :destroy]
   after_filter :set_referrer, only: [:index, :show]
   before_filter :find_user, only: [:show, :edit, :update, :plus, :minus]
@@ -249,26 +249,38 @@ class UsersController < ApplicationController
 
     def search
       @word = word = params[:search]
-      @job_search = @user_search = 0
+      availability = location = ""
+
+      @user_search = 0
       if !@word.nil?
         if @word != "" || !@word.blank?
-          @job_results = Job.search(@word)
-          @grouped_job_results = @job_results.group_by { |job| job.category }
-          @job_search = @job_results.length
+          availability = params[:availability]
+          location = params[:location]
+
+          if availability != "" || !availability.blank?
+            AVAILABILITY.each_with_index do |choice, index|
+              if((choice.downcase).include?(availability))
+                availability = index
+              end
+            end
+          else
+            availability = -1
+          end
 
           @grouped_user_results = Hash.new
           CATEGORY.each_with_index do |choice, index|
             if((choice.downcase).include?(@word))
               word = index.to_s
             end
-            @user_results = User.search(word)
+
+            @user_results = User.search(word, availability, location)
             if(!@user_results.blank?)
               @grouped_user_results = @user_results
             end
           end
           @user_search = @user_results.length
         end
-        render 'static_pages/search'
+        render 'search'
       end
     end
 end

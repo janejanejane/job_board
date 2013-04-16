@@ -8,6 +8,15 @@
 <% end %>
 
 <div class="row-fluid">
+
+	<form class="form-inline">
+		<label>Find a developer:</label>
+	  <input type="text" class="input-small" placeholder="Search" id="search" name="search">
+	  <input type="text" class="input-small" placeholder="Availability" id="availability" name="availability">
+	  <input type="text" class="input-small" placeholder="Location" id="location" name="location">
+	  <button type="search" class="btn">Search</button>
+</form>
+
 	<aside>
 		<section>
 			<% 	if !@users_by_job_pref.blank? 
