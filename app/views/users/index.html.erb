@@ -12,7 +12,7 @@
 	<form class="form-inline">
 		<label>Find a developer:</label>
 	  <input type="text" class="input-small" placeholder="Search" id="search" name="search">
-	  <input type="text" class="input-small" placeholder="Availability" id="availability" name="availability">
+	  <input type="text" class="input-small" placeholder="Availability" data-provide="typeahead" id="availability" name="availability">
 	  <input type="text" class="input-small" placeholder="Location" id="location" name="location">
 	  <button type="search" class="btn">Search</button>
 </form>
@@ -157,3 +157,7 @@
 <% content_for :javascripts do %>
   <%= javascript_include_tag 'user' %>  
 <% end %>
+
+<script type="text/javascript">
+	var availability_data = <%= "#{AVAILABILITY}".html_safe %>;
+</script>

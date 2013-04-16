@@ -249,37 +249,38 @@ class UsersController < ApplicationController
 
     def search
       @word = word = params[:search]
-      availability = location = ""
+      @availability = availability = @location = nil
 
       @user_search = 0
-      if !@word.nil?
+      if !@word.nil? || !@availability.nil? || !@location.nil?
         if @word != "" || !@word.blank?
-          availability = params[:availability]
-          location = params[:location]
-
-          if availability != "" || !availability.blank?
-            AVAILABILITY.each_with_index do |choice, index|
-              if((choice.downcase).include?(availability))
-                availability = index
-              end
-            end
-          else
-            availability = -1
-          end
-
           @grouped_user_results = Hash.new
           CATEGORY.each_with_index do |choice, index|
             if((choice.downcase).include?(@word))
               word = index.to_s
             end
+          end
+        end
 
-            @user_results = User.search(word, availability, location)
-            if(!@user_results.blank?)
-              @grouped_user_results = @user_results
+        @availability = availability = params[:availability]
+        @location = params[:location]
+
+        if @availability != "" || !@availability.blank?
+          AVAILABILITY.each_with_index do |choice, index|
+            if((choice.downcase).include?(@availability.downcase))
+              availability = index
             end
           end
-          @user_search = @user_results.length
+        else
+          availability = -1
         end
+
+        @user_results = User.search(word, availability, @location)
+        if(!@user_results.blank?)
+          @grouped_user_results = @user_results
+        end
+
+        @user_search = @user_results.length
         render 'search'
       end
     end

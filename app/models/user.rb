@@ -54,8 +54,8 @@ class User < ActiveRecord::Base
     query = "%" + word + "%"
     query_a = availability
     query_l = "%" + location + "%"
-    where(['(lower(first_name) LIKE ? OR lower(last_name) LIKE ? OR lower(nickname) LIKE ? 
-      OR lower(job_preference) LIKE ? AND availability = ? AND lower(location) LIKE ?)', query, query, query, query, query_a, query_l])
+    where(['((lower(first_name) LIKE ? OR lower(last_name) LIKE ? OR lower(nickname) LIKE ? 
+      OR lower(job_preference) LIKE ?) AND availability = ? AND lower(location) LIKE ?)', query, query, query, query, query_a, query_l])
 	end
 
 	attr_accessible :first_name, :last_name, :nickname, :personal_statement, 

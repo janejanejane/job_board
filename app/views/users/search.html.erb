@@ -14,7 +14,7 @@
 			</div>
 
 	  	<% if @user_search == 0 %>
-	    	Sorry, your search <b>'<%= @word %>'</b> for developers returned 0 results.
+	    	Sorry, your search <b>'<%= @word %>'</b> for developers who are <b>'<%= @availability %>'</b> within <b>'<%= @location %>'</b> returned 0 results.
 	    <% else %>
 	    		<ul class="users">
 		    	<% @grouped_user_results.each do |user| %>
