@@ -81,17 +81,12 @@
 								    	end %>
 									<span class="<%="#{classname}"%>">+<%= voters.count %></span>
 
-							    <%	if current_user %>
-
-											<%# link_to "", vote_user_path(user.id, jobpref: jobpref), method: "post", class: "#{classname} vote-btn", id: "#{user.id}-#{CATEGORY[jobpref]}" %>
-											
+							    <%	if current_user %>											
 												<a href="#" class="icon-heart <%="#{classname}"%> vote-btn" 
 												data-vote='{"user_id" : "<%="#{user.id}"%>", "jobpref": "<%="#{jobpref}"%>"}'></a>
-											
-
-									<% else %>
-										<span><i class="icon-heart <%="#{classname}"%>"></i></span>
-						    	<% end %>
+									<% 	else %>
+												<span><i class="icon-heart <%="#{classname}"%>"></i></span>
+						    	<% 	end %>
 								</div>
 								
 							</li>

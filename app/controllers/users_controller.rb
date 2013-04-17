@@ -15,12 +15,15 @@ class UsersController < ApplicationController
     logger.debug 'inside INDEX'
   	@users_by_job_pref = Hash.new
     CATEGORY.each_with_index do |choice, index|
-      result = User.in_job_preference(index.to_s)
+      result = User.in_job_preference(index.to_s).sort{ |r2, r1| # this sorts in ASC order
+        ((r1.job_pref_pnts.nil?) ? "" : r1.job_pref_pnts.split(","))[index].to_i <=> 
+        ((r2.job_pref_pnts.nil?) ? "" : r2.job_pref_pnts.split(","))[index].to_i 
+      }
+
       if(!result.blank?)
         @users_by_job_pref[choice] = result
       end
     end
-
     @users_no_job_pref = User.no_job_pref
     
     respond_to do |format|
@@ -167,7 +170,10 @@ class UsersController < ApplicationController
   def category
     logger.debug 'inside category'
     @cat_id = CATEGORY.index(params[:name])
-    @users = User.in_job_preference(@cat_id.to_s)
+    @users = User.in_job_preference(@cat_id.to_s).sort{ |r2, r1| # this sorts in ASC order
+      ((r1.job_pref_pnts.nil?) ? "" : r1.job_pref_pnts.split(","))[@cat_id].to_i <=> 
+      ((r2.job_pref_pnts.nil?) ? "" : r2.job_pref_pnts.split(","))[@cat_id].to_i 
+    }
     if @users.size == 0
       render 'static_pages/user_error'
     end
