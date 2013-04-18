@@ -20,10 +20,10 @@
 				<div id="user-nav">
 					<% if current_user %><b><%= current_user.nickname %></b>
 						<%= link_to "", edit_user_path(current_user), class: "icon-cog" %>
-						<%= link_to "", signout_path, class: "icon-off" %>
+						<%= link_to "", signout_path, class: "icon-off", id: "signout" %>
 					<% else %>
 						<%= link_to image_tag("twitter-login.png"), "/auth/twitter" %>
-						<%= link_to image_tag("facebook-login.png"), "/auth/facebook", class: "facebook-login" %>
+						<%= link_to image_tag("facebook-login.png"), "/auth/facebook", class: "facebook-login", id: "signin" %>
 					<% end %>
 				</div>
 			</form>​

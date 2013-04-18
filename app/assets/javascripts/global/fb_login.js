@@ -9,8 +9,8 @@ window.fbAsyncInit = function() {
   });
 
   // Additional initialization code such as adding Event Listeners goes here
-  $(".facebook-login").click(function(){
-    console.log("Welcome!");
+  $("#signin").click(function(){
+    console.log("signin!");
     
     FB.getLoginStatus(function(response) {
       if (response.status === 'connected') {
@@ -25,11 +25,15 @@ window.fbAsyncInit = function() {
       }
     });
   });
+
+  $("#signout").click(function(){
+    console.log("signout!");
+    return window.location = '/signout';
+  });
 };
 
 function login(){
   FB.login(function(response) {
-    console.log("Hello!");
     if (response.authResponse) {
       console.log('Welcome!  Fetching your information.... ');
       FB.api('/me', function(response) {
@@ -38,8 +42,9 @@ function login(){
         return window.location = '/auth/facebook/callback';
       });
     } else {
-      console.log('User cancelled login or did not fully authorize.');
-      return window.location = '/signout'
+      var msg = 'User cancelled login or did not fully authorize.';
+      console.log(msg);
+      return window.location = '/signout?msg='+msg;
     }
   }); 
 }

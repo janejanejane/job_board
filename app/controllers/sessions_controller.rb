@@ -15,6 +15,10 @@ class SessionsController < ApplicationController
 
 	def destroy
 		session[:user_id] = nil
-		redirect_to root_url, flash: { success: "Signed out successfully!" } 
+		if !params[:msg].nil?
+			redirect_to root_url, flash: { error: params[:msg] } 
+		else
+			redirect_to root_url, flash: { success: "Signed out successfully!" } 
+		end
 	end
 end

@@ -29,10 +29,10 @@ JobBoard::Application.routes.draw do
   match 'auth/:provider/callback', to: 'sessions#create'
   match 'auth/failure', to: redirect('/')
   match 'signout', to: 'sessions#destroy', as: 'signout'
-  match '/*page', to: 'jobs#index'
   match 'jobs/*page', to: 'jobs#index'
   match 'category/*page', to: 'jobs#index'
   match '/about', to: 'static_pages#about'
+  match '/*page', to: 'jobs#index'
   #match '/signup', to: 'jobs#new'
   #match '/help', to: 'static_pages#help'
 
