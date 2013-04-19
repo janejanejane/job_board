@@ -543,7 +543,7 @@ span {
   }
 }
 
-.vote-status, .points-status {
+.vote-status, .points-status, .category-status {
   position: fixed;
   top: 150px;
   width: inherit;
@@ -716,5 +716,10 @@ span {
   }
 }
 
+/* pagination */
 
-
+.pagination {
+  span {
+    display: initial;
+  }
+}

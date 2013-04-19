@@ -1,3 +1,5 @@
+require 'will_paginate/array'
+
 class UsersController < ApplicationController
   # rescue_from ActiveRecord::Errors, :with => :has_same_name
 
@@ -176,6 +178,8 @@ class UsersController < ApplicationController
     }
     if @users.size == 0
       render 'static_pages/user_error'
+    else
+      @users = @users.paginate(page: params[:page], per_page: 2)
     end
   end
 

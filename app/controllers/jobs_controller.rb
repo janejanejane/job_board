@@ -1,3 +1,5 @@
+require 'will_paginate/array'
+
 class JobsController < ApplicationController
   #private methods are loaded
 
@@ -77,6 +79,8 @@ class JobsController < ApplicationController
     @jobs = Job.confirmed.find_all_by_category(@cat_id)
     if @jobs.size == 0
       render 'static_pages/job_error'
+    else
+      @jobs = @jobs.paginate(:page => params[:page], :per_page => 2)
     end
   end
 

@@ -1,5 +1,6 @@
 <% provide(:title, 'Category')%>
 <h1><%= CATEGORY[@cat_id] %></h1>
+<div class="category-status"></div>
 
 <% content_for :tab_header do %>
   <li><%= link_to "Job Posts", jobs_path %></li>
@@ -80,6 +81,11 @@
 			<% end %>		
 			<div class="border-dash"></div>					
 			</ul>
+			<%= will_paginate @users %>
 		</section>
 	</aside>
 </div>
+
+<% content_for :javascripts do %>
+  <%= javascript_include_tag 'category' %>  
+<% end %>
