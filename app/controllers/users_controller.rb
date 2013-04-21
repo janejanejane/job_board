@@ -182,7 +182,7 @@ class UsersController < ApplicationController
       @users = @users.paginate(page: params[:page], per_page: NUMBER_LIMIT)
     end
 
-    # respond_to do |format|
+    # respond_to do |format| #not used when there is .js.erb file
     #   format.json {
     #     render json: {
     #       current_page: @users.current_page,

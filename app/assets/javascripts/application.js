@@ -14,5 +14,6 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require d3.v3.min
+//= require handlebars
 // requires all js files in global folder
 //= require_tree ./global 
