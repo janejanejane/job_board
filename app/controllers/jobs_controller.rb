@@ -80,7 +80,7 @@ class JobsController < ApplicationController
     if @jobs.size == 0
       render 'static_pages/job_error'
     else
-      @jobs = @jobs.paginate(:page => params[:page], :per_page => 2)
+      @jobs = @jobs.paginate(:page => params[:page], :per_page => NUMBER_LIMIT)
     end
   end
 

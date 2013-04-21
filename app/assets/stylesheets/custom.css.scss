@@ -723,3 +723,10 @@ span {
     display: initial;
   }
 }
+
+/* typeahead */
+.typeahead {
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

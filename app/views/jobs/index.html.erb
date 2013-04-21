@@ -15,7 +15,7 @@
 					<ul class="jobs">
 						<% counter = 0 %>
 						<% jobs.each do |job| %>
-							<% if counter < 5 %>
+							<% if counter < NUMBER_LIMIT %>
 							<li>
 								<%= link_to(job) do %>
 									<span class="location"><%= job.location %></span>
@@ -31,7 +31,7 @@
 						<% if @jobs_by_category.include?(cat_id) %>
 							<% quantity = @jobs_by_category.select{ |cat| cat==cat_id } %>
 							<% cnt_category = quantity[cat_id].length %>
-							<% if cnt_category > 5 %>
+							<% if cnt_category > NUMBER_LIMIT %>
 							<%= link_to "View all #{cnt_category} #{CATEGORY[cat_id]} jobs &rsaquo;&rsaquo;".html_safe, 
 							category_path(CATEGORY[cat_id]) %>
 							<% end %>

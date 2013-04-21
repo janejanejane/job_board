@@ -1,0 +1,8 @@
+// called by $.getScript() in infinite_scroll.js
+$(".users").append("<%= j render 'shared/users' %>");
+<% if @users.next_page %>
+	$(".pagination").replaceWith("<%= j will_paginate @users %>");
+<% else %>
+	$(".pagination").remove();
+<% end %>
+<% sleep 1 %>

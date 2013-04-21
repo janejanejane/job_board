@@ -179,7 +179,32 @@ class UsersController < ApplicationController
     if @users.size == 0
       render 'static_pages/user_error'
     else
-      @users = @users.paginate(page: params[:page], per_page: 2)
+      @users = @users.paginate(page: params[:page], per_page: NUMBER_LIMIT)
+    end
+
+    # respond_to do |format|
+    #   format.json {
+    #     render json: {
+    #       current_page: @users.current_page,
+    #       per_page: @users.per_page,
+    #       total_entries: @users.total_entries,
+    #       entries: @users
+    #     }, status: 200
+    #   }
+    #   format.html
+    # end
+  end
+
+  def category_json
+    respond_to do |format|
+      format.json {
+        render json: {
+          current_page: users.current_page,
+          per_page: users.per_page,
+          total_entries: users.total_entries,
+          entries: users
+        }
+      }
     end
   end
 
