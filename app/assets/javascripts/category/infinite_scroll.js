@@ -8,29 +8,48 @@ $('document').ready(function(){
 			var that = this;
 			var nextUrl = $(".pagination .next_page").attr("href");
 
-			if (nextUrl && (($(window).scrollTop() + $(window).height()) > ($('document').height() - 200))){
+			if (nextUrl && (($(window).scrollTop() + $(window).height()) > ($('document').height() - 50))){
 				console.log(nextUrl);
 				$(".pagination").text("Loading...");
-				// $.ajax({ //used with handlebars: #1
-				// 	type : "GET",
-				// 	url : nextUrl
-				// })
-				$.getScript(nextUrl) // used with category.js.erb
+				$.ajax({ //used with handlebars: #1
+					type : "GET",
+					url : nextUrl
+				})
+				// $.getScript(nextUrl) // used with category.js.erb
 				.done(function(response, textStatus){
 					console.log(response);
 					console.log(textStatus);
-					// #1
-					// console.log(response.entries.length);
+					// #1					
+					var thisList = $("#moreUsersList").html();
+					if(thisList){
+						var template = Handlebars.compile(thisList);
+						var usersMoreThanZero = response.entries.length > 0;
 
-					// var container = $(that).find(".users");
+						Handlebars.registerHelper('getPoints', function(points, id) {
+							var str = "0";
+							if(points != null){
+								var values = points.split(",");
+								str = values[id]; // from @cat_id
+								console.log("category: ", id, "points: ", values);
+							}
+						  return str;
+						});
+						
+						var htmlData = template({
+							usersMoreThanZero: usersMoreThanZero, 
+							usersData: response.entries
+						});
+						$(".users").append(htmlData);
 
-					// var moreUsersList = $("#moreUsersList").html();
-					// if(moreUsersList){
-					// 	var template = Handlebars.compile(moreUsersList);
-					// 	var usersMoreThanZero = response.entries.length > 0;
-					// 	var htmlData = template({usersMoreThanZero: usersMoreThanZero, usersData: response.entries})
-					// 	container.append(htmlData);
-					// }
+						if( $("li").length < response.entries.total_entries){
+							if($(".next_page")) {
+								var path = window.location.pathname + "?page="+ (response.current_page + 1);
+								$(".pagination").replaceWith("<a href='" + path + "' class='pagination next_page'>Load more...</a>");
+							} 
+						} else {
+							$(".pagination").remove();	
+						}	
+					}
 					// #1
 
 				}).fail(function(jqXHR, settings, textStatus){

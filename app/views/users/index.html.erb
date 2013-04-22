@@ -36,8 +36,7 @@
 										thisuser_id = 0
 										if !current_user.nil?
 											thisuser_id = current_user.id
-										end 
-										get_vote_details(thisuser_id, jobpref, user.id) %>
+										end %>
 
 								<%= link_to(user) do %>
 									<div class="left pull-left">
@@ -74,12 +73,16 @@
 								<% end %>
 
 								<div class="votes">
-							    <% 	voters = @vote_details
+							    <% 	get_vote_details(thisuser_id, jobpref, user.id) # call votes_helper method that creates @vote_details
 								    	classname = "up-btn"
-								    	if !voters.blank? 
+								    	if !@vote_details.blank? && current_user.nil? # not signed-in
 								    		classname = "red-btn"
-								    	end %>
-									<span class="<%="#{classname}"%>">+<%= voters.count %></span>
+									    end 
+
+							    		if !current_user.nil? && @vote_details.any? {|u| u.user_id == current_user.id} # not signed-in and voted
+								    		classname = "red-btn"
+							    		end %>
+									<span class="<%="#{classname}"%>">+<%= @vote_details.count %></span>
 
 							    <%	if current_user %>											
 												<a href="#" class="icon-heart <%="#{classname}"%> vote-btn" 

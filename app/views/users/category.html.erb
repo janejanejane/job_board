@@ -15,8 +15,8 @@
 	<aside>
 		<section>
 			<ul class="users">
-				<% @users.each do |user| %>
-				<% 	jobpref = 0  %>
+				<% @users.each do |user| 
+					jobpref = 0  %>
 				<div class="border-dash"></div>
 				<li class="user-preview">
 
@@ -24,8 +24,7 @@
 							thisuser_id = 0
 							if !current_user.nil?
 								thisuser_id = current_user.id
-							end 
-							get_vote_details(thisuser_id, jobpref, user.id) %>
+							end %>
 
 					<%= link_to(user) do %>
 						<div class="left pull-left">
@@ -41,8 +40,7 @@
 							
 							<div>
 								<span><b><%= user.first_name + " " + user.last_name.to_s %></b></span>
-								<span><em><%= user.personal_statement %></em></span>
-							
+								<span><em><%= user.personal_statement %></em></span>							
 							</div>
 						</div>
 						<div class="center pull-left">
@@ -62,12 +60,16 @@
 					<% end %>
 
 					<div class="votes">
-				    <% 	voters = @vote_details
+				    <% 	get_vote_details(thisuser_id, jobpref, user.id) # call votes_helper method that creates @vote_details
 					    	classname = "up-btn"
-					    	if !voters.blank? 
+					    	if !@vote_details.blank? && current_user.nil? # not signed-in
 					    		classname = "red-btn"
-					    	end %>
-						<span class="<%="#{classname}"%>">+<%= voters.count %></span>
+						    end 
+
+				    		if !current_user.nil? && @vote_details.any? {|u| u.user_id == current_user.id} # not signed-in and voted
+					    		classname = "red-btn"
+				    		end %>
+						<span class="<%="#{classname}"%>">+<%= @vote_details.count %></span>
 
 				    <%	if current_user %>
 									<a href="#" class="icon-heart <%="#{classname}"%> vote-btn" 
@@ -85,6 +87,8 @@
 		</section>
 	</aside>
 </div>
+
+<%= render 'shared/users_template' %>
 
 <% content_for :javascripts do %>
   <%= javascript_include_tag 'category' %>  

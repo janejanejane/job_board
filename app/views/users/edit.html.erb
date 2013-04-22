@@ -141,3 +141,7 @@
 		<%= link_to "Games", user_games_path(@user), class: "btn btn-large btn-primary" %>
 	</aside>
 </div>
+
+<% content_for :javascripts do %>
+  <%= javascript_include_tag 'user' %>  
+<% end %>

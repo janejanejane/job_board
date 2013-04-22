@@ -182,30 +182,49 @@ class UsersController < ApplicationController
       @users = @users.paginate(page: params[:page], per_page: NUMBER_LIMIT)
     end
 
-    # respond_to do |format| #not used when there is .js.erb file
-    #   format.json {
-    #     render json: {
-    #       current_page: @users.current_page,
-    #       per_page: @users.per_page,
-    #       total_entries: @users.total_entries,
-    #       entries: @users
-    #     }, status: 200
-    #   }
-    #   format.html
-    # end
-  end
-
-  def category_json
-    respond_to do |format|
+    respond_to do |format| #not used when there is .js.erb file
       format.json {
         render json: {
-          current_page: users.current_page,
-          per_page: users.per_page,
-          total_entries: users.total_entries,
-          entries: users
-        }
+          current_page: @users.current_page,
+          per_page: @users.per_page,
+          total_entries: @users.total_entries,
+          entries: @users
+        }, status: 200
       }
+      format.html
     end
+  end
+
+  def user_game
+    games = User.find(user_id).games
+    counter = 0 
+    game_list = Array.new
+    if !games.blank? 
+      games.each do |game| 
+        if counter < 3 
+          game_list.push(game.name)
+          counter += 1
+        end 
+      end
+      game_list.join(",")     
+      render json: { success: "User games found."}, status: 200 and return
+    else
+      render 'category' 
+    end
+
+  #   voters = @vote_details
+  #   classname = "up-btn"
+  #   if !voters.blank? 
+  #     classname = "red-btn"
+  #   end
+  # <span class="<%="#{classname}"%>">+<%= voters.count %></span>
+
+  #   if current_user
+  #       <a href="#" class="icon-heart <%="#{classname}"%> vote-btn" 
+  #           data-vote='{"user_id" : "{{this.id}}", "jobpref": "<%="#{jobpref}"%>"}'></a>
+  #   else
+  #       <span><i class="icon-heart <%="#{classname}"%>"></i></span>
+  #   end
   end
 
 	private
@@ -266,6 +285,10 @@ class UsersController < ApplicationController
       end
       
       params[:user][:job_preference] = @job_preference
+    end
+
+    def pref_init
+
     end
 
     def cast_vote(job_preference, user_voted)

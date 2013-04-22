@@ -1,67 +1,27 @@
 
+
 <script type="text/html" id="moreUsersList">
 	{{#if usersMoreThanZero}}
 	{{#each usersData}}
-	<% 	jobpref = 0  %>
+	<% jobpref = 0  %>
 	<li class="user-preview">
-
-		<%  jobpref = @cat_id
-				thisuser_id = 0
-				if !current_user.nil?
-					thisuser_id = current_user.id
-				end 
-				get_vote_details(thisuser_id, jobpref, {{this.id}}) %>
-
-		<%= link_to({{this}}) do %>
+		<a href="/users/{{this.id}}">
 			<div class="left pull-left">
-				
-				<% if {{this.job_pref_pnts}}.blank? %>
-					<span class="level">Lvl 0</span>
-				<% else %>
-					<% jobprefpnts = {{this.job_pref_pnts}}.split(",") # transfer job_pref_pnts values to array %>
-					<span class="level">Lvl <%= jobprefpnts[jobpref] %></span>
-				<% end %>
-				
-				<span><img src="{{this.image}}"></span>
-				
-				<div>
-					<span><b>{{this.first_name}} + " " + {{this.last_name}}</b></span>
-					<span><em>{{this.personal_statement}}</em></span>
-				
-				</div>
-			</div>
+					<span class="level">Lvl {{getPoints this.job_pref_pnts "<%= @cat_id %>"}}
+					</span>
+					<span><img src="{{this.image}}"></span>
+					<div>
+						<span><b>{{this.first_name}} {{this.last_name}}</b></span>
+						<span><em>{{this.personal_statement}}</em></span>
+					</div>
+			</div>	
 			<div class="center pull-left">
-				<%	get_games({{this.id}}) # call users_helper method that creates @games   
-					counter = 0 
-					game_list = Array.new
-					if !@games.blank? 
-						@games.each do |game| 
-							if counter < 3 
-						 		game_list.push(game.name)
-								counter += 1
-						 	end 
-						end %>
-						<%= game_list.join(",") %>
-				<% end %>													
+													
 			</div>
-		<% end %>
-
+		</a>
 		<div class="votes">
-	    <% 	voters = @vote_details
-		    	classname = "up-btn"
-		    	if !voters.blank? 
-		    		classname = "red-btn"
-		    	end %>
-			<span class="<%="#{classname}"%>">+<%= voters.count %></span>
-
-	    <%	if current_user %>
-						<a href="#" class="icon-heart <%="#{classname}"%> vote-btn" 
-						data-vote='{"user_id" : "{{this.id}}", "jobpref": "<%="#{jobpref}"%>"}'></a>
-			<% else %>
-				<span><i class="icon-heart <%="#{classname}"%>"></i></span>
-	  	<% end %>
+	    
 		</div>
-		
 	</li>
 	{{/each}}
 	<div class="border-dash"></div>	
