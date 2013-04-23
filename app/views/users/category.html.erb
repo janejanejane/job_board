@@ -15,81 +15,17 @@
 	<aside>
 		<section>
 			<ul class="users">
-				<% @users.each do |user| 
-					jobpref = 0  %>
-				<div class="border-dash"></div>
-				<li class="user-preview">
+					<%  jobpref = @cat_id %>
 
-					<%  jobpref = @cat_id
-							thisuser_id = 0
-							if !current_user.nil?
-								thisuser_id = current_user.id
-							end %>
-
-					<%= link_to(user) do %>
-						<div class="left pull-left">
-							
-							<% if user.job_pref_pnts.blank? %>
-								<span class="level">Lvl 0</span>
-							<% else %>
-								<% jobprefpnts = user.job_pref_pnts.split(",") # transfer job_pref_pnts values to array %>
-								<span class="level">Lvl <%= jobprefpnts[jobpref] %></span>
-							<% end %>
-							
-							<span><img src="<%= "#{user.image}" %>"></span>
-							
-							<div>
-								<span><b><%= user.first_name + " " + user.last_name.to_s %></b></span>
-								<span><em><%= user.personal_statement %></em></span>							
-							</div>
-						</div>
-						<div class="center pull-left">
-							<%	get_games(user.id) # call users_helper method that creates @games   
-								counter = 0 
-								game_list = Array.new
-								if !@games.blank? 
-									@games.each do |game| 
-										if counter < 3 
-									 		game_list.push(game.name)
-											counter += 1
-									 	end 
-									end %>
-									<%= game_list.join(",") %>
-							<% end %>													
-						</div>
-					<% end %>
-
-					<div class="votes">
-				    <% 	get_vote_details(thisuser_id, jobpref, user.id) # call votes_helper method that creates @vote_details
-					    	classname = "up-btn"
-					    	if !@vote_details.blank? && current_user.nil? # not signed-in
-					    		classname = "red-btn"
-						    end 
-
-				    		if !current_user.nil? && @vote_details.any? {|u| u.user_id == current_user.id} # not signed-in and voted
-					    		classname = "red-btn"
-				    		end %>
-						<span class="<%="#{classname}"%>">+<%= @vote_details.count %></span>
-
-				    <%	if current_user %>
-									<a href="#" class="icon-heart <%="#{classname}"%> vote-btn" 
-									data-vote='{"user_id" : "<%="#{user.id}"%>", "jobpref": "<%="#{jobpref}"%>"}'></a>
-						<% else %>
-							<span><i class="icon-heart <%="#{classname}"%>"></i></span>
-				  	<% end %>
-					</div>
-					
-				</li>
-				<% end %>		
-				<div class="border-dash"></div>		
+					<%= render 'shared/users', users: @users, jobpref: jobpref, limit: @users.length %>	
 			</ul>
 			<%= will_paginate @users %>
 		</section>
 	</aside>
 </div>
 
-<%= render 'shared/users_template' %>
+<%= render 'shared/users_template' %> <%# for handlebars.js %>
 
 <% content_for :javascripts do %>
-  <%= javascript_include_tag 'category' %>  
+  <%= javascript_include_tag 'user/infinite_scroll', 'user/jobpref_vote' %>  
 <% end %>

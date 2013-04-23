@@ -207,24 +207,26 @@ class UsersController < ApplicationController
         end 
       end
       game_list.join(",")     
-      render json: { success: "User games found."}, status: 200 and return
+      render json: { success: "User games found.", games: game_list}, status: 200 and return
     else
       render 'category' 
     end
+  end
 
-  #   voters = @vote_details
-  #   classname = "up-btn"
-  #   if !voters.blank? 
-  #     classname = "red-btn"
-  #   end
-  # <span class="<%="#{classname}"%>">+<%= voters.count %></span>
+  def user_vote
+    get_vote_details(thisuser_id, jobpref, user.id) # call votes_helper method that creates @vote_details
+    classname = "up-btn"
+    if !@vote_details.blank? && current_user.nil? # not signed-in
+      classname = "red-btn"
+    end 
 
-  #   if current_user
-  #       <a href="#" class="icon-heart <%="#{classname}"%> vote-btn" 
-  #           data-vote='{"user_id" : "{{this.id}}", "jobpref": "<%="#{jobpref}"%>"}'></a>
-  #   else
-  #       <span><i class="icon-heart <%="#{classname}"%>"></i></span>
-  #   end
+    if !current_user.nil? && @vote_details.any? {|u| u.user_id == current_user.id} # signed-in and voted
+      classname = "red-btn"
+    end 
+
+    if current_user 
+
+    end
   end
 
 	private
@@ -285,10 +287,6 @@ class UsersController < ApplicationController
       end
       
       params[:user][:job_preference] = @job_preference
-    end
-
-    def pref_init
-
     end
 
     def cast_vote(job_preference, user_voted)
