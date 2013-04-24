@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
 	end
 
 	def self.in_job_preference(job_pref)
-		where("job_preference LIKE ?", "%"+job_pref+"%")
+		includes(:games).where("job_preference LIKE ?", "%"+job_pref+"%")
 	end
 
 	def self.no_job_pref

@@ -25,14 +25,22 @@ $('document').ready(function(){
 						var template = Handlebars.compile(thisList);
 						var usersMoreThanZero = response.entries.length > 0;
 
-						Handlebars.registerHelper('getPoints', function(points, id) {
+						Handlebars.registerHelper('getPoints', function(points, catId) {
 							var str = "0";
 							if(points != null){
 								var values = points.split(",");
-								str = values[id]; // from @cat_id
-								console.log("category: ", id, "points: ", values);
+								str = values[catId]; // from @cat_id
+								console.log("category: ", catId, "points: ", values);
 							}
 						  return str;
+						});
+
+						Handlebars.registerHelper('getGames', function(games) {
+							var str = [];
+							for (var i = 0; i < games.length; i++) {
+								str.push(games[i].name);
+							};
+							return str.join(",");
 						});
 						
 						var htmlData = template({
@@ -52,21 +60,23 @@ $('document').ready(function(){
 					}
 					// #1
 
-				}).fail(function(jqXHR, settings, textStatus){
-					var response = JSON.parse(jqXHR.responseText);
-					console.log("ERROR: ", response);
-
-					if(jqXHR.status == 422){
-						console.log("422:" + response.errors);
-					}else if(jqXHR.status == 500){
-						console.log("500:" + response.errors);
-					}else if(jqXHR.status == 404){
-						console.log("404:" + response.errors);
-					}
-
-					$('.category-status').html('<div class="alert alert-error">'+ response.errors +'</div>').show().fadeOut(2000);
-				});
+				}).fail(errorMsg);
 			}
 		});	// end $(window).scroll(function(){
 	} // end if($(".pagination"))
+
+	function errorMsg(jqXHR, settings, textStatus){
+		var response = JSON.parse(jqXHR.responseText);
+		console.log("ERROR: ", response);
+
+		if(jqXHR.status == 422){
+			console.log("422:" + response.errors);
+		}else if(jqXHR.status == 500){
+			console.log("500:" + response.errors);
+		}else if(jqXHR.status == 404){
+			console.log("404:" + response.errors);
+		}
+
+		$('.category-status').html('<div class="alert alert-error">'+ response.errors +'</div>').show().fadeOut(2000);
+	};
 });

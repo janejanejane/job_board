@@ -188,46 +188,47 @@ class UsersController < ApplicationController
           current_page: @users.current_page,
           per_page: @users.per_page,
           total_entries: @users.total_entries,
-          entries: @users
+          entries: @users.as_json(include: {games: {only: [:name] }})
         }, status: 200
       }
       format.html
     end
   end
 
-  def user_game
-    games = User.find(user_id).games
-    counter = 0 
-    game_list = Array.new
-    if !games.blank? 
-      games.each do |game| 
-        if counter < 3 
-          game_list.push(game.name)
-          counter += 1
-        end 
-      end
-      game_list.join(",")     
-      render json: { success: "User games found.", games: game_list}, status: 200 and return
-    else
-      render 'category' 
-    end
-  end
+  # def user_game
+  #   games = User.find(params[:userid]).games
 
-  def user_vote
-    get_vote_details(thisuser_id, jobpref, user.id) # call votes_helper method that creates @vote_details
-    classname = "up-btn"
-    if !@vote_details.blank? && current_user.nil? # not signed-in
-      classname = "red-btn"
-    end 
+  #   logger.debug games
+  #   counter = 0 
+  #   game_list = Array.new
+  #   if !games.blank? 
+  #     games.each do |game| 
+  #       if counter < 3 
+  #         game_list.push(game.name)
+  #         counter += 1
+  #       end 
+  #     end
+  #     game_list.join(",")     
+  #     # render json: { errors: "Unable to search user games." }, status: 422 and return
+  #   end
+  #     render json: { success: "User games found.", games: game_list}, status: 200 and return
+  # end
 
-    if !current_user.nil? && @vote_details.any? {|u| u.user_id == current_user.id} # signed-in and voted
-      classname = "red-btn"
-    end 
+  # def user_vote
+  #   get_vote_details(thisuser_id, jobpref, user.id) # call votes_helper method that creates @vote_details
+  #   classname = "up-btn"
+  #   if !@vote_details.blank? && current_user.nil? # not signed-in
+  #     classname = "red-btn"
+  #   end 
 
-    if current_user 
+  #   if !current_user.nil? && @vote_details.any? {|u| u.user_id == current_user.id} # signed-in and voted
+  #     classname = "red-btn"
+  #   end 
 
-    end
-  end
+  #   if current_user 
+
+  #   end
+  # end
 
 	private
 
