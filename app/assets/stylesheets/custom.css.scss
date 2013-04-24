@@ -456,6 +456,9 @@ span {
         div {
           span {
             width: 50%;
+            b, em {
+              word-wrap: break-word;
+            }
           }
         }
         span {
