@@ -56,18 +56,18 @@
 									</div>
 									<div class="center pull-left">
 
-			    				<%	get_games(user.id) # call users_helper method that creates @games   
+			    				<%	games = user.games  
 			    						counter = 0 
 			    						game_list = Array.new
-											if !@games.blank? 
-												@games.each do |game| 
+											if !games.blank? 
+												games.each do |game| 
 													if counter < 3 
 												 		game_list.push(game.name)
 														counter += 1
 												 	end 
 												end %>
 												<%= game_list.join(",") %>
-										<% end %>										
+									<% end %>										
 									</div>
 								<% end %>
 							</li>
