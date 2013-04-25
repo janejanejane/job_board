@@ -180,6 +180,22 @@ class UsersController < ApplicationController
       render 'static_pages/user_error'
     else
       @users = @users.paginate(page: params[:page], per_page: NUMBER_LIMIT)
+      
+      @users.each do |user|
+        classname = "up-btn"
+        vote_details = Vote.jobpref_vote(@cat_id, user.id)
+        if !vote_details.blank? && current_user.nil? # not signed-in
+          classname = "red-btn"
+        end 
+
+        if !current_user.nil? && vote_details.any? {|u| u.user_id == current_user.id} # signed-in and voted
+          classname = "red-btn"
+        end
+
+        logger.debug vote_details.length.to_s + classname
+        user[:vote_count] = vote_details.length
+        user[:vote_color] = classname
+      end
     end
 
     respond_to do |format| #not used when there is .js.erb file
@@ -188,7 +204,7 @@ class UsersController < ApplicationController
           current_page: @users.current_page,
           per_page: @users.per_page,
           total_entries: @users.total_entries,
-          entries: @users.as_json(include: {games: {only: [:name] }})
+          entries: @users.as_json(include: {games: {only: [:name] }}, methods: [:vote_count, :vote_color])
         }, status: 200
       }
       format.html

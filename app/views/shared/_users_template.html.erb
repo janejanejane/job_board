@@ -1,7 +1,6 @@
 <script type="text/html" id="moreUsersList">
 	{{#if usersMoreThanZero}}
 	{{#each usersData}}
-	<% jobpref = 0  %>
 	<li class="user-preview">
 		<a href="/users/{{this.id}}">
 			<div class="left pull-left">
@@ -18,7 +17,13 @@
 			</div>
 		</a>
 		<div class="votes">
-	    
+	    <span class="{{this.vote_color}}">+{{this.vote_count}}</span>
+	    <%	if current_user %>
+				<a href="#" class="icon-heart {{this.vote_color}} vote-btn" 
+						data-vote='{"user_id" : "{{this.id}}", "jobpref": "<%="#{@cat_id}"%>"}'></a>
+			<% else %>
+				<span><i class="icon-heart {{this.vote_color}}"></i></span>
+	  	<% end %>
 		</div>
 	</li>
 	{{/each}}

@@ -70,9 +70,11 @@ class User < ActiveRecord::Base
 	  end
 	end
 
+
+	attr_writer :vote_count, :vote_color # temporary/virtual variables
 	attr_accessible :first_name, :last_name, :nickname, :personal_statement, 
 									:image, :location, :job_preference, :availability, :job_pref_pnts, 
-									:remaining_pnts, :new_user#, :extra_attributes
+									:remaining_pnts, :new_user, :vote_count, :vote_color#, :extra_attributes
 
 	has_many :authorizations
 	has_many :votes
