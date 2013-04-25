@@ -1,6 +1,6 @@
 $('document').ready(function(){
 	console.log("voting...")
-	$(".vote-btn").click(function(e){
+	$(".users").on("click", ".vote-btn", function(e){
 		e.preventDefault();
 		console.log('Vote Btn Clicked');
 
