@@ -78,5 +78,5 @@ $('document').ready(function(){
 		}
 
 		$('.category-status').html('<div class="alert alert-error">'+ response.errors +'</div>').show().fadeOut(2000);
-	};
+	}
 });

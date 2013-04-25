@@ -7,6 +7,9 @@
 <% end %>
 
 <div class="row-fluid">
+
+	<%= render 'shared/user_search' %>
+	
 	<aside>
 		<section>
 			<div class="show-nav">
@@ -18,9 +21,6 @@
 		    	Sorry, your search <b>'<%= (@word == '') ? "[word]" : @word %>'</b> for developers who are <b>'<%= (@availability == '') ? "[availability]" : @availability %>'</b> within <b>'<%= (@location == '') ? "[location]" : @location %>'</b> returned <b>0</b> results.
 		    </div>
 	    <% else %>
-	    	<div class="search">
-	    		Your search <b>'<%= (@word == '') ? "[word]" : @word %>'</b> for developers who are <b>'<%= (@availability == '') ? "[availability]" : @availability %>'</b> within <b>'<%= (@location == '') ? "[location]" : @location %>'</b> returned <b><%= @user_search %></b> results.
-	    	</div>
 	    		<ul class="users">
 		    	<% 	jobpref = -1  
 		    		  if !CATEGORY.index(@word).nil? # gets the index of the string @word
@@ -32,3 +32,7 @@
 		</section>
 	</aside>
 </div>
+
+<% content_for :javascripts do %>
+  <%= javascript_include_tag 'search' %>  
+<% end %>
