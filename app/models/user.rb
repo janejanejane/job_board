@@ -29,7 +29,11 @@ class User < ActiveRecord::Base
 		    user.first_name = firstname
 		    user.last_name = lastname
 		    user.nickname = nickname
-		    user.image = hash["info"]["image"]
+		    if hash["provider"] == "twitter"
+				  user.image = hash["info"]["image"].sub("_normal", "")
+				else
+		    	user.image = hash["info"]["image"].split("=")[0] << "=large"
+				end
 	    	user.location = hash["info"]["location"]
 	    	user.personal_statement = hash["info"]["description"]
 		  end

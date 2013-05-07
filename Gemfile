@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.11'
+gem 'rails'
 gem 'bootstrap-sass', '~> 2.3.1.0'
 gem 'jquery-rails'
 gem 'omniauth-twitter'
@@ -20,8 +20,9 @@ end
 
 group :development do
   gem 'annotate' 
-  gem "better_errors"
-  gem "binding_of_caller"
+  gem 'mailcatcher'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 # Gems used only for assets and not required

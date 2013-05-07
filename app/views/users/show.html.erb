@@ -8,175 +8,73 @@
 
 <div class="row-fluid">
 	<%= render 'shared/error_messages', object: @user %>
-	<table>
-		<tbody>
-			<tr>
-				<td>
-					<label>Photo</label>
-				</td>
-				<td>
-					<img src="<%= "#{@user.image}" %>" >
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label>Nickname</label>
-				</td>
-				<td>
-					<%= @user.nickname %>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label>First Name</label>
-				</td>
-				<td>
-					<%= @user.first_name %>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label>Last Name</label>
-				</td>
-				<td>
-					<%= @user.last_name %>
-			  </td>
-			</tr>
-			<tr>
-				<td>
-					<label>Personal Statement</label>
-				</td>
-				<td>
-		      <%= @user.personal_statement %>
-		    </td>
-			</tr>
-			<tr>
-				<td>
-					<label>Location</label>
-				</td>
-				<td>
-		      <%= @user.location %>
-		    </td>
-			</tr>
-			<%# if !@user.job_preference.nil? %>
-			<tr>
-				<td>
-					<label>Job Skills</label>
-				</td>
-				<td>
-			    <%	format_job_pref # call users_helper method that creates @user_upvotes  %>			      					
-			    <div class="chartContainer"></div>
-		    </td>
-			</tr>
-			<tr>
-				<td>
-					<label>Availability</label>
-				</td>
-				<td>
-		      <%= AVAILABILITY[@user.availability] %>
-		    </td>
-			</tr>
-			<%# end %>
-	<% if !@user_extra.blank? %>
-			<tr>
-				<td colspan="2">
-					<legend>Additional Information</legend>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label>Special Title</label>
-				</td>
-				<td>
-					<%= @user_extra.special_title %>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<label>Experience</label>
-				</td>
-				<td>
-		      <%= pluralize((Time.now.year - @user_extra.experience), "year") %>
-		    </td>
-			</tr>
-			<% if !@user_extra.behance.blank? %>
-			<tr>
-				<td>
-					<label>Behance</label>
-				</td>
-				<td>
-					<%= @user_extra.behance %>
-				</td>
-			</tr>
-			<% end 
-			if !@user_extra.deviantart.blank? %>
-			<tr>
-				<td>
-					<label>Deviantart</label>
-				</td>
-				<td>
-					<%= @user_extra.deviantart %>
-				</td>
-			</tr>
-			<% end
-			if !@user_extra.kongregate.blank? %>
-			<tr>
-				<td>
-					<label>Kongregate</label>
-				</td>
-				<td>
-		      <%= @user_extra.kongregate %>
-		    </td>
-			</tr>
-			<% end
-			if !@user_extra.gamasutra.blank? %>
-			<tr>
-				<td>
-					<label>Gamasutra</label>
-				</td>
-				<td>
-					<%= @user_extra.gamasutra %>
-				</td>
-			</tr>
-			<% end
-			if !@user_extra.newgrounds.blank? %>
-			<tr>
-				<td>
-					<label>Newgrounds</label>
-				</td>
-				<td>
-		      <%= @user_extra.newgrounds %>
-		    </td>
-			</tr>
-			<% end
-			if !@user_extra.gamejolt.blank? %>
-			<tr>
-				<td>
-					<label>Gamejolt</label>
-				</td>
-				<td>
-					<%= @user_extra.gamejolt %>
-				</td>
-			</tr>
-		<% end 
-		end %>
-		</tbody>
-	</table>
-		<% counter = 0 
+	<div>
+		<div class="left-profile">
+			<img src="<%= "#{@user.image}" %>" >
+			<div><%= @user.first_name %> <%= @user.last_name %></div>
+
+			<% if !@user_extra.blank? %>
+				<div><%= @user_extra.special_title %></div>
+			<% end %>
+
+			<% if !@user.personal_statement.blank? %>
+				<div><i class="icon-quote-left"></i><%= @user.personal_statement %><i class="icon-quote-right"></i></div>
+			<% end %>
+
+			<% if !@user.location.blank? %>
+				<div><i class="icon-globe"></i><%= @user.location %></div>
+			<% end %>
+		</div>
+		<div>
+			<%	format_job_pref # call users_helper method that creates @user_upvotes  %>			      					
+			<div class="chartContainer"></div>
+		</div>
+	</div>
+			   
+	<% 	counter = 0 
 			if !@games.blank? %>
 
 	<legend>Games</legend>
-				
+	<div class="game-list">
 		<%	@games.each do |game| 
 					if counter < 3 %>
-				 		<%= render 'shared/game_list', object: game %>
+						<div><%= image_tag game.image.url(:medium) %><b><%= game.name %></b></div>
 					<% counter += 1
 				 	end 
 				end
 				if @games.length > 3 %>
-				<span class="pull-right"><%= link_to "More games...", user_games_path(@user), class: "btn btn-primary" %></span>
-		<% 	end %>
-		<% end %>
+				<div class="more">
+					<span class="pull-right"><%= link_to "More games...", user_games_path(@user), class: "btn btn-primary" %></span>
+				</div>
+		<% 	end 
+			end %>
+	</div>
+	<% if !@user_extra.blank? 
+			if !@user_extra.behance.blank? || !@user_extra.deviantart.blank? || !@user_extra.kongregate.blank? || !@user_extra.gamasutra.blank? || !@user_extra.newgrounds.blank? || !@user_extra.gamejolt.blank? %>
+		
+		<div class="user-extra">
+			<legend>Additional Information</legend>
+	<% 	end
+				if !@user_extra.behance.blank? %>
+					<label>BEHANCE</label>: <%= @user_extra.behance %>
+				<% end 
+				if !@user_extra.deviantart.blank? %>
+					<label>DEVIANTART</label>: <%= @user_extra.deviantart %>
+				<% end
+				if !@user_extra.kongregate.blank? %>
+					<label>KONGREGATE</label>: <%= @user_extra.kongregate %>
+				<% end
+				if !@user_extra.gamasutra.blank? %>
+					<label>GAMASUTRA</label>:	<%= @user_extra.gamasutra %>
+				<% end
+				if !@user_extra.newgrounds.blank? %>
+					<label>NEWGROUNDS</label>: <%= @user_extra.newgrounds %>
+				<% end
+				if !@user_extra.gamejolt.blank? %>
+					<label>GAMEJOLT</label>: <%= @user_extra.gamejolt %>
+			<% end 
+		end %>
+	</div>
 </div>
 
 <% content_for :javascripts do %>

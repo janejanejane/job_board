@@ -52,13 +52,15 @@ class ExtrasController < ApplicationController
 		if @extra.update_attributes(params[:extra])
 			if update_remaining_pnts(@extra)
 				flash[:success] = "Info entry updated!"
-			else
-				flash[:error] = "Info entry update not successful!"
+			# else
+			# 	flash[:error] = "Info entry update not successful!"
 			end
 
 			redirect_to user_extras_path
+			flash[:success] = "Info entry updated!"
 		else
 			render 'index'
+			flash[:error] = "Info entry update not successful!"
 		end
 	end
 
