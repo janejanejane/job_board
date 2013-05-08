@@ -624,12 +624,15 @@ span {
 .game-list {
   div {
     float: left;
-    width: 100px;
+    width: 150px;
     margin-right: 20px;
     img {
-      height: 100px;
-      width: 100px;
+      height: 150px;
+      width: 150px;
     } 
+    &:last-child {
+      margin-right: 0;
+    }
   }
   .more {
     width: 100%;

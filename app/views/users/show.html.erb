@@ -18,11 +18,11 @@
 			<% end %>
 
 			<% if !@user.personal_statement.blank? %>
-				<div><i class="icon-quote-left"></i><%= @user.personal_statement %><i class="icon-quote-right"></i></div>
+				<div><i class="icon-quote-left"></i> <%= @user.personal_statement %> <i class="icon-quote-right"></i></div>
 			<% end %>
 
 			<% if !@user.location.blank? %>
-				<div><i class="icon-globe"></i><%= @user.location %></div>
+				<div><i class="icon-globe"></i> <%= @user.location %></div>
 			<% end %>
 		</div>
 		<div>

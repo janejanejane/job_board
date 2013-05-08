@@ -10,6 +10,9 @@ $('document').ready(function(){
       .attr("width", 300)
       .attr("height", 200);
 
+    var barWidth = $('.row-fluid').width() * 0.20; 
+    barWidth = $('.row-fluid').width() - barWidth; // less 20% for voters column
+
     var x = d3.scale.linear()
         .domain([0, d3.max(data, function(d){
           console.log(d);
@@ -17,7 +20,9 @@ $('document').ready(function(){
           console.log("ROUND: " + round);
           return round; // round to nearest 10th
         })])
-        .range([0, 300]); // values will be divided within the 300 range
+        // .range([0, 300]); // values will be divided within the 300 range
+        .range([0, barWidth]);
+        console.log("row-fluid width:", barWidth);
 
     // var y = d3.scale.ordinal()
     //   .domain(data.map(function (d){ return d.name;})) // create range from array of objects
