@@ -8,7 +8,7 @@ $('document').ready(function(){
       .attr("class", "chart")
       .style("position", "relative")
       .attr("width", 300)
-      .attr("height", 140);
+      .attr("height", 200);
 
     var x = d3.scale.linear()
         .domain([0, d3.max(data, function(d){
@@ -19,9 +19,13 @@ $('document').ready(function(){
         })])
         .range([0, 300]); // values will be divided within the 300 range
 
-    var y = d3.scale.ordinal()
-      .domain(data.map(function (d){ return d.name;})) // create range from array of objects
-      .rangeBands([0, 120]);
+    // var y = d3.scale.ordinal()
+    //   .domain(data.map(function (d){ return d.name;})) // create range from array of objects
+    //   .rangeBands([0, 120]);
+
+    var y = d3.scale.linear()
+        .domain([0, data.length -1])
+        .range([0, 200]);
 
     var bar = div.selectAll(".bar-container")
       .data(data)
@@ -31,17 +35,17 @@ $('document').ready(function(){
         name = name.toLowerCase(); // change to lower case
         return name + " bar-container";
       })
-      .style("top", function(d,i){ return y(i) + "px"})
+      .style("top", function(d,i){ return y(i)  + "px"})
       .style("position", "absolute")
-      .style("height", y.rangeBand() + "px");
+      .style("height", "50px");
 
     
     bar.append("div")
       .attr("class", "label")
-      .style("width", "-10px")
+      .style("width", "100%")
       //.style("top", function(d,i){ return y(i) + "px"})
       .text(function(d,i){ 
-        var jobpref = d.name;
+        var jobpref = d.name.toUpperCase();
         if(d.preferred){
           jobpref += " (preferred)";
         }
