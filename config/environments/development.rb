@@ -42,4 +42,14 @@ JobBoard::Application.configure do
     :port => 1025,
     :domain => "igda.com"
   }
+
+  # config for paperclip storage in AWS
+  config.paperclip_defaults = {
+    :storage => :s3,
+    :s3_credentials => {
+      :bucket => ENV['AWS_BUCKET'],
+      :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
+      :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+    }
+  }
 end

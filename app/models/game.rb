@@ -32,5 +32,8 @@ class Game < ActiveRecord::Base
   validates_attachment :image, presence: true, content_type: { content_type: ["image/jpg", "image/jpeg", "image/png", "image/gif"] }
 
 	has_and_belongs_to_many :users
-	has_attached_file :image, styles: { medium: "300x300>", thumb: "100x100>" } # from paperclip
+	has_attached_file :image, 
+			styles: { medium: "300x300>", thumb: "100x100>" }#, 
+			# path: ":rails_root/public/system/:attachment/:id/:style/:filename",
+      # url: "/system/:attachment/:id/:style/:filename" # from paperclip
 end

@@ -31,6 +31,10 @@ GEM
     annotate (2.5.0)
       rake
     arel (3.0.2)
+    aws-sdk (1.9.5)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4)
+      uuidtools (~> 2.1)
     better_errors (0.8.0)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -235,6 +239,7 @@ GEM
     uglifier (1.2.3)
       execjs (>= 0.3.0)
       multi_json (>= 1.0.2)
+    uuidtools (2.1.4)
     websocket (1.0.7)
     will_paginate (3.0.4)
     xpath (0.1.4)
@@ -245,6 +250,7 @@ PLATFORMS
 
 DEPENDENCIES
   annotate
+  aws-sdk
   better_errors
   binding_of_caller
   bootstrap-sass (~> 2.3.1.0)
